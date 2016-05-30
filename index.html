@@ -189,7 +189,8 @@
         }
 
         var xmlhttp = new XMLHttpRequest();
-        var url = "localtest.json";
+//        var url = "localtest.json"; // SSEC won't serve this file type
+        var url = "localtest.txt";
 
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -202,6 +203,9 @@
         function findPostcode(pc) {
             var pc = pc.replace('\n', '').trim();
             var shortlist = [];
+            if (locs == []) {
+                alert("No locations loaded (JSON not yet read)")
+            }
             for (var i = 0; i < locs.length; i++) {
                 if (locs[i].pc == pc) {
                     shortlist.push(locs[i]);
