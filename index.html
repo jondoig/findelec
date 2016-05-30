@@ -144,15 +144,16 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             "esri/Map",
             "esri/views/MapView",
             "esri/widgets/Home",
-            "esri/widgets/Search",
-            "esri/layers/GraphicsLayer",
-            "esri/widgets/Locate",
-            "esri/tasks/Locator",
+//            "esri/widgets/Search",
+//            "esri/layers/GraphicsLayer",
+//            "esri/widgets/Locate",
+//            "esri/tasks/Locator",
             "esri/layers/FeatureLayer",
-            "esri/layers/TileLayer",
+//            "esri/layers/TileLayer",
             "esri/PopupTemplate",
             "dojo/domReady!"
-        ], function(Map, MapView, Home, Search, GraphicsLayer, Locate, Locator, FeatureLayer, TileLayer, PopupTemplate) {
+//        ], function(Map, MapView, Home, Search, GraphicsLayer, Locate, Locator, FeatureLayer, TileLayer, PopupTemplate) {
+        ], function(Map, MapView, Home, FeatureLayer, PopupTemplate) {
 
             // Create the PopupTemplate
             var tpl = new PopupTemplate({
@@ -224,8 +225,8 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
                 rotationEnabled: false // Disables map rotation
             };
 
-            var gl = new GraphicsLayer();
-            map.add(gl);
+//            var gl = new GraphicsLayer();
+//            map.add(gl);
 
             var homeWidget = new Home({
                 view: view
@@ -234,36 +235,37 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             // adds the home widget to the top left corner of the MapView
             view.ui.add(homeWidget, "top-left");
 
-            var locateBtn = new Locate({
-                view: view,
-                graphicsLayer: gl,
-                geolocationOptions: {
-                    maximumAge: 120000,
-                    timeout: 5000,
-                    enableHighAccuracy: false
-                }
-            });
-            locateBtn.startup();
+//            var locateBtn = new Locate({
+//                view: view,
+//                graphicsLayer: gl,
+//                geolocationOptions: {
+//                    maximumAge: 120000,
+//                    timeout: 5000,
+//                    enableHighAccuracy: false
+//                }
+//            });
+//            locateBtn.startup();
+//
+//            // Add the locate widget to the top left corner of the view
+//            view.ui.add(locateBtn, {
+//                position: "top-left",
+//                index: 0
+//            });
 
-            // Add the locate widget to the top left corner of the view
-            view.ui.add(locateBtn, {
-                position: "top-left",
-                index: 0
-            });
-            var searchWidget = new Search({
-                view: view,
-                placeholder: "Find postcode or place",
-                popupEnabled: false
-            });
-            searchWidget.sources.items[0].countryCode = "AU";
-            searchWidget.sources.items[0].placeholder = "Find postcode or address";
-            searchWidget.startup();
-
-            // Add the search widget to the top left corner of the view
-            view.ui.add(searchWidget, {
-                position: "top-left",
-                index: 0
-            });
+//            var searchWidget = new Search({
+//                view: view,
+//                placeholder: "Find postcode or place",
+//                popupEnabled: false
+//            });
+//            searchWidget.sources.items[0].countryCode = "AU";
+//            searchWidget.sources.items[0].placeholder = "Find postcode or address";
+//            searchWidget.startup();
+//
+//            // Add the search widget to the top left corner of the view
+//            view.ui.add(searchWidget, {
+//                position: "top-left",
+//                index: 0
+//            });
 
         });
 //    }
