@@ -19,6 +19,7 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             height: 100%;
             width: 100%;
             font-family: sans-serif;
+            z-index: 0;
         }
         
         #pcInput:valid {
@@ -30,9 +31,12 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
         }
         
         #mapDiv,
-        #showElec,
-        #locSel {
+        #showElec {
             display: none;
+        }
+        
+        #mapDiv {
+            z-index: 2;
         }
         
         #viewDiv {
@@ -58,6 +62,8 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
 
     <script>
         var locs = [];
+        var pcLocs = [];
+
         //        var debug = true;
 
         var xmlhttp = new XMLHttpRequest();
@@ -74,51 +80,69 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
 
         function findPostcode(pc) {
             var pc = pc.replace('\n', '').trim();
-            var shortlist = [];
+            pcLocs = [];
             if (locs == []) {
-                alert("No locations loaded (JSON not yet read)")
+                throw "No locations loaded (JSON not yet read)";
             }
+
             for (var i = 0; i < locs.length; i++) {
                 if (locs[i].pc == pc) {
-                    shortlist.push(locs[i]);
-                    if ("loc" in locs[i]) {
-                        console.log("  Loc: " + locs[i].loc);
-                        if ("elec" in locs[i]) {
-                            console.log("    Elec: " + locs[i].elec);
-                        }
+                    if ("elec" in locs[i] && !("loc" in locs[i])) {
+                        showElec(locs[i].elec);
+                        break;
                     }
+                    pcLocs.push(locs[i]);
+                }
+                if (locs[i].pc > pc) {
+                    break;
                 }
             }
-            switch (shortlist.length) {
-                case 0:
-                    throw "ERROR: no matching postcode for " + pc;
-                case 1:
-                    showElec(shortlist[0].elec);
-                    break;
-                default:
-                    console.log("# locs: " + shortlist.length);
-                    var locSel = document.getElementById("locSel");
-                    var options = "";
-                    for (i = 0; i < shortlist.length; i++) {
-                        options += "<option value=\"" + shortlist[i].loc + "\">" + shortlist[i].loc + "</option>\n";
+            if (i == locs.length && pcLocs.length == 0) {
+                throw "ERROR: no matching postcode for " + pc;
+            }
+
+            if (pcLocs.length > 0) {
+                var elem = document.getElementById("locOptions");
+                var options = "<option hidden></option>\n";
+
+                for (i = 0; i < pcLocs.length; i++) {
+                    options += "<option value=\"" + pcLocs[i].loc + "\">" + pcLocs[i].loc + "</option>\n";
+                }
+                elem.innerHTML = options;
+                elem.style.display = "initial";
+            }
+        }
+
+        function findLoc(l) {
+            for (var i = 0; i < pcLocs.length; i++) {
+                if (pcLocs[i].loc == l) {
+                    if ("elec" in pcLocs[i]) {
+                        showElec(pcLocs[i].elec);
+                    } else {
+                        // HEREIAM: add geocoding to JSON
+
+                        // Merrimac QLD 4226
+                        map(pcLocs[i].state, 13, 153.3751, -28.0410);
+
+                        // Darwin RAAF NT 0820
+                        // map(pcLocs[i].state, 10, 130.8418, -12.4628);
                     }
-                    locSel.innerHTML = options;
-                    locSel.style.display = "initial";
                     break;
+                }
             }
         }
 
         function showElec(elec) {
-                    var elem = document.getElementById("showElec");
-                    elem.firstElementChild.innerHTML = "Electorate: " + elec;
-                    elem.style.display = "initial";
+            var elem = document.getElementById("showElec");
+            elem.firstElementChild.innerHTML = "Electorate: " + elec;
+            elem.style.display = "initial";
         }
 
-//        map(state, zoom, long, lat); HEREIAM
+        //        map(state, zoom, long, lat); HEREIAM
 
         function restart() {
             document.getElementById("showElec").style.display = "none";
-            document.getElementById("locSel").style.display = "none";
+            //            document.getElementById("locSel").style.display = "none";
             var pcInput = document.getElementById("pcInput");
             pcInput.value = "";
             pcInput.focus();
@@ -132,68 +156,70 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
     <script>
         function map(state, zoom, long, lat) {
             require([
-                    "esri/Map",
-                    "esri/views/MapView",
-                    "esri/widgets/Home",
-                    "esri/layers/FeatureLayer",
-                    "esri/PopupTemplate",
-                    "dojo/domReady!"
-                ], function(Map, MapView, Home, FeatureLayer, PopupTemplate) {
+                "esri/Map",
+                "esri/views/MapView",
+                "esri/widgets/Home",
+                "esri/layers/FeatureLayer",
+                "esri/PopupTemplate",
+                "dojo/domReady!"
+            ], function(Map, MapView, Home, FeatureLayer, PopupTemplate) {
 
-                    var tpl = new PopupTemplate({
-                        title: "Electorate: {Elect_div}",
-                        content: "<p>Area: {Area_SqKm} km<sup>2</sup></p>"
-                    });
+                var tpl = new PopupTemplate({
+                    title: "Electorate: {Elect_div}",
+                    content: "<p>Area: {Area_SqKm} km<sup>2</sup></p>"
+                });
 
-                    var urlPrefix = "http://services5.arcgis.com/BZoOjszBbEr9f2ol/arcgis/rest/services/Australian_Federal_Electorates_2016_",
-                        urlSuffix = "/FeatureServer/0";
-                    var states = {
-                        ACT: "Australian Capital Territory",
-                        NSW: "New South Wales",
-                        NT: "Northern Territory",
-                        QLD: "Queensland",
-                        SA: "South Australia",
-                        TAS: "Tasmania",
-                        VIC: "Victoria",
-                        WA: "Western Australia"
-                    };
+                var urlPrefix = "http://services5.arcgis.com/BZoOjszBbEr9f2ol/arcgis/rest/services/Australian_Federal_Electorates_2016_",
+                    urlSuffix = "/FeatureServer/0";
+                var states = {
+                    ACT: "Australian Capital Territory",
+                    NSW: "New South Wales",
+                    NT: "Northern Territory",
+                    QLD: "Queensland",
+                    SA: "South Australia",
+                    TAS: "Tasmania",
+                    VIC: "Victoria",
+                    WA: "Western Australia"
+                };
 
-                    var map = new Map({
-                        basemap: "streets"
-                    });
+                var map = new Map({
+                    basemap: "streets"
+                });
 
-                    var lyr = new FeatureLayer({
-                        url: urlPrefix + states.state.replace(/ /g, "_") + urlSuffix,
-                        outFields: ["Elect_div", "Area_SqKm"],
-                        popupTemplate: tpl
-                            //          ,opacity: 0
-                    });
-                    map.add(lyr);
+                var lyr = new FeatureLayer({
+                    url: urlPrefix + states[state].replace(/ /g, "_") + urlSuffix,
+                    outFields: ["Elect_div", "Area_SqKm"],
+                    popupTemplate: tpl
+                        //          ,opacity: 0
+                });
+                map.add(lyr);
 
-                    var view = new MapView({
-                        container: "viewDiv",
-                        map: map,
-                        //        zoom: 10,
-                        //        center: [151.2, -33.86]
-                        //                        zoom: 4,
-                        //                        center: [133.7751, -25.2744]
-                        zoom: zoom,
-                        center: [long, lat]
-                    });
+                var view = new MapView({
+                    container: "viewDiv",
+                    map: map,
+                    //        zoom: 10,
+                    //        center: [151.2, -33.86]
+                    //                        zoom: 4,
+                    //                        center: [133.7751, -25.2744]
+                    zoom: zoom,
+                    center: [long, lat]
+                });
 
-                    view.constraints = {
-                        minScale: 40000000, // User cannot zoom out beyond 1:40m (Australia)
-                        maxScale: 9000, // User cannot zoom in beyond 1:9k (street)
-                        rotationEnabled: false // Disables map rotation
-                    };
+                view.constraints = {
+                    minScale: 40000000, // User cannot zoom out beyond 1:40m (Australia)
+                    maxScale: 9000, // User cannot zoom in beyond 1:9k (street)
+                    rotationEnabled: false // Disables map rotation
+                };
 
-                    var homeWidget = new Home({
-                        view: view
-                    });
+                var homeWidget = new Home({
+                    view: view
+                });
 
-                    view.ui.add(homeWidget, "top-left");
-                }
+                view.ui.add(homeWidget, "top-left");
             });
+
+            document.getElementById("mapDiv").style.display = "initial";
+
         }
 
     </script>
@@ -205,7 +231,9 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
         <input id="pcInput" type="text" pattern="^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$" onClick="restart()" onkeydown="if (event.keyCode == 13) {document.getElementById('pcButton').click()}">
         <button id="pcButton" onClick="findPostcode( document.getElementById('pcInput').value)">Go</button>
         <br>
-        <select id="locSel"></select>
+        <select id="locSel" onchange="findLoc(this.value)">
+            <optgroup id="locOptions" label="Please select"></optgroup>
+        </select>
     </div>
     <div id="showElec">
         <h1></h1>
