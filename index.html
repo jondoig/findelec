@@ -1,3 +1,8 @@
+<!--
+This file is online at:
+https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
+-->
+
 <!DOCTYPE html>
 <html>
 
@@ -51,145 +56,12 @@
 
     </style>
 
-    <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
-
-    <script src="https://js.arcgis.com/4.0/"></script>
-
     <script>
         var locs = [];
         var debug = true;
 
-        if (!debug) {
-            require([
-                "esri/Map",
-                "esri/views/MapView",
-                "esri/widgets/Home",
-                "esri/widgets/Search",
-                "esri/layers/GraphicsLayer",
-                "esri/widgets/Locate",
-                "esri/tasks/Locator",
-                "esri/layers/FeatureLayer",
-                "esri/layers/TileLayer",
-                "esri/PopupTemplate",
-                "dojo/domReady!"
-            ], function(Map, MapView, Home, Search, GraphicsLayer, Locate, Locator, FeatureLayer, TileLayer, PopupTemplate) {
-
-                // Create the PopupTemplate
-                var tpl = new PopupTemplate({
-                    title: "Electorate: {Elect_div}",
-                    content: "<p>Area: {Area_SqKm} km<sup>2</sup></p>"
-                });
-
-                var urlPrefix = "http://services5.arcgis.com/BZoOjszBbEr9f2ol/arcgis/rest/services/Australian_Federal_Electorates_2016_",
-                    urlSuffix = "/FeatureServer/0";
-                var states = [{
-                    i: "ACT",
-                    f: "Australian Capital Territory"
-                }, {
-                    i: "NSW",
-                    f: "New South Wales"
-                }, {
-                    i: "NT",
-                    f: "Northern Territory"
-                }, {
-                    i: "QLD",
-                    f: "Queensland"
-                }, {
-                    i: "SA",
-                    f: "South Australia"
-                }, {
-                    i: "TAS",
-                    f: "Tasmania"
-                }, {
-                    i: "VIC",
-                    f: "Victoria"
-                }, {
-                    i: "WA",
-                    f: "Western Australia"
-                }];
-
-                var map = new Map({
-                    basemap: "streets"
-                });
-
-                //            for (var i = 0; i < states.length; i++) {
-                for (var i = 3; i < 4; i++) {
-                    var lyr = new FeatureLayer({
-                        url: urlPrefix + states[i].f.replace(/ /g, "_") + urlSuffix,
-                        outFields: ["Elect_div", "Area_SqKm"],
-                        popupTemplate: tpl
-                            //          ,opacity: 0
-                    });
-                    map.add(lyr);
-                }
-
-                //      var lyr = new TileLayer({
-                //        url: "http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer",
-                //        opacity: .5
-                //      });
-                //      map.add(lyr);
-
-                var view = new MapView({
-                    container: "viewDiv",
-                    map: map,
-                    //        zoom: 10,
-                    //        center: [151.2, -33.86]
-                    zoom: 4,
-                    center: [133.7751, -25.2744]
-                });
-
-                view.constraints = {
-                    minScale: 40000000, // User cannot zoom out beyond 1:40m (Australia)
-                    maxScale: 9000, // User cannot zoom in beyond 1:9k (street)
-                    rotationEnabled: false // Disables map rotation
-                };
-
-                var gl = new GraphicsLayer();
-                map.add(gl);
-
-                var homeWidget = new Home({
-                    view: view
-                });
-
-                // adds the home widget to the top left corner of the MapView
-                view.ui.add(homeWidget, "top-left");
-
-                var locateBtn = new Locate({
-                    view: view,
-                    graphicsLayer: gl,
-                    geolocationOptions: {
-                        maximumAge: 120000,
-                        timeout: 5000,
-                        enableHighAccuracy: false
-                    }
-                });
-                locateBtn.startup();
-
-                // Add the locate widget to the top left corner of the view
-                view.ui.add(locateBtn, {
-                    position: "top-left",
-                    index: 0
-                });
-                var searchWidget = new Search({
-                    view: view,
-                    placeholder: "Find postcode or place",
-                    popupEnabled: false
-                });
-                searchWidget.sources.items[0].countryCode = "AU";
-                searchWidget.sources.items[0].placeholder = "Find postcode or address";
-                searchWidget.startup();
-
-                // Add the search widget to the top left corner of the view
-                view.ui.add(searchWidget, {
-                    position: "top-left",
-                    index: 0
-                });
-
-            });
-        }
-
         var xmlhttp = new XMLHttpRequest();
-//        var url = "localtest.json"; // SSEC won't serve this file type
+        //        var url = "localtest.json"; // SSEC won't serve this file type
         var url = "localtest.txt";
 
         xmlhttp.onreadystatechange = function() {
@@ -263,5 +135,139 @@
         <div id="viewDiv"></div>
     </div>
 </body>
+
+<link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
+<script src="https://js.arcgis.com/4.0/"></script>
+<script>
+    if (!debug) {
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/widgets/Home",
+            "esri/widgets/Search",
+            "esri/layers/GraphicsLayer",
+            "esri/widgets/Locate",
+            "esri/tasks/Locator",
+            "esri/layers/FeatureLayer",
+            "esri/layers/TileLayer",
+            "esri/PopupTemplate",
+            "dojo/domReady!"
+        ], function(Map, MapView, Home, Search, GraphicsLayer, Locate, Locator, FeatureLayer, TileLayer, PopupTemplate) {
+
+            // Create the PopupTemplate
+            var tpl = new PopupTemplate({
+                title: "Electorate: {Elect_div}",
+                content: "<p>Area: {Area_SqKm} km<sup>2</sup></p>"
+            });
+
+            var urlPrefix = "http://services5.arcgis.com/BZoOjszBbEr9f2ol/arcgis/rest/services/Australian_Federal_Electorates_2016_",
+                urlSuffix = "/FeatureServer/0";
+            var states = [{
+                i: "ACT",
+                f: "Australian Capital Territory"
+            }, {
+                i: "NSW",
+                f: "New South Wales"
+            }, {
+                i: "NT",
+                f: "Northern Territory"
+            }, {
+                i: "QLD",
+                f: "Queensland"
+            }, {
+                i: "SA",
+                f: "South Australia"
+            }, {
+                i: "TAS",
+                f: "Tasmania"
+            }, {
+                i: "VIC",
+                f: "Victoria"
+            }, {
+                i: "WA",
+                f: "Western Australia"
+            }];
+
+            var map = new Map({
+                basemap: "streets"
+            });
+
+            //            for (var i = 0; i < states.length; i++) {
+            for (var i = 3; i < 4; i++) {
+                var lyr = new FeatureLayer({
+                    url: urlPrefix + states[i].f.replace(/ /g, "_") + urlSuffix,
+                    outFields: ["Elect_div", "Area_SqKm"],
+                    popupTemplate: tpl
+                        //          ,opacity: 0
+                });
+                map.add(lyr);
+            }
+
+            //      var lyr = new TileLayer({
+            //        url: "http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer",
+            //        opacity: .5
+            //      });
+            //      map.add(lyr);
+
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                //        zoom: 10,
+                //        center: [151.2, -33.86]
+                zoom: 4,
+                center: [133.7751, -25.2744]
+            });
+
+            view.constraints = {
+                minScale: 40000000, // User cannot zoom out beyond 1:40m (Australia)
+                maxScale: 9000, // User cannot zoom in beyond 1:9k (street)
+                rotationEnabled: false // Disables map rotation
+            };
+
+            var gl = new GraphicsLayer();
+            map.add(gl);
+
+            var homeWidget = new Home({
+                view: view
+            });
+
+            // adds the home widget to the top left corner of the MapView
+            view.ui.add(homeWidget, "top-left");
+
+            var locateBtn = new Locate({
+                view: view,
+                graphicsLayer: gl,
+                geolocationOptions: {
+                    maximumAge: 120000,
+                    timeout: 5000,
+                    enableHighAccuracy: false
+                }
+            });
+            locateBtn.startup();
+
+            // Add the locate widget to the top left corner of the view
+            view.ui.add(locateBtn, {
+                position: "top-left",
+                index: 0
+            });
+            var searchWidget = new Search({
+                view: view,
+                placeholder: "Find postcode or place",
+                popupEnabled: false
+            });
+            searchWidget.sources.items[0].countryCode = "AU";
+            searchWidget.sources.items[0].placeholder = "Find postcode or address";
+            searchWidget.startup();
+
+            // Add the search widget to the top left corner of the view
+            view.ui.add(searchWidget, {
+                position: "top-left",
+                index: 0
+            });
+
+        });
+    }
+
+</script>
 
 </html>
