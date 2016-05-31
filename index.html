@@ -20,6 +20,38 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             width: 100%;
             font-family: sans-serif;
             z-index: 0;
+            background-color: #e6ecff;
+        }
+        
+        h1 {
+            margin: 0;
+            padding: 5px 0;
+            color: #008060;
+            /* Rainforest */
+            text-align: center;
+        }
+        
+        #enterPc {
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        #showElec > div,
+        #enterPc > div {
+            display: inline-block;
+            position: relative;
+            /*            min-width: 300px;*/
+        }
+        
+        #pcInput,
+        #pcButton {
+            z-index: 2;
+            height: 30px;
+            font-size: 16px;
+        }
+        
+        #pcInput {
+            padding-left: 5px;
         }
         
         #pcInput:valid {
@@ -30,12 +62,34 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             background-color: #f8dddd;
         }
         
-        #mapDiv,
+        #pcButton {
+            margin-left: 10px;
+            color: white;
+            font-weight: bold;
+            background-color: #008060;
+            border-radius: 8px;
+            padding: 5px 10px;
+        }
+        
+        #locSel {
+            z-index: -1;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        
         #showElec {
             display: none;
+            text-align: center;
+        }
+        
+        #repeat {
+            background: transparent;
+            border: 0;
         }
         
         #mapDiv {
+            display: none;
             z-index: 2;
         }
         
@@ -45,17 +99,6 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             left: 0;
             bottom: 0;
             right: 0;
-        }
-        
-        h1 {
-            margin: 0;
-            padding: 5px 0;
-            color: white;
-            font-weight: normal;
-            background-color: #008060;
-            /* Rainforest */
-            /*      background-color: navy;*/
-            text-align: center
         }
 
     </style>
@@ -88,7 +131,7 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             for (var i = 0; i < locs.length; i++) {
                 if (locs[i].pc == pc) {
                     if ("elec" in locs[i] && !("loc" in locs[i])) {
-                        showElec(locs[i].elec);
+                        showElec("Postcode " + locs[i].pc, locs[i].elec);
                         break;
                     }
                     pcLocs.push(locs[i]);
@@ -110,6 +153,8 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
                 }
                 elem.innerHTML = options;
                 elem.style.display = "initial";
+                var event = new MouseEvent('mousedown');
+                elem.parentElement.dispatchEvent(event);
             }
         }
 
@@ -117,12 +162,15 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             for (var i = 0; i < pcLocs.length; i++) {
                 if (pcLocs[i].loc == l) {
                     if ("elec" in pcLocs[i]) {
-                        showElec(pcLocs[i].elec);
+                        showElec(titleCase(l), pcLocs[i].elec);
                     } else {
                         // HEREIAM: add geocoding to JSON
 
                         // Merrimac QLD 4226
+                        var h = document.body.firstElementChild
+                            //                        h.innerHTML = "Loading map...";
                         map(pcLocs[i].state, 13, 153.3751, -28.0410);
+                        h.innerHTML = "Click your location in " + titleCase(pcLocs[i].loc) + ":";
 
                         // Darwin RAAF NT 0820
                         // map(pcLocs[i].state, 10, 130.8418, -12.4628);
@@ -132,21 +180,26 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             }
         }
 
-        function showElec(elec) {
-            var elem = document.getElementById("showElec");
-            elem.firstElementChild.innerHTML = "Electorate: " + elec;
-            elem.style.display = "initial";
+        function showElec(locString, elec) {
+            document.getElementById("elecP").innerHTML =
+                locString + " is in:";
+            document.getElementById("elecH1").innerHTML = elec;
+            document.getElementById("showElec").style.display = "block";
         }
 
-        //        map(state, zoom, long, lat); HEREIAM
-
-        function restart() {
+        function repeat() {
             document.getElementById("showElec").style.display = "none";
             //            document.getElementById("locSel").style.display = "none";
             var pcInput = document.getElementById("pcInput");
             pcInput.value = "";
             pcInput.focus();
             //            pcInput.select();
+        }
+
+        function titleCase(str) {
+            return str.replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
         }
 
     </script>
@@ -226,21 +279,28 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
 </head>
 
 <body>
+    <h1>Find my electorate</h1>
     <div id="enterPc">
-        <label for="pcInput">Postcode:</label>
-        <input id="pcInput" type="text" pattern="^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$" onClick="restart()" onkeydown="if (event.keyCode == 13) {document.getElementById('pcButton').click()}">
-        <button id="pcButton" onClick="findPostcode( document.getElementById('pcInput').value)">Go</button>
-        <br>
-        <select id="locSel" onchange="findLoc(this.value)">
-            <optgroup id="locOptions" label="Please select"></optgroup>
-        </select>
+        <div>
+            <!--        <label for="pcInput">Postcode:</label>-->
+            <input id="pcInput" size="6" placeholder="Postcode" type="text" pattern="^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$" onClick="repeat()" onkeydown="if (event.keyCode == 13) {document.getElementById('pcButton').click()}">
+            <button id="pcButton" onClick="findPostcode( document.getElementById('pcInput').value)">Go</button>
+            <select id="locSel" onchange="findLoc(this.value)">
+                <optgroup id="locOptions" label="Please select"></optgroup>
+            </select>
+        </div>
     </div>
     <div id="showElec">
-        <h1></h1>
-        <button onClick="restart()">Restart</button>
+        <div>
+            <p id="elecP"></p>
+            <h1 id="elecH1"></h1>
+            <button id="repeat" onClick="repeat()">
+                <img src="images/repeat.svg" width="20" height="20">
+            </button>
+            <label for="repeat">Find another electorate</label>
+        </div>
     </div>
     <div id="mapDiv">
-        <h1>Click map for electorate</h1>
         <div id="viewDiv"></div>
     </div>
 </body>
