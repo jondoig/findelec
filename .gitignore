@@ -1,4 +1,8 @@
+# Backup folder
 old/
+
+# LibreOffice lock files
+.~lock*
 
 # Windows image file caches
 Thumbs.db
