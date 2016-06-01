@@ -7,6 +7,8 @@
   <title>On Screen Number Pad Using JavaScript</title>
   <script type="text/javascript">
     function numWrite(n) {
+      // Based on http://webdevelopersreference.blogspot.com.au/2012/01/on-screen-number-pad-using-javascript.html
+
       // Do nothing if disabled number key is pressed
       if (document.getElementById("btn" + n).classList.contains("disabled")) {
         return
@@ -66,7 +68,7 @@
       width: 270px;
       height: 470px;
       background-color: #ccccff;
-/*      background-color: #999999;*/
+      /*      background-color: #999999;*/
       border-radius: 20px;
       padding: 20px;
     }
@@ -85,7 +87,7 @@
       margin: 10px;
       float: left;
       color: white;
-/*      background-color: #FFFF99;*/
+      /*      background-color: #FFFF99;*/
       background-color: #008060;
       border-radius: 50%;
       font-size: 48px;
@@ -148,8 +150,7 @@
       -ms-transition: none;
       -o-transition: none;
     }
-    
-/*
+    /*
     .number_button:not(.disabled):hover {
       background-color: #008060;
       color: white;
@@ -169,6 +170,8 @@
     
     .number_button:not(.disabled) div:active {
       transform: scale(.85);
+      -webkit-transform: scale(.85);
+      -ms-transform: scale(.85);
       transition: transform 0s;
       -webkit-transition: transform 0s;
       -moz-transition: transform 0s;
@@ -178,6 +181,8 @@
     
     .number_button:not(.disabled) div {
       transform: scale(1);
+      -webkit-transform: scale(1);
+      -ms-transform: scale(1);
       transition: transform 1s;
       -webkit-transition: transform 1s;
       -moz-transition: transform 1s;
