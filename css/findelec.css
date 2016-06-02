@@ -1,0 +1,110 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+  z-index: 0;
+  background-color: #e6ecff;
+}
+
+h1 {
+  padding: 5px 0;
+  color: #008060;
+  /* Rainforest */
+  text-align: center;
+}
+
+#enterPc {
+  margin-top: 50px;
+  text-align: center;
+}
+
+#showElec > div,
+#enterPc > div {
+  display: inline-block;
+  position: relative;
+}
+
+#pcInput,
+#pcButton {
+  z-index: 2;
+  height: 30px;
+  font-size: 16px;
+}
+
+#pcInput {
+  padding-left: 5px;
+  width: 75px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#pcInput:valid {
+  background-color: #ddf8f8;
+}
+
+#pcInput:invalid {
+  background-color: #f8dddd;
+}
+
+#pcButton {
+  margin-left: 10px;
+  color: white;
+  font-weight: bold;
+  background-color: #008060;
+  border: 0;
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+
+#locSel {
+  z-index: -1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+#pcErr {
+  color: #646464;
+  font-style: italic;
+  font-size: 14px;
+  text-align: left;
+  margin-top: 5px;
+}
+
+#showElec {
+  margin-top: 20px;
+  padding-bottom: 20px;
+  display: none;
+  text-align: center;
+  background-color: white;
+}
+
+#showElec label {
+  color: #008060;
+}
+
+#restart {
+  background: transparent;
+  border: 0;
+  vertical-align: middle;
+}
+
+#mapDiv {
+  display: none;
+  z-index: 2;
+}
+
+#viewDiv {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
