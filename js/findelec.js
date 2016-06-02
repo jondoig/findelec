@@ -19,18 +19,18 @@ function findPc(pc) {
   var pc = pc.replace('\n', '').trim();
   pcLocs = [];
   if (locs == []) {
-    throw "No locations loaded (JSON not yet read)";
+    console.log("No locations loaded (JSON not yet read)");
   }
 
   for (var i = 0; i < locs.length; i++) {
-    if (locs[i].pc == pc) {
-      if ("elec" in locs[i] && !("loc" in locs[i])) {
-        showElec("Postcode " + locs[i].pc, locs[i].elec);
+    if (locs[i].p == pc) {
+      if ("e" in locs[i] && !("l" in locs[i])) {
+        showElec("Postcode " + locs[i].p, locs[i].e);
         break;
       }
       pcLocs.push(locs[i]);
     }
-    if (locs[i].pc > pc) {
+    if (locs[i].p > pc) {
       break;
     }
   }
@@ -45,7 +45,7 @@ function findPc(pc) {
     var options = "<option hidden></option>\n";
 
     for (i = 0; i < pcLocs.length; i++) {
-      options += "<option value=\"" + pcLocs[i].loc + "\">" + pcLocs[i].loc + "</option>\n";
+      options += "<option value=\"" + pcLocs[i].l + "\">" + pcLocs[i].l + "</option>\n";
     }
     elem.innerHTML = options;
     elem.style.display = "initial";
@@ -56,17 +56,17 @@ function findPc(pc) {
 
 function findLoc(l) {
   for (var i = 0; i < pcLocs.length; i++) {
-    if (pcLocs[i].loc == l) {
-      if ("elec" in pcLocs[i]) {
-        showElec(titleCase(l) + " " + pcLocs[i].pc, pcLocs[i].elec);
+    if (pcLocs[i].l == l) {
+      if ("e" in pcLocs[i]) {
+        showElec(titleCase(l) + " " + pcLocs[i].p, pcLocs[i].e);
       } else {
         // HEREIAM: add geocoding to JSON
 
         // Merrimac QLD 4226
         var h = document.body.firstElementChild
           //                        h.innerHTML = "Loading map...";
-        map(pcLocs[i].state, 13, 153.3751, -28.0410);
-        h.innerHTML = "Click your location in " + titleCase(pcLocs[i].loc) + ":";
+        map(pcLocs[i].s, 13, 153.3751, -28.0410);
+        h.innerHTML = "Click your location in " + titleCase(pcLocs[i].l) + ":";
 
         // Darwin RAAF NT 0820
         // map(pcLocs[i].state, 10, 130.8418, -12.4628);
