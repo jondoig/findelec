@@ -2,18 +2,6 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.text_box {
-  margin: 0;
-  width: 135px;
-  height: 70px;
-  font-size: 60px;
-  color: #008060;
-  text-align: right;
-  border: 3px solid #888888;
-  padding: 0 20px;
-  text-align: left;
-}
-
 .numpad {
   height: 180px;
   width: 135px;
@@ -68,13 +56,14 @@ html {
 }
 
 .number_button.disabled::after {
-  font-size: 12px;
+  font-size: 10px;
   content: "Invalid digit";
   overflow: visible;
   white-space: nowrap;
   position: relative;
   margin: 0;
   top: -22px;
+  left: -11px;
   color: #444444;
   background-color: white;
   padding: 5px;

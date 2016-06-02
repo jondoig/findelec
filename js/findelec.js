@@ -84,7 +84,7 @@ function showElec(locString, elec) {
 }
 
 function restart() {
-  document.getElementsByClassName("numpad").style.display = "initial";
+  document.getElementsByClassName("numpad")[0].style.display = "block";
   document.getElementById("showElec").style.display = "none";
   //            document.getElementById("locSel").style.display = "none";
   document.getElementById("pcErr").innerHTML = "";
