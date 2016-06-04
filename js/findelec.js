@@ -75,16 +75,10 @@ function findLoc(l) {
       if ("e" in pcLocs[i]) {
         showElec(locText + " " + pcLocs[i].p + " " + locVerb, pcLocs[i].e);
       } else {
-        // HEREIAM: add geocoding to JSON
-
-        // Merrimac QLD 4226
         var h = document.body.firstElementChild;
         //                        h.innerHTML = "Loading map...";
-        map(pcLocs[i].s, 13, 153.3751, -28.0410);
+        map(pcLocs[i].s, pcLocs[i].xw, pcLocs[i].xs, pcLocs[i].xe, pcLocs[i].xn);
         h.innerHTML = "Click your location in " + locText + ":";
-
-        // Darwin RAAF NT 0820
-        // map(pcLocs[i].state, 10, 130.8418, -12.4628);
       }
       break;
     }

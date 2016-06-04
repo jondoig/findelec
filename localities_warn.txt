@@ -1,0 +1,194 @@
+WARNING - No exact match: Cockatoo Island NSW 2000, Australia
+  Using Cockatoo Island Camping, Sydney Harbour NSW 2000, Australia
+WARNING - No exact match: East Sydney NSW 2010, Australia
+  Using Darlinghurst NSW 2010, Australia
+WARNING - No exact match: Taylor Square NSW 2010, Australia
+  Using Taylor Square, Sydney NSW 2010, Australia
+WARNING - No exact match: Kings Cross NSW 2011, Australia
+  Using Kings Cross, Potts Point NSW 2011, Australia
+WARNING - No exact match: Macdonaldtown NSW 2042, Australia
+  Using Newtown NSW 2042, Australia
+Missing postcode but using: Drummoyne NSW, Australia
+WARNING - No exact match: Spectacle Island NSW 2047, Australia
+  Using Sydney NSW 2047, Australia
+Missing postcode but using: Asquith NSW, Australia
+Missing postcode but using: Mount Colah NSW, Australia
+WARNING - No exact match: Boronia Park NSW 2111, Australia
+  ERROR - postcode mismatch: Boronia Park, 37 Bridge St, Epping NSW 2121, Australia
+Missing postcode but using: Gladesville NSW, Australia
+WARNING - No exact match: Monash Park NSW 2111, Australia
+  Using Monash Park, Gladesville NSW 2111, Australia
+Missing postcode but using: Carlingford NSW, Australia
+Missing postcode but using: Croydon NSW, Australia
+Missing postcode but using: Hurlstone Park NSW, Australia
+Missing postcode but using: Padstow NSW, Australia
+Missing postcode but using: Blakehurst NSW, Australia
+Missing postcode but using: Connells Point NSW, Australia
+Missing postcode but using: Sylvania NSW, Australia
+WARNING - No exact match: Audley NSW 2232, Australia
+  Using Audley Rd, Royal National Park NSW 2232, Australia
+WARNING - No exact match: Deer Park NSW 2232, Australia
+  ERROR - postcode mismatch: Deer Cl, Tathra NSW 2550, Australia
+Missing postcode but using: Kulnura NSW, Australia
+Missing postcode but using: Wamberal NSW, Australia
+Missing postcode but using: Kotara NSW, Australia
+Missing postcode but using: Hexham NSW, Australia
+Missing postcode but using: Swan Bay NSW, Australia
+WARNING - No exact match: Rocky Creek NSW 2390, Australia
+  Using Rocky Creek, Rocky Creek Narrabri NSW 2390, Australia
+WARNING - No exact match: Bruxner Park NSW 2450, Australia
+  Using Bruxner Park Rd, Korora NSW 2450, Australia
+WARNING - No exact match: Dairyville NSW 2450, Australia
+  Using Dairyville, Upper Orara NSW 2450, Australia
+WARNING - No exact match: Mid Sapphire NSW 2450, Australia
+  ERROR - postcode mismatch: Sapphire St, Townsend NSW 2463, Australia
+WARNING - No exact match: Park Beach NSW 2450, Australia
+  Using Park Beach, Coffs Harbour NSW 2450, Australia
+WARNING - No exact match: Red Hill NSW 2450, Australia
+  ERROR - postcode mismatch: Red Hill Rd, Bonville NSW 2441, Australia
+WARNING - No exact match: Sapphire NSW 2450, Australia
+  Using Sapphire Cres, Sapphire Beach NSW 2450, Australia
+WARNING - No exact match: Sapphire North NSW 2450, Australia
+  Using N Sapphire Rd, Sapphire Beach NSW 2450, Australia
+WARNING - No exact match: Coachwood Park NSW 2526, Australia
+  Using Coachwood Park, Unanderra NSW 2526, Australia
+WARNING - No exact match: Farmborough Chase NSW 2526, Australia
+  Using Farmborough Rd, Wollongong NSW 2526, Australia
+WARNING - No exact match: Belconnen District ACT 2617, Australia
+  Using Belconnen ACT 2617, Australia
+WARNING - No exact match: Royalla ACT 2620, Australia
+  Using Royalla NSW 2620, Australia
+WARNING - No exact match: Williamsdale ACT 2620, Australia
+  Using Williamsdale NSW 2620, Australia
+WARNING - No exact match: Gubbata NSW 2669, Australia
+  Using Gubbata, Kikoira NSW 2669, Australia
+Missing postcode but using: Schofields NSW, Australia
+Missing postcode but using: Leets Vale NSW, Australia
+WARNING - No exact match: Megalong NSW 2785, Australia
+  Using Megalong Valley NSW 2785, Australia
+WARNING - No exact match: Kadungle NSW 2875, Australia
+  Using Kadungle, Trundle NSW 2875, Australia
+Missing postcode but using: Docklands VIC, Australia
+WARNING - No exact match: Laverton South VIC 3028, Australia
+  Using Laverton VIC 3028, Australia
+Missing postcode but using: Keilor East VIC, Australia
+WARNING - No exact match: Merlynston VIC 3058, Australia
+  Using Merlynston, Plaisted St, Coburg North VIC 3058, Australia
+WARNING - No exact match: Moreland VIC 3058, Australia
+  Using Moreland, Moreland Rd / Station St, Coburg VIC 3058, Australia
+WARNING - No exact match: Merri VIC 3068, Australia
+  Using Melbourne VIC 3068, Australia
+WARNING - No exact match: North Fitzroy VIC 3068, Australia
+  Using North Terrace, Clifton Hill VIC 3068, Australia
+WARNING - No exact match: University Hill VIC 3083, Australia
+  ERROR - postcode mismatch: 3083 University Ave W, Waterloo, ON N0B, Canada
+WARNING - No exact match: Riversdale VIC 3124, Australia
+  Using Riversdale, Camberwell VIC 3124, Australia
+WARNING - No exact match: North Ringwood VIC 3134, Australia
+  Using Ringwood VIC 3134, Australia
+WARNING - No exact match: South Croydon VIC 3136, Australia
+  Using Croydon VIC 3136, Australia
+WARNING - No exact match: North Bayswater VIC 3153, Australia
+  Using Bayswater VIC 3153, Australia
+WARNING - No exact match: Mountain Gate VIC 3156, Australia
+  Using Mountain Gate Dr, Ferntree Gully VIC 3156, Australia
+WARNING - No exact match: South Oakleigh VIC 3167, Australia
+  Using Oakleigh South VIC 3167, Australia
+WARNING - No exact match: Westall VIC 3169, Australia
+  Using Westall, Clayton South VIC 3169, Australia
+WARNING - No exact match: Harrisfield VIC 3174, Australia
+  Using Melbourne VIC 3174, Australia
+WARNING - No exact match: Yarraman VIC 3174, Australia
+  Using Yarraman, Cyril Gr, Noble Park VIC 3174, Australia
+WARNING - No exact match: Dandenong West VIC 3175, Australia
+  Using Dandenong West, Dandenong VIC 3175, Australia
+Missing postcode but using: Carrum Downs VIC, Australia
+WARNING - No exact match: Mckinnon VIC 3204, Australia
+  Using McKinnon VIC 3204, Australia
+WARNING - No exact match: Patterson VIC 3204, Australia
+  Using Patterson Station, Bentleigh VIC 3204, Australia
+WARNING - No exact match: Batesford VIC 3213, Australia
+  Using Batesford Rd, Melbourne VIC, Australia
+WARNING - No exact match: Fyansford VIC 3218, Australia
+  Using Geelong VIC 3218, Australia
+WARNING - No exact match: Coradjil VIC 3260, Australia
+  Using Coradjil Rd, Bungador VIC 3260, Australia
+Missing postcode but using: Tarrayoukyan VIC, Australia
+Missing postcode but using: Toolern Vale VIC, Australia
+WARNING - No exact match: Great Western VIC 3374, Australia
+  Using Victoria 3374, Australia
+WARNING - No exact match: Shays Flat VIC 3377, Australia
+  ERROR - postcode mismatch: Shays Flat Rd, Shays Flat VIC 3384, Australia
+WARNING - No exact match: Barkly VIC 3384, Australia
+  Using Barkly Track, Frenchmans VIC 3384, Australia
+WARNING - No exact match: Coonooer Bridge VIC 3477, Australia
+  ERROR - postcode mismatch: Coonooer Bridge VIC 3478, Australia
+WARNING - No exact match: Gowar East VIC 3477, Australia
+  Using Gowar East VIC 3478, Australia
+WARNING - No exact match: Redbank VIC 3477, Australia
+  ERROR - postcode mismatch: Redbank VIC 3478, Australia
+WARNING - No exact match: Speewa NSW 3585, Australia
+  Using Speewa VIC 3585, Australia
+WARNING - No exact match: Mill Park Lakes VIC 3752, Australia
+  Using The Lakes Blvd, South Morang VIC 3752, Australia
+WARNING - No exact match: Mt Dandenong VIC 3767, Australia
+  Using Mount Dandenong VIC 3767, Australia
+WARNING - No exact match: Fountain Gate VIC 3805, Australia
+  Using Fountain Dr, Narre Warren VIC 3805, Australia
+WARNING - No exact match: Toongabbie West VIC 3856, Australia
+  Using Toongabbie VIC 3856, Australia
+Missing postcode but using: Koo Wee Rup North VIC, Australia
+WARNING - No exact match: Toombul QLD 4012, Australia
+  Using Toombul, Nundah QLD 4012, Australia
+WARNING - No exact match: Dorrington QLD 4060, Australia
+  Using Dorrington Dr, Ashgrove QLD 4060, Australia
+WARNING - No exact match: St Johns Wood QLD 4060, Australia
+  ERROR - postcode mismatch: Little John St, Daisy Hill QLD 4127, Australia
+WARNING - No exact match: Rosalie QLD 4064, Australia
+  Using Paddington QLD 4064, Australia
+WARNING - No exact match: Rainworth QLD 4065, Australia
+  Using Rainworth Rd, Bardon QLD 4065, Australia
+Missing postcode but using: Auchenflower QLD, Australia
+WARNING - No exact match: Torwood QLD 4066, Australia
+  Using Torwood St, Auchenflower QLD 4066, Australia
+WARNING - No exact match: Ekibin QLD 4121, Australia
+  Using Ekibin, Tarragindi QLD 4121, Australia
+WARNING - No exact match: Wellers Hill QLD 4121, Australia
+  Using Wellers Hill, Tarragindi QLD 4121, Australia
+Missing postcode but using: Loganlea QLD, Australia
+Missing postcode but using: Meadowbrook QLD, Australia
+Missing postcode but using: Cannon Hill QLD, Australia
+Missing postcode but using: Maudsland QLD, Australia
+Missing postcode but using: Oxenford QLD, Australia
+Missing postcode but using: Advancetown QLD, Australia
+Missing postcode but using: Gilston QLD, Australia
+Missing postcode but using: Southport QLD, Australia
+Missing postcode but using: Merrimac QLD, Australia
+Missing postcode but using: Chuwar QLD, Australia
+WARNING - No exact match: Douglas QLD 4354, Australia
+  Using Douglas Rd, Goombungee QLD 4354, Australia
+WARNING - No exact match: Burpengary East QLD 4505, Australia
+  Using Burpengary East, Burpengary QLD 4505, Australia
+WARNING - No exact match: Durong South QLD 4610, Australia
+  Using Durong QLD 4610, Australia
+WARNING - No exact match: Mount Stuart QLD 4811, Australia
+  Using Stuart Bypass, Stuart QLD 4811, Australia
+WARNING - No exact match: Partington QLD 4811, Australia
+  Using Partington St, Stuart QLD 4811, Australia
+Missing postcode but using: Roseneath QLD, Australia
+WARNING - No exact match: Serene Valley QLD 4811, Australia
+  ERROR - postcode mismatch: Serene Rd, Kirkwood QLD 4680, Australia
+WARNING - No exact match: Sleeper Log Creek QLD 4816, Australia
+  Using Queensland 4816, Australia
+WARNING - No exact match: Bluewater Beach QLD 4818, Australia
+  Using Bluewater Dr, Bluewater QLD 4818, Australia
+WARNING - No exact match: Clohesy QLD 4881, Australia
+  Using Clohesy St, Koah QLD 4881, Australia
+Missing postcode but using: O'Halloran Hill SA, Australia
+WARNING - No exact match: Flaxman Valley SA 5235, Australia
+  ERROR - postcode mismatch: Flaxmans Valley Rd, Flaxman Valley SA 5353, Australia
+WARNING - No exact match: Stonefield SA 5356, Australia
+  Using Stonefield, Steinfeld SA 5356, Australia
+WARNING - No exact match: Dianella Heights WA 6059, Australia
+  Using Dianella Dr, Dianella WA 6059, Australia
+Missing postcode but using: Latrobe TAS, Australia

@@ -4,18 +4,17 @@
 
 import json
 import urllib
-import csv
-from collections import OrderedDict
 
-filename = 'localities'
-#filename = 'localtest'
+infilename = 'localities'
+#infilename = 'localtest'
+outfilename = infilename + '_geocoded'
 
 Google_API_key = 'AIzaSyCdaPV2sraHHoOIPWOSO6rQSjGJTtDECVY'
 gc_base = 'https://maps.googleapis.com/maps/api/geocode/json?'
 gc_url = gc_base + 'key=' + Google_API_key + '&region=au&'
 
-#read localities.json
-with open(filename + '.json') as locfile:
+#read localities JSON file
+with open(infilename + '.json') as locfile:
   locs_in = json.load(locfile)
 
 locs_out = []
@@ -31,24 +30,55 @@ for loc in locs_in:
     request_url = gc_url + urllib.urlencode({"address": addr})
     response = json.load(urllib.urlopen(request_url))
     if response['status'] == 'OK':
-      if len(response['results']) != 1:
-        print "Warning" + response['results'].length + " results for locality " + loc['l']
-
-      # Process the response to extract bounding box
-      vp = response['results'][0]['geometry']['viewport']
+#      if len(response['results']) != 1:
+#        print "Warning - multiple results for locality " + loc['l'] + ":"
+#        for res in response['results']:
+#          print "  " + res['formatted_address']
       
-      # Define bounding box
-      loc['xw'] = vp['southwest']['lng']
-      loc['xs'] = vp['southwest']['lat']
-      loc['xe'] = vp['northeast']['lng']
-      loc['xn'] = vp['northeast']['lat']
+      vp = None
+      error = False
+      address = loc['l'].title() + " " + loc['s'] + " " + loc['p'] + ", Australia"
+
+      for res in response['results']:
+        if res['formatted_address'] == address:
+          # Extract bounding box
+#          print "Using: " + res['formatted_address']
+          vp = res['geometry']['viewport']
+
+      # If no exact match, try again without postcode
+      if vp is None:
+        for res in response['results']:
+          if res['formatted_address'] == address.replace(" " + loc['p'], ""):
+            print "Missing postcode but using: " + res['formatted_address']
+            vp = res['geometry']['viewport']
+
+      # If still no match, use first result but issue warning
+      if vp is None:
+        print "WARNING - No exact match: " + address
+        res = response['results'][0]
+        for comp in res['address_components']:
+          if "postal_code" in comp['types']:
+            if comp['long_name'] != loc['p']:
+              print "  ERROR - postcode mismatch: " + res['formatted_address']
+              error = True
+              
+        if not error:
+          print "  Using " + res['formatted_address']
+          vp = res['geometry']['viewport']
+
+      if not error:
+        # Define bounding box
+        loc['xw'] = vp['southwest']['lng']
+        loc['xs'] = vp['southwest']['lat']
+        loc['xe'] = vp['northeast']['lng']
+        loc['xn'] = vp['northeast']['lat']
 
     else:
-      print "Warning: status " + response['status'] + " geocoding " + addr
+      print "ERROR: status " + response['status'] + " geocoding " + addr
 
   # Add locality to localities
   locs_out.append(loc)
     
-#Write localities to json and csv files
-with open(filename + '_geocoded.json', 'w') as outfile:
+#Write localities to json file
+with open(outfilename + '.json', 'w') as outfile:
   json.dump(locs_out, outfile)

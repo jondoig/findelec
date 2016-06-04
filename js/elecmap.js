@@ -1,4 +1,4 @@
-function map(state, extent) {
+function map(state, west, south, east, north) {
   require([
         "esri/Map",
         "esri/views/MapView",
@@ -42,7 +42,7 @@ function map(state, extent) {
     var view = new MapView({
       container: "viewDiv",
       map: map,
-      Extent: new Extent(extent.w, extent.s, extent.e, extent.n),
+      extent: new Extent(west, south, east, north),
       fitExtent: true
     });
 
