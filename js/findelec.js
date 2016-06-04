@@ -17,7 +17,13 @@ xmlhttp.send();
 
 function findPc(pc) {
   var pc = pc.replace('\n', '').trim();
+  var elem = document.getElementById("locOptions");
+  var options = "<option hidden></option>\n";
+  var otherLocText = "*** OTHER PLACES ***";
+  var locText;
+
   pcLocs = [];
+
   if (locs == []) {
     console.log("No locations loaded (JSON not yet read)");
   }
@@ -41,11 +47,9 @@ function findPc(pc) {
   }
 
   if (pcLocs.length > 0) {
-    var elem = document.getElementById("locOptions");
-    var options = "<option hidden></option>\n";
-
     for (i = 0; i < pcLocs.length; i++) {
-      options += "<option value=\"" + pcLocs[i].l + "\">" + pcLocs[i].l + "</option>\n";
+      locText = (pcLocs[i].l == "*") ? otherLocText : pcLocs[i].l;
+      options += "<option value=\"" + pcLocs[i].l + "\">" + locText + "</option>\n";
     }
     elem.innerHTML = options;
     elem.style.display = "initial";
@@ -55,18 +59,29 @@ function findPc(pc) {
 }
 
 function findLoc(l) {
+  var otherLocText = "All other places in";
+  var locText, locVerb;
+
   for (var i = 0; i < pcLocs.length; i++) {
     if (pcLocs[i].l == l) {
+      if (l == "*") {
+        locText = otherLocText;
+        locVerb = "are";
+      } else {
+        locText = titleCase(l);
+        locVerb = "is";
+      }
+
       if ("e" in pcLocs[i]) {
-        showElec(titleCase(l) + " " + pcLocs[i].p, pcLocs[i].e);
+        showElec(locText + " " + pcLocs[i].p + " " + locVerb, pcLocs[i].e);
       } else {
         // HEREIAM: add geocoding to JSON
 
         // Merrimac QLD 4226
-        var h = document.body.firstElementChild
-          //                        h.innerHTML = "Loading map...";
+        var h = document.body.firstElementChild;
+        //                        h.innerHTML = "Loading map...";
         map(pcLocs[i].s, 13, 153.3751, -28.0410);
-        h.innerHTML = "Click your location in " + titleCase(pcLocs[i].l) + ":";
+        h.innerHTML = "Click your location in " + locText + ":";
 
         // Darwin RAAF NT 0820
         // map(pcLocs[i].state, 10, 130.8418, -12.4628);
@@ -78,7 +93,7 @@ function findLoc(l) {
 
 function showElec(locString, elec) {
   document.getElementById("elecP").innerHTML =
-    locString + " is in the federal electorate of:";
+    locString + " in the federal electorate of:";
   document.getElementById("elecH1").innerHTML = elec;
   document.getElementById("showElec").style.display = "block";
 }
@@ -92,6 +107,7 @@ function restart() {
   var pcInput = document.getElementById("pcInput");
   pcInput.value = "";
   pcInput.focus();
+  disableNumBtns("");
   //            pcInput.select();
 }
 
