@@ -34,18 +34,18 @@ requests_session = requests.session()
 requests_session.mount('file://', LocalFileAdapter())
 
 #### End crib
-path = 'html/postcodes/'
-#path = 'html/posttest/'
+#path = 'html/postcodes/'
+path = 'html/posttest/'
 files = os.listdir(path)
 
 class Locality:
   def __init__(self, state, loc, pc, elec, redist, other):
-    self.state = state
-    self.loc = loc
-    self.pc = pc
-    self.elec = elec
-    self.redist = redist
-    self.other = other
+    self.s = state
+    self.l = loc
+    self.p = pc
+    self.e = elec
+    self.r = redist
+    self.o = other
 
 localities = []
 
@@ -71,7 +71,7 @@ for file in files:
     r[5].text = "" if r[5].text is None else str(unicodedata.normalize('NFKD', r[5].text)).strip()
     
     l = Locality(str(r[0].text).strip(), str(r[1].text), str(r[2][0].text), str(r[3][0].text), r[4].text, r[5].text)
-    
+    print l.l
     localities.append(l)
     
 with open('localities.json', 'w') as outfile:

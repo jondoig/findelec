@@ -1,6 +1,9 @@
 # Backup folder
 old/
 
+# Test files
+*test*
+
 # LibreOffice lock files
 .~lock*
 

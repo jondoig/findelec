@@ -1,12 +1,13 @@
-function map(state, zoom, long, lat) {
+function map(state, extent) {
   require([
         "esri/Map",
         "esri/views/MapView",
         "esri/widgets/Home",
         "esri/layers/FeatureLayer",
         "esri/PopupTemplate",
+        "esri/geometry/Extent",
         "dojo/domReady!"
-    ], function (Map, MapView, Home, FeatureLayer, PopupTemplate) {
+    ], function (Map, MapView, Home, FeatureLayer, PopupTemplate, Extent) {
 
     var tpl = new PopupTemplate({
       title: "Electorate: {Elect_div}",
@@ -41,12 +42,8 @@ function map(state, zoom, long, lat) {
     var view = new MapView({
       container: "viewDiv",
       map: map,
-      //        zoom: 10,
-      //        center: [151.2, -33.86]
-      //                        zoom: 4,
-      //                        center: [133.7751, -25.2744]
-      zoom: zoom,
-      center: [long, lat]
+      Extent: new Extent(extent.w, extent.s, extent.e, extent.n),
+      fitExtent: true
     });
 
     view.constraints = {
