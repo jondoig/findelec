@@ -3,10 +3,10 @@
 ##############################################################################
 
 import json
-import shutil
 import urllib
+import csv
+from collections import OrderedDict
 
-#Backup localities JSON and CSV files
 #filename = 'localities'
 filename = 'localtest'
 
@@ -14,25 +14,25 @@ Google_API_key = 'AIzaSyCdaPV2sraHHoOIPWOSO6rQSjGJTtDECVY'
 gc_base = 'https://maps.googleapis.com/maps/api/geocode/json?'
 gc_url = gc_base + 'key=' + Google_API_key + '&region=au&'
 
-class Extent:
-  def __init__(self, west, south, east, north):
-    self.w = west
-    self.s = south
-    self.e = east
-    self.n = north
+#class Extent:
+#  def __init__(self, west, south, east, north):
+#    self.w = west
+#    self.s = south
+#    self.e = east
+#    self.n = north
 
-class Locality:
-  def __init__(self, state, loc, pc, elec, redist, other, extent):
-    self.s = state
-    self.l = loc
-    self.p = pc
-    self.e = elec
-    self.r = redist
-    self.o = other
-    self.x = extent
-
-for ext in 'json', 'csv':
-  shutil.copy(filename + '.' + ext, filename + '_bak' + '.' + ext)
+#class Locality:
+#  def __init__(self, state, loc, pc, elec, redist, other, west, south, east, north):
+#    self.s = state
+#    self.l = loc
+#    self.p = pc
+#    self.e = elec
+#    self.r = redist
+#    self.o = other
+#    self.xw = west
+#    self.xs = south
+#    self.xe = east
+#    self.xn = north
 
 #read localities.json
 with open(filename + '.json') as locfile:
@@ -62,17 +62,22 @@ for loc in locs_in:
       #      print "vp = " + str(vp)
       
       # Define bounding box
-      x = Extent(vp['southwest']['lng'], vp['southwest']['lat'],
-                 vp['northeast']['lng'], vp['northeast']['lat'])
-      #      print "x.e = " + str(x.e)
+#      x = Extent(vp['southwest']['lng'], vp['southwest']['lat'],
+#                 vp['northeast']['lng'], vp['northeast']['lat'])
+
+      loc['xw'] = vp['southwest']['lng']
+      loc['xs'] = vp['southwest']['lat']
+      loc['xe'] = vp['northeast']['lng']
+      loc['xn'] = vp['northeast']['lat']
+
+#      print "x.e = " + str(x.e)
       
       # Add bounding box to locality
       #      loc = Locality(loc['s'], loc['l'], loc['p'], '', '', '', x)
       
 #      setattr(loc, 'x', x)
 #      loc.x = x
-      loc['x'] = x
-      print "loc = " + str(loc)
+#      print "loc = " + str(loc)
 #      print "loc = " + loc.l
     else:
       print "Warning: status " + response['status'] + " geocoding " + addr
@@ -83,9 +88,12 @@ for loc in locs_in:
 #print "localities = " + str(locs_out)
     
 #Write localities to json and csv files
-with open('localities.json', 'w') as outfile:
+with open(filename + '_geocoded.json', 'w') as outfile:
   json.dump(locs_out, outfile)
-#  json.dump([l.__dict__ for l in locs_out], outfile)
-with open('localities.csv', 'w') as csvfile:
-  writer = csv.writer(csvfile, delimiter='\t')
-  writer.writerows(l.__dict__.values() for l in locs_out)
+#  json.dump([OrderedDict([loc['l'], loc['p'], loc['e']]) for loc in locs_out], outfile)
+
+#with open(filename + '_geocoded.csv', 'w') as csvfile:
+#  writer = csv.writer(csvfile, delimiter='\t')
+##  writer.writerow(["p", "l", "e", "s", "xw", "xs", "xe", "xn"])
+##  writer.writerow(dict(locs_out[0]).keys())
+#  writer.writerows(dict(loc).values() for loc in locs_out)
