@@ -20,7 +20,7 @@ function drawMap(state, west, south, east, north) {
     //      content: "<p>Area: {Area_SqKm} km<sup>2</sup></p>"
     //    });
 
-    var urlPrefix = "http://services5.arcgis.com/BZoOjszBbEr9f2ol/arcgis/rest/services/Australian_Federal_Electorates_2016_",
+    var urlPrefix = "https://services5.arcgis.com/BZoOjszBbEr9f2ol/arcgis/rest/services/Australian_Federal_Electorates_2016_",
       urlSuffix = "/FeatureServer/0";
     var states = {
       ACT: "Australian Capital Territory",
