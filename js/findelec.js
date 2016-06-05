@@ -78,7 +78,7 @@ function findLoc(l) {
         var h = document.body.firstElementChild;
         //                        h.innerHTML = "Loading map...";
         drawMap(pcLocs[i].s, pcLocs[i].xw, pcLocs[i].xs, pcLocs[i].xe, pcLocs[i].xn);
-        h.innerHTML = "Click your location in " + locText + ":";
+        h.innerHTML = "Where in " + locText + "? Click map.";
       }
       break;
     }
