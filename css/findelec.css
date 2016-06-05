@@ -170,3 +170,13 @@ input[type=number]::-webkit-outer-spin-button {
 .HomeButton .home:hover {
   background-color: #AAA;
 }
+
+
+/*Feature highlight symbol*/
+
+#viewDiv_graphics_layer path {
+  stroke: rgb(128, 60, 0);
+  stroke-width: 3px;
+  fill: #008060;
+  fill-opacity: 0.35;
+}

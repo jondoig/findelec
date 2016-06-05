@@ -1,24 +1,20 @@
 function drawMap(state, west, south, east, north) {
   require([
         "esri/map",
-//        "esri/views/MapView",
-//        "esri/widgets/Home",
         "esri/dijit/HomeButton",
         "esri/layers/FeatureLayer",
-//        "esri/PopupTemplate",
         "esri/geometry/Extent",
         "esri/symbols/TextSymbol",
         "esri/symbols/Font",
         "esri/layers/LabelClass",
         "esri/Color",
+        "esri/symbols/SimpleMarkerSymbol",
+        "esri/renderers/SimpleRenderer",
+        "esri/symbols/SimpleFillSymbol",
+        "esri/symbols/SimpleLineSymbol",
+        "esri/InfoTemplate",
         "dojo/domReady!"
-//    ], function (map, MapView, Home, FeatureLayer, PopupTemplate, Extent, TextSymbol, LabelClass, Color) {
-    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color) {
-
-    //    var tpl = new PopupTemplate({
-    //      title: "Electorate: {Elect_div}",
-    //      content: "<p>Area: {Area_SqKm} km<sup>2</sup></p>"
-    //    });
+    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, InfoTemplate) {
 
     var urlPrefix = "https://services5.arcgis.com/BZoOjszBbEr9f2ol/arcgis/rest/services/Australian_Federal_Electorates_2016_",
       urlSuffix = "/FeatureServer/0";
@@ -54,24 +50,31 @@ function drawMap(state, west, south, east, north) {
       extent: new Extent(west, south, east, north),
       showLabels: true,
       fitExtent: true,
-      //      rotationEnabled: false, // Disables map rotation
       minScale: 40000000, // User cannot zoom out beyond 1:40m (Australia)
       maxScale: 9000 // User cannot zoom in beyond 1:9k (street)
     });
 
-    //    var lyr = new FeatureLayer({
-    //      url: urlPrefix + states[state].replace(/ /g, "_") + urlSuffix,
-    //      outFields: ["*"]
-    //        //      outFields: [labelFields[state]]
-    //        //      ,popupTemplate: tpl
-    //        //          ,opacity: 0
-    //    });
+    var infoTemplate = new InfoTemplate();
+    infoTemplate.setTitle("Electorate: ${" + labelFields[state] + "}");
+    infoTemplate.setContent("<p>Information about ${" + labelFields[state] + "}:</p><ul><li><a href=''>Profile</a></li><li><a href=''>Sitting MP</a></li><li><a href=''>Candidates</a></li></ul>");
 
     var lyr = new FeatureLayer(url, {
       id: "lyr",
-      //      outFields: ["*"]
+      infoTemplate: infoTemplate,
       outFields: [labelFields[state]]
     });
+
+    //apply a renderer to draw the electorates layer
+    var symbol = new SimpleFillSymbol(
+      SimpleFillSymbol.STYLE_SOLID,
+      new SimpleLineSymbol(
+        SimpleLineSymbol.STYLE_SOLID,
+        new Color([0, 128, 96, 1]), 3
+      ),
+      new Color([0, 0, 0, 0])
+    );
+
+    lyr.setRenderer(new SimpleRenderer(symbol));
 
     // create a text symbol to define the style of labels
     var label = new TextSymbol().setColor(drawColor);
@@ -84,7 +87,7 @@ function drawMap(state, west, south, east, north) {
 
     var labelJson = {
       "labelExpressionInfo": {
-        "value": "{Elect_div}"
+        "value": "{" + labelFields[state] + "}"
       }
     };
 
@@ -98,6 +101,6 @@ function drawMap(state, west, south, east, north) {
       map: map
     }, "HomeButton");
     home.startup();
-    });
+  });
   document.getElementById("mapDiv").style.display = "initial";
 }
