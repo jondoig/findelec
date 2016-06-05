@@ -77,7 +77,7 @@ function findLoc(l) {
       } else {
         var h = document.body.firstElementChild;
         //                        h.innerHTML = "Loading map...";
-        map(pcLocs[i].s, pcLocs[i].xw, pcLocs[i].xs, pcLocs[i].xe, pcLocs[i].xn);
+        drawMap(pcLocs[i].s, pcLocs[i].xw, pcLocs[i].xs, pcLocs[i].xe, pcLocs[i].xn);
         h.innerHTML = "Click your location in " + locText + ":";
       }
       break;

@@ -93,6 +93,7 @@ input[type=number]::-webkit-outer-spin-button {
   left: 0;
 }
 
+
 /*
 #pcInput:invalid::after {
   content: "Invalid postcode";
@@ -108,6 +109,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 */
+
 
 /*
 #pcErr {
@@ -149,4 +151,11 @@ input[type=number]::-webkit-outer-spin-button {
   left: 0;
   bottom: 0;
   right: 0;
+}
+
+#HomeButton {
+  position: absolute;
+  top: 95px;
+  left: 20px;
+  z-index: 50;
 }

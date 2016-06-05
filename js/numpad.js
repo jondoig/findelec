@@ -18,10 +18,10 @@ function numWrite(n) {
       text_box.value += n;
       break;
   }
-  if (text_box.value.length == 4) {
-    console.log("Bingo! Postcode is " + text_box.value +
-      ".\nClose numpad and process postcode.");
-  }
+//  if (text_box.value.length == 4) {
+//    console.log("Bingo! Postcode is " + text_box.value +
+//      ".\nClose numpad and process postcode.");
+//  }
   disableNumBtns(text_box.value);
 }
 
