@@ -1,5 +1,5 @@
-var locs = [];
-var pcLocs = [];
+var locs = [],
+  pcLocs;
 
 //        var debug = true;
 
@@ -31,8 +31,8 @@ function findPc(pc) {
   for (var i = 0; i < locs.length; i++) {
     if (locs[i].p == pc) {
       pcLocs.push(locs[i]);
-      if ("e" in locs[i] && !("l" in locs[i])) {
-        showElec("Postcode " + locs[i].p, locs[i].e);
+      if ("e" in locs[i] && !("l" in locs[i])) { // Pc has just 1 elec
+        showElec(locs[i]);
         break;
       }
     }
@@ -41,7 +41,6 @@ function findPc(pc) {
     }
   }
 
-
   switch (pcLocs.length) {
     case 0:
       document.getElementById("pcErr").innerHTML = "Invalid postcode";
@@ -49,19 +48,14 @@ function findPc(pc) {
       // document.getElementById("pcInput").focus();
       break;
     case 1:
-      if ("l" in pcLocs[0]) {
-        locText = titleCase(pcLocs[0].l);
-      } else {
-        locText = "Postcode";
-      }
-      locText += " " + pcLocs[0].p;
       if ("e" in pcLocs[0]) { // If there is an electorate, show it
-        showElec(locText + " is", pcLocs[0].e);
+        showElec(pcLocs[0]);
       } else { // Otherwise map the locality
         drawMap(pcLocs[0].s,
           pcLocs[0].xw, pcLocs[0].xs, pcLocs[0].xe, pcLocs[0].xn);
+        locText = titleCase(pcLocs[0].l) + " " + pcLocs[0].p;
         document.body.firstElementChild.innerHTML =
-          "Where in " + locText + "? Click map.";
+          "Where in " + locText.trim() + "? Click map.";
       }
       break;
     default: // Multiple locs in pc: show in drop-down
@@ -78,36 +72,40 @@ function findPc(pc) {
 }
 
 function findLoc(l) {
-  var otherLocText = "All other places in";
-  var locText, locVerb;
-
   for (var i = 0; i < pcLocs.length; i++) {
     if (pcLocs[i].l == l) {
-      if (l == "*") {
-        locText = otherLocText;
-        locVerb = "are";
-      } else {
-        locText = titleCase(l);
-        locVerb = "is";
-      }
-
       if ("e" in pcLocs[i]) {
-        showElec(locText + " " + pcLocs[i].p + " " + locVerb, pcLocs[i].e);
+        showElec(pcLocs[i]);
       } else {
         //                        h.innerHTML = "Loading map...";
         drawMap(pcLocs[i].s, pcLocs[i].xw, pcLocs[i].xs, pcLocs[i].xe, pcLocs[i].xn);
         document.body.firstElementChild.innerHTML =
-          "Where in " + locText + "? Click map.";
+          "Where in " + titleCase(l) + "? Click map.";
       }
       break;
     }
   }
 }
 
-function showElec(locString, elec) {
+function showElec(loc) {
+  var otherLocString = "All other places in";
+  var locString, locVerb = "is";
+
+  if (!("l" in loc)) {
+    locString = "Postcode";
+  } else {
+    if (loc.l == "*") {
+      locString = otherLocString;
+      locVerb = "are";
+    } else {
+      locString = titleCase(loc.l);
+    }
+
+    locString += " " + loc.p + " " + locVerb;
+  }
   document.getElementById("elecP").innerHTML =
     locString + " in the federal electorate of:";
-  document.getElementById("elecH1").innerHTML = elec;
+  document.getElementById("elecH1").innerHTML = loc.e;
   document.getElementById("showElec").style.display = "block";
 }
 
