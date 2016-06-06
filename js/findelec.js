@@ -30,31 +30,50 @@ function findPc(pc) {
 
   for (var i = 0; i < locs.length; i++) {
     if (locs[i].p == pc) {
+      pcLocs.push(locs[i]);
       if ("e" in locs[i] && !("l" in locs[i])) {
         showElec("Postcode " + locs[i].p, locs[i].e);
         break;
       }
-      pcLocs.push(locs[i]);
     }
     if (locs[i].p > pc) {
       break;
     }
   }
-  if (i == locs.length && pcLocs.length == 0) {
-    document.getElementById("pcErr").innerHTML =
-      "Invalid postcode";
-    //                document.getElementById("pcInput").focus();
-  }
 
-  if (pcLocs.length > 0) {
-    for (i = 0; i < pcLocs.length; i++) {
-      locText = (pcLocs[i].l == "*") ? otherLocText : pcLocs[i].l;
-      options += "<option value=\"" + pcLocs[i].l + "\">" + locText + "</option>\n";
-    }
-    elem.innerHTML = options;
-    elem.style.display = "initial";
-    var event = new MouseEvent('mousedown');
-    elem.parentElement.dispatchEvent(event);
+
+  switch (pcLocs.length) {
+    case 0:
+      document.getElementById("pcErr").innerHTML = "Invalid postcode";
+      alert("Invalid postcode: pcErr should be showing");
+      // document.getElementById("pcInput").focus();
+      break;
+    case 1:
+      if ("l" in pcLocs[0]) {
+        locText = titleCase(pcLocs[0].l);
+      } else {
+        locText = "Postcode";
+      }
+      locText += " " + pcLocs[0].p;
+      if ("e" in pcLocs[0]) { // If there is an electorate, show it
+        showElec(locText + " is", pcLocs[0].e);
+      } else { // Otherwise map the locality
+        drawMap(pcLocs[0].s,
+          pcLocs[0].xw, pcLocs[0].xs, pcLocs[0].xe, pcLocs[0].xn);
+        document.body.firstElementChild.innerHTML =
+          "Where in " + locText + "? Click map.";
+      }
+      break;
+    default: // Multiple locs in pc: show in drop-down
+      for (i = 0; i < pcLocs.length; i++) {
+        locText = (pcLocs[i].l == "*") ? otherLocText : pcLocs[i].l;
+        options += "<option value=\"" + pcLocs[i].l + "\">" + locText + "</option>\n";
+      }
+      elem.innerHTML = options;
+      elem.style.display = "initial";
+      var event = new MouseEvent('mousedown');
+      elem.parentElement.dispatchEvent(event);
+      break;
   }
 }
 
@@ -75,10 +94,10 @@ function findLoc(l) {
       if ("e" in pcLocs[i]) {
         showElec(locText + " " + pcLocs[i].p + " " + locVerb, pcLocs[i].e);
       } else {
-        var h = document.body.firstElementChild;
         //                        h.innerHTML = "Loading map...";
         drawMap(pcLocs[i].s, pcLocs[i].xw, pcLocs[i].xs, pcLocs[i].xe, pcLocs[i].xn);
-        h.innerHTML = "Where in " + locText + "? Click map.";
+        document.body.firstElementChild.innerHTML =
+          "Where in " + locText + "? Click map.";
       }
       break;
     }
