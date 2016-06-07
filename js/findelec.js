@@ -1,19 +1,32 @@
-var locs = [],
-  pcLocs;
+var locs,
+  pcLocs,
+  elecs;
 
-//        var debug = true;
+// var locFilename = "localtest.json";
+var locFilename = "localities.json";
+var elecFilename = "electorates.json";
 
-var xmlhttp = new XMLHttpRequest();
-//        var url = "localtest.json";
-var url = "localities.json";
+loadJson(locFilename, setLocs);
+loadJson(elecFilename, setElecs);
 
-xmlhttp.onreadystatechange = function () {
-  if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-    locs = JSON.parse(xmlhttp.responseText);
-  }
-};
-xmlhttp.open("GET", url, true);
-xmlhttp.send();
+function loadJson(url, func) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      func(JSON.parse(xhttp.responseText));
+    }
+  };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+
+function setLocs(json) {
+  locs = json;
+}
+
+function setElecs(json) {
+  elecs = json;
+}
 
 function findPc(pc) {
   var pc = pc.replace('\n', '').trim();
@@ -24,8 +37,8 @@ function findPc(pc) {
 
   pcLocs = [];
 
-  if (locs == []) {
-    console.log("No locations loaded (JSON not yet read)");
+  if (!locs || locs == []) {
+    alert("No locations loaded (JSON not yet read)");
   }
 
   for (var i = 0; i < locs.length; i++) {
@@ -88,25 +101,30 @@ function findLoc(l) {
 }
 
 function showElec(loc) {
+  document.getElementById("elecP").innerHTML =
+    locString(loc) + " in the federal electorate of:";
+  document.getElementById("elecH1").innerHTML = loc.e;
+  document.getElementById("elecProfile").innerHTML = 
+    "<a href=\"" + elecs[loc.e].profile + "\" target=\"_blank\">Profile</a>";
+  document.getElementById("showElec").style.display = "block";
+}
+
+function locString(loc) {
   var otherLocString = "All other places in";
-  var locString, locVerb = "is";
+  var string, locVerb = "is";
 
   if (!("l" in loc)) {
-    locString = "Postcode";
+    string = "Postcode";
   } else {
     if (loc.l == "*") {
-      locString = otherLocString;
+      string = otherLocString;
       locVerb = "are";
     } else {
-      locString = titleCase(loc.l);
+      string = titleCase(loc.l);
     }
 
-    locString += " " + loc.p + " " + locVerb;
   }
-  document.getElementById("elecP").innerHTML =
-    locString + " in the federal electorate of:";
-  document.getElementById("elecH1").innerHTML = loc.e;
-  document.getElementById("showElec").style.display = "block";
+  return string + " " + loc.p + " " + locVerb;;
 }
 
 function restart() {

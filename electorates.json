@@ -1,0 +1,452 @@
+{
+  "Canberra": {
+    "profile": "http://www.aec.gov.au/canberra"
+  },
+  "Fenner": {
+    "profile": "http://www.aec.gov.au/fenner"
+  },
+  "Banks": {
+    "profile": "http://www.aec.gov.au/banks"
+  },
+  "Barton": {
+    "profile": "http://www.aec.gov.au/barton"
+  },
+  "Bennelong": {
+    "profile": "http://www.aec.gov.au/bennelong"
+  },
+  "Berowra": {
+    "profile": "http://www.aec.gov.au/berowra"
+  },
+  "Blaxland": {
+    "profile": "http://www.aec.gov.au/blaxland"
+  },
+  "Bradfield": {
+    "profile": "http://www.aec.gov.au/bradfield"
+  },
+  "Calare": {
+    "profile": "http://www.aec.gov.au/calare"
+  },
+  "Chifley": {
+    "profile": "http://www.aec.gov.au/chifley"
+  },
+  "Cook": {
+    "profile": "http://www.aec.gov.au/cook"
+  },
+  "Cowper": {
+    "profile": "http://www.aec.gov.au/cowper"
+  },
+  "Cunningham": {
+    "profile": "http://www.aec.gov.au/cunningham"
+  },
+  "Dobell": {
+    "profile": "http://www.aec.gov.au/dobell"
+  },
+  "Eden-Monaro": {
+    "profile": "http://www.aec.gov.au/eden-monaro"
+  },
+  "Farrer": {
+    "profile": "http://www.aec.gov.au/farrer"
+  },
+  "Fowler": {
+    "profile": "http://www.aec.gov.au/fowler"
+  },
+  "Gilmore": {
+    "profile": "http://www.aec.gov.au/gilmore"
+  },
+  "Grayndler": {
+    "profile": "http://www.aec.gov.au/grayndler"
+  },
+  "Greenway": {
+    "profile": "http://www.aec.gov.au/greenway"
+  },
+  "Hughes": {
+    "profile": "http://www.aec.gov.au/hughes"
+  },
+  "Hume": {
+    "profile": "http://www.aec.gov.au/hume"
+  },
+  "Hunter": {
+    "profile": "http://www.aec.gov.au/hunter"
+  },
+  "Kingsford Smith": {
+    "profile": "http://www.aec.gov.au/kingsford-smith"
+  },
+  "Lindsay": {
+    "profile": "http://www.aec.gov.au/lindsay"
+  },
+  "Lyne": {
+    "profile": "http://www.aec.gov.au/lyne"
+  },
+  "Macarthur": {
+    "profile": "http://www.aec.gov.au/macarthur"
+  },
+  "Mackellar": {
+    "profile": "http://www.aec.gov.au/mackellar"
+  },
+  "Macquarie": {
+    "profile": "http://www.aec.gov.au/macquarie"
+  },
+  "McMahon": {
+    "profile": "http://www.aec.gov.au/mcmahon"
+  },
+  "Mitchell": {
+    "profile": "http://www.aec.gov.au/mitchell"
+  },
+  "Newcastle": {
+    "profile": "http://www.aec.gov.au/newcastle"
+  },
+  "New England": {
+    "profile": "http://www.aec.gov.au/new-england"
+  },
+  "North Sydney": {
+    "profile": "http://www.aec.gov.au/north-sydney"
+  },
+  "Page": {
+    "profile": "http://www.aec.gov.au/page"
+  },
+  "Parkes": {
+    "profile": "http://www.aec.gov.au/parkes"
+  },
+  "Parramatta": {
+    "profile": "http://www.aec.gov.au/parramatta"
+  },
+  "Paterson": {
+    "profile": "http://www.aec.gov.au/paterson"
+  },
+  "Reid": {
+    "profile": "http://www.aec.gov.au/reid"
+  },
+  "Richmond": {
+    "profile": "http://www.aec.gov.au/richmond"
+  },
+  "Riverina": {
+    "profile": "http://www.aec.gov.au/riverina"
+  },
+  "Robertson": {
+    "profile": "http://www.aec.gov.au/robertson"
+  },
+  "Shortland": {
+    "profile": "http://www.aec.gov.au/shortland"
+  },
+  "Sydney": {
+    "profile": "http://www.aec.gov.au/sydney"
+  },
+  "Warringah": {
+    "profile": "http://www.aec.gov.au/warringah"
+  },
+  "Watson": {
+    "profile": "http://www.aec.gov.au/watson"
+  },
+  "Wentworth": {
+    "profile": "http://www.aec.gov.au/wentworth"
+  },
+  "Werriwa": {
+    "profile": "http://www.aec.gov.au/werriwa"
+  },
+  "Whitlam": {
+    "profile": "http://www.aec.gov.au/whitlam"
+  },
+  "Lingiari": {
+    "profile": "http://www.aec.gov.au/lingiari"
+  },
+  "Solomon": {
+    "profile": "http://www.aec.gov.au/solomon"
+  },
+  "Blair": {
+    "profile": "http://www.aec.gov.au/blair"
+  },
+  "Bonner": {
+    "profile": "http://www.aec.gov.au/bonner"
+  },
+  "Bowman": {
+    "profile": "http://www.aec.gov.au/bowman"
+  },
+  "Brisbane": {
+    "profile": "http://www.aec.gov.au/brisbane"
+  },
+  "Capricornia": {
+    "profile": "http://www.aec.gov.au/capricornia"
+  },
+  "Dawson": {
+    "profile": "http://www.aec.gov.au/dawson"
+  },
+  "Dickson": {
+    "profile": "http://www.aec.gov.au/dickson"
+  },
+  "Fadden": {
+    "profile": "http://www.aec.gov.au/fadden"
+  },
+  "Fairfax": {
+    "profile": "http://www.aec.gov.au/fairfax"
+  },
+  "Fisher": {
+    "profile": "http://www.aec.gov.au/fisher"
+  },
+  "Flynn": {
+    "profile": "http://www.aec.gov.au/flynn"
+  },
+  "Forde": {
+    "profile": "http://www.aec.gov.au/forde"
+  },
+  "Griffith": {
+    "profile": "http://www.aec.gov.au/griffith"
+  },
+  "Groom": {
+    "profile": "http://www.aec.gov.au/groom"
+  },
+  "Herbert": {
+    "profile": "http://www.aec.gov.au/herbert"
+  },
+  "Hinkler": {
+    "profile": "http://www.aec.gov.au/hinkler"
+  },
+  "Kennedy": {
+    "profile": "http://www.aec.gov.au/kennedy"
+  },
+  "Leichhardt": {
+    "profile": "http://www.aec.gov.au/leichhardt"
+  },
+  "Lilley": {
+    "profile": "http://www.aec.gov.au/lilley"
+  },
+  "Longman": {
+    "profile": "http://www.aec.gov.au/longman"
+  },
+  "Maranoa": {
+    "profile": "http://www.aec.gov.au/maranoa"
+  },
+  "McPherson": {
+    "profile": "http://www.aec.gov.au/mcpherson"
+  },
+  "Moncrieff": {
+    "profile": "http://www.aec.gov.au/moncrieff"
+  },
+  "Moreton": {
+    "profile": "http://www.aec.gov.au/moreton"
+  },
+  "Oxley": {
+    "profile": "http://www.aec.gov.au/oxley"
+  },
+  "Petrie": {
+    "profile": "http://www.aec.gov.au/petrie"
+  },
+  "Rankin": {
+    "profile": "http://www.aec.gov.au/rankin"
+  },
+  "Ryan": {
+    "profile": "http://www.aec.gov.au/ryan"
+  },
+  "Wide Bay": {
+    "profile": "http://www.aec.gov.au/wide-bay"
+  },
+  "Wright": {
+    "profile": "http://www.aec.gov.au/wright"
+  },
+  "Adelaide": {
+    "profile": "http://www.aec.gov.au/adelaide"
+  },
+  "Barker": {
+    "profile": "http://www.aec.gov.au/barker"
+  },
+  "Boothby": {
+    "profile": "http://www.aec.gov.au/boothby"
+  },
+  "Grey": {
+    "profile": "http://www.aec.gov.au/grey"
+  },
+  "Hindmarsh": {
+    "profile": "http://www.aec.gov.au/hindmarsh"
+  },
+  "Kingston": {
+    "profile": "http://www.aec.gov.au/kingston"
+  },
+  "Makin": {
+    "profile": "http://www.aec.gov.au/makin"
+  },
+  "Mayo": {
+    "profile": "http://www.aec.gov.au/mayo"
+  },
+  "Port Adelaide": {
+    "profile": "http://www.aec.gov.au/port-adelaide"
+  },
+  "Sturt": {
+    "profile": "http://www.aec.gov.au/sturt"
+  },
+  "Wakefield": {
+    "profile": "http://www.aec.gov.au/wakefield"
+  },
+  "Bass": {
+    "profile": "http://www.aec.gov.au/bass"
+  },
+  "Braddon": {
+    "profile": "http://www.aec.gov.au/braddon"
+  },
+  "Denison": {
+    "profile": "http://www.aec.gov.au/denison"
+  },
+  "Franklin": {
+    "profile": "http://www.aec.gov.au/franklin"
+  },
+  "Lyons": {
+    "profile": "http://www.aec.gov.au/lyons"
+  },
+  "Aston": {
+    "profile": "http://www.aec.gov.au/aston"
+  },
+  "Ballarat": {
+    "profile": "http://www.aec.gov.au/ballarat"
+  },
+  "Batman": {
+    "profile": "http://www.aec.gov.au/batman"
+  },
+  "Bendigo": {
+    "profile": "http://www.aec.gov.au/bendigo"
+  },
+  "Bruce": {
+    "profile": "http://www.aec.gov.au/bruce"
+  },
+  "Calwell": {
+    "profile": "http://www.aec.gov.au/calwell"
+  },
+  "Casey": {
+    "profile": "http://www.aec.gov.au/casey"
+  },
+  "Chisholm": {
+    "profile": "http://www.aec.gov.au/chisholm"
+  },
+  "Corangamite": {
+    "profile": "http://www.aec.gov.au/corangamite"
+  },
+  "Corio": {
+    "profile": "http://www.aec.gov.au/corio"
+  },
+  "Deakin": {
+    "profile": "http://www.aec.gov.au/deakin"
+  },
+  "Dunkley": {
+    "profile": "http://www.aec.gov.au/dunkley"
+  },
+  "Flinders": {
+    "profile": "http://www.aec.gov.au/flinders"
+  },
+  "Gellibrand": {
+    "profile": "http://www.aec.gov.au/gellibrand"
+  },
+  "Gippsland": {
+    "profile": "http://www.aec.gov.au/gippsland"
+  },
+  "Goldstein": {
+    "profile": "http://www.aec.gov.au/goldstein"
+  },
+  "Gorton": {
+    "profile": "http://www.aec.gov.au/gorton"
+  },
+  "Higgins": {
+    "profile": "http://www.aec.gov.au/higgins"
+  },
+  "Holt": {
+    "profile": "http://www.aec.gov.au/holt"
+  },
+  "Hotham": {
+    "profile": "http://www.aec.gov.au/hotham"
+  },
+  "Indi": {
+    "profile": "http://www.aec.gov.au/indi"
+  },
+  "Isaacs": {
+    "profile": "http://www.aec.gov.au/isaacs"
+  },
+  "Jagajaga": {
+    "profile": "http://www.aec.gov.au/jagajaga"
+  },
+  "Kooyong": {
+    "profile": "http://www.aec.gov.au/kooyong"
+  },
+  "Lalor": {
+    "profile": "http://www.aec.gov.au/lalor"
+  },
+  "La Trobe": {
+    "profile": "http://www.aec.gov.au/la-trobe"
+  },
+  "Mallee": {
+    "profile": "http://www.aec.gov.au/mallee"
+  },
+  "Maribyrnong": {
+    "profile": "http://www.aec.gov.au/maribyrnong"
+  },
+  "McEwen": {
+    "profile": "http://www.aec.gov.au/mcewen"
+  },
+  "McMillan": {
+    "profile": "http://www.aec.gov.au/mcmillan"
+  },
+  "Melbourne": {
+    "profile": "http://www.aec.gov.au/melbourne"
+  },
+  "Melbourne Ports": {
+    "profile": "http://www.aec.gov.au/melbourne-ports"
+  },
+  "Menzies": {
+    "profile": "http://www.aec.gov.au/menzies"
+  },
+  "Murray": {
+    "profile": "http://www.aec.gov.au/murray"
+  },
+  "Scullin": {
+    "profile": "http://www.aec.gov.au/scullin"
+  },
+  "Wannon": {
+    "profile": "http://www.aec.gov.au/wannon"
+  },
+  "Wills": {
+    "profile": "http://www.aec.gov.au/wills"
+  },
+  "Brand": {
+    "profile": "http://www.aec.gov.au/brand"
+  },
+  "Burt": {
+    "profile": "http://www.aec.gov.au/burt"
+  },
+  "Canning": {
+    "profile": "http://www.aec.gov.au/canning"
+  },
+  "Cowan": {
+    "profile": "http://www.aec.gov.au/cowan"
+  },
+  "Curtin": {
+    "profile": "http://www.aec.gov.au/curtin"
+  },
+  "Durack": {
+    "profile": "http://www.aec.gov.au/durack"
+  },
+  "Forrest": {
+    "profile": "http://www.aec.gov.au/forrest"
+  },
+  "Fremantle": {
+    "profile": "http://www.aec.gov.au/fremantle"
+  },
+  "Hasluck": {
+    "profile": "http://www.aec.gov.au/hasluck"
+  },
+  "Moore": {
+    "profile": "http://www.aec.gov.au/moore"
+  },
+  "O'Connor": {
+    "profile": "http://www.aec.gov.au/oconnor"
+  },
+  "Pearce": {
+    "profile": "http://www.aec.gov.au/pearce"
+  },
+  "Perth": {
+    "profile": "http://www.aec.gov.au/perth"
+  },
+  "Stirling": {
+    "profile": "http://www.aec.gov.au/stirling"
+  },
+  "Swan": {
+    "profile": "http://www.aec.gov.au/swan"
+  },
+  "Tangney": {
+    "profile": "http://www.aec.gov.au/tangney"
+  }
+}
