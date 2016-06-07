@@ -6,8 +6,12 @@ var locs,
 var locFilename = "localities.json";
 var elecFilename = "electorates.json";
 
-loadJson(locFilename, setLocs);
-loadJson(elecFilename, setElecs);
+loadJson(locFilename, function(json) {
+    locs = json;
+});
+loadJson(elecFilename, function(json) {
+    elecs = json;
+});
 
 function loadJson(url, func) {
   var xhttp = new XMLHttpRequest();
@@ -18,14 +22,6 @@ function loadJson(url, func) {
   };
   xhttp.open("GET", url, true);
   xhttp.send();
-}
-
-function setLocs(json) {
-  locs = json;
-}
-
-function setElecs(json) {
-  elecs = json;
 }
 
 function findPc(pc) {
