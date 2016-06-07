@@ -12,9 +12,7 @@ function drawMap(state, west, south, east, north) {
         "esri/renderers/SimpleRenderer",
         "esri/symbols/SimpleFillSymbol",
         "esri/symbols/SimpleLineSymbol",
-//        "esri/InfoTemplate",
         "dojo/domReady!"
-//    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, InfoTemplate) {
     ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol) {
 
     var urlPrefix = "https://services5.arcgis.com/BZoOjszBbEr9f2ol/arcgis/rest/services/Australian_Federal_Electorates_2016_",
@@ -55,13 +53,8 @@ function drawMap(state, west, south, east, north) {
       maxScale: 9000 // User cannot zoom in beyond 1:9k (street)
     });
 
-//    var infoTemplate = new InfoTemplate();
-//    infoTemplate.setTitle("Electorate: ${" + labelFields[state] + "}");
-//    infoTemplate.setContent("<p>Information about ${" + labelFields[state] + "}:</p><ul><li><a href=''>Profile</a></li><li><a href=''>Sitting MP</a></li><li><a href=''>Candidates</a></li></ul>");
-//
     var lyr = new FeatureLayer(url, {
       id: "lyr",
-//      infoTemplate: infoTemplate,
       outFields: [labelFields[state]]
     });
 
