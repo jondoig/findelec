@@ -83,12 +83,21 @@ function drawMap(state, west, south, east, north) {
       "labelExpressionInfo": {
         "value": "{" + labelFields[state] + "}"
       }
+
+
     };
 
     var labelClass = new LabelClass(labelJson);
     labelClass.symbol = label;
 
     lyr.setLabelingInfo([labelClass]);
+
+    lyr.on("click", function (evt) {
+      var attrs = evt.graphic.attributes;
+      var elec = attrs[Object.keys(attrs)[0]];
+      showElec(elec);
+    });
+
     map.addLayer(lyr);
 
     var home = new HomeButton({

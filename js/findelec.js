@@ -6,11 +6,11 @@ var locs,
 var locFilename = "localities.json";
 var elecFilename = "electorates.json";
 
-loadJson(locFilename, function(json) {
-    locs = json;
+loadJson(locFilename, function (json) {
+  locs = json;
 });
-loadJson(elecFilename, function(json) {
-    elecs = json;
+loadJson(elecFilename, function (json) {
+  elecs = json;
 });
 
 function loadJson(url, func) {
@@ -41,7 +41,7 @@ function findPc(pc) {
     if (locs[i].p == pc) {
       pcLocs.push(locs[i]);
       if ("e" in locs[i] && !("l" in locs[i])) { // Pc has just 1 elec
-        showElec(locs[i]);
+        showElec(locs[i].e, locs[i]);
         break;
       }
     }
@@ -58,7 +58,7 @@ function findPc(pc) {
       break;
     case 1:
       if ("e" in pcLocs[0]) { // If there is an electorate, show it
-        showElec(pcLocs[0]);
+        showElec(pcLocs[0].e, pcLocs[0]);
       } else { // Otherwise map the locality
         drawMap(pcLocs[0].s,
           pcLocs[0].xw, pcLocs[0].xs, pcLocs[0].xe, pcLocs[0].xn);
@@ -84,7 +84,7 @@ function findLoc(l) {
   for (var i = 0; i < pcLocs.length; i++) {
     if (pcLocs[i].l == l) {
       if ("e" in pcLocs[i]) {
-        showElec(pcLocs[i]);
+        showElec(pcLocs[i].e, pcLocs[i]);
       } else {
         //                        h.innerHTML = "Loading map...";
         drawMap(pcLocs[i].s, pcLocs[i].xw, pcLocs[i].xs, pcLocs[i].xe, pcLocs[i].xn);
@@ -96,13 +96,17 @@ function findLoc(l) {
   }
 }
 
-function showElec(loc) {
-  document.getElementById("elecP").innerHTML =
-    locString(loc) + " in the federal electorate of:";
-  document.getElementById("elecH1").innerHTML = loc.e;
-  document.getElementById("elecProfile").innerHTML = 
-    "<a href=\"" + elecs[loc.e].profile + "\" target=\"_blank\">Profile</a>";
-  document.getElementById("showElec").style.display = "block";
+function showElec(elec, loc) {
+  var elecDiv = document.getElementById("showElec");
+
+  if (loc) {
+    elecDiv.querySelector(".intro").innerHTML =
+      locString(loc) + " in the federal electorate of:";
+  }
+  elecDiv.querySelector("h1").innerHTML = elec;
+  elecDiv.querySelector("#profile").innerHTML = "<a href=\"" +
+    elecs[elec].profile + "\" target=\"_blank\">Profile</a>";
+  elecDiv.style.display = "block";
 }
 
 function locString(loc) {
