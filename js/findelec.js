@@ -63,7 +63,7 @@ function findPc(pc) {
         drawMap(pcLocs[0].s,
           pcLocs[0].xw, pcLocs[0].xs, pcLocs[0].xe, pcLocs[0].xn);
         locText = titleCase(pcLocs[0].l) + " " + pcLocs[0].p;
-        document.body.firstElementChild.innerHTML =
+        document.getElementById("mapHeader").innerHTML =
           "Where in " + locText.trim() + "? Click map.";
       }
       break;
@@ -88,7 +88,7 @@ function findLoc(l) {
       } else {
         //                        h.innerHTML = "Loading map...";
         drawMap(pcLocs[i].s, pcLocs[i].xw, pcLocs[i].xs, pcLocs[i].xe, pcLocs[i].xn);
-        document.body.firstElementChild.innerHTML =
+        document.getElementById("mapHeader").innerHTML =
           "Where in " + titleCase(l) + "? Click map.";
       }
       break;

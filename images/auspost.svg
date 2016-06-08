@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="30"
+   height="29.796841"
+   viewBox="0 0 30 29.796841"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="australia-post.svg">
+  <metadata
+     id="metadata12">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="1001"
+     id="namedview8"
+     showgrid="false"
+     inkscape:zoom="0.61135274"
+     inkscape:cx="-32.156237"
+     inkscape:cy="231.88973"
+     inkscape:window-x="307"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <path
+     d="M 10.615124,0.64334 C 4.435666,2.48871 0,8.11795 0,14.84763 0,21.67889 4.427201,27.30813 10.615124,29.1535 l 0,-28.51016 z M 14.957675,0 l -1.015801,0 0,1.56603 0.64334,0 c 5.079007,0 9.319976,4.15632 9.319976,9.22686 0,5.07054 -4.156319,9.22686 -9.22686,9.31998 l 0,9.68397 0.279345,0 C 23.26185,29.79684 30,23.15181 30,14.84763 29.992,6.63657 23.26185,0 14.957675,0 Z"
+     id="path6"
+     inkscape:connector-curvature="0"
+     style="clip-rule:evenodd;fill:#ffffff;fill-rule:evenodd" />
+</svg>

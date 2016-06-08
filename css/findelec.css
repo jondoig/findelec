@@ -12,6 +12,8 @@ body {
 h1 {
   padding: 5px 0;
   color: #008060;
+  height: auto;
+  width: auto;
   /* Rainforest */
   text-align: center;
 }
@@ -123,13 +125,26 @@ input[type=number]::-webkit-outer-spin-button {
 */
 
 #showElec {
-  margin-top: 20px;
-  padding-bottom: 20px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  /*
+  bottom: 0;
+  right: 0;
+*/
+  /*
+  width: 100%;
+  height: 100%;
+*/
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.75);
   display: none;
   text-align: center;
   background-color: white;
   z-index: 3;
-  position: absolute;
 }
 
 #showElec label {
@@ -149,7 +164,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 #viewDiv {
   position: absolute;
-  top: 100px;
+  top: 0;
   left: 0;
   bottom: 0;
   right: 0;
@@ -181,4 +196,20 @@ input[type=number]::-webkit-outer-spin-button {
   stroke-width: 3px;
   fill: #008060;
   fill-opacity: 0.35;
+}
+
+#mapHeader {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 20px auto;
+  padding: 5px;
+  border-radius: 5px;
+  max-width: 90%;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
+  background-color: white;
+  font-size: 16px;
+  font-weight: bold;
+  color: #008060;
 }
