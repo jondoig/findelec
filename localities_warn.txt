@@ -147,7 +147,7 @@ WARNING - No exact match: St Johns Wood QLD 4060, Australia
 WARNING - No exact match: Rosalie QLD 4064, Australia
   Using Paddington QLD 4064, Australia
 WARNING - No exact match: Rainworth QLD 4065, Australia
-  Using Rainworth Rd, Bardon QLD 4065, Australia
+  Using Bardon QLD 4065, Australia
 Missing postcode but using: Auchenflower QLD, Australia
 WARNING - No exact match: Torwood QLD 4066, Australia
   Using Torwood St, Auchenflower QLD 4066, Australia
@@ -171,15 +171,13 @@ WARNING - No exact match: Burpengary East QLD 4505, Australia
   Using Burpengary East, Burpengary QLD 4505, Australia
 WARNING - No exact match: Durong South QLD 4610, Australia
   Using Durong QLD 4610, Australia
-WARNING - No exact match: Mount Stuart QLD 4811, Australia
-  Using Stuart Bypass, Stuart QLD 4811, Australia
 WARNING - No exact match: Partington QLD 4811, Australia
   Using Partington St, Stuart QLD 4811, Australia
 Missing postcode but using: Roseneath QLD, Australia
 WARNING - No exact match: Serene Valley QLD 4811, Australia
   ERROR - postcode mismatch: Serene Rd, Kirkwood QLD 4680, Australia
 WARNING - No exact match: Sleeper Log Creek QLD 4816, Australia
-  Using Queensland 4816, Australia
+  Using Savannah QLD 4816, Australia
 WARNING - No exact match: Bluewater Beach QLD 4818, Australia
   Using Bluewater Dr, Bluewater QLD 4818, Australia
 WARNING - No exact match: Clohesy QLD 4881, Australia
