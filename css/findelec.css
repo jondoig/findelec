@@ -5,7 +5,7 @@ body {
   height: 100%;
   width: 100%;
   font-family: sans-serif;
-  z-index: 0;
+  /*  z-index: 0;*/
   background-color: #e6ecff;
 }
 
@@ -18,27 +18,53 @@ h1 {
   text-align: center;
 }
 
-#enterPc {
-  margin-top: 50px;
+.panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 20px;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.75);
+  background-color: white;
+  z-index: 60;
   text-align: center;
 }
 
-#showElec > div,
-#enterPc > div {
+button.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: 0;
+  background-color: white;
+  opacity: 0.5;
+  font-size: 16px;
+}
+
+button.close:hover,
+button.close:active {
+  opacity: 1;
+}
+
+#inputPanel {}
+
+#elecPanel > div,
+#inputPanel > div {
   display: inline-block;
   position: relative;
 }
 
 #pcInput,
 #pcButton {
-  z-index: 2;
+  z-index: 60;
   height: 30px;
   font-size: 16px;
 }
 
 #pcInput {
   width: 75px;
-  margin: 0;
+  margin: 0 0 20px 0 ;
   color: #008060;
   /*  text-align: right;*/
   border: 3px solid #888888;
@@ -112,6 +138,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 */
 
+#pcErr {
+  display: none;
+}
+
 
 /*
 #pcErr {
@@ -124,11 +154,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 */
 
-#showElec {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+#elecPanel {
   /*
   bottom: 0;
   right: 0;
@@ -137,17 +163,10 @@ input[type=number]::-webkit-outer-spin-button {
   width: 100%;
   height: 100%;
 */
-  margin: 20px;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.75);
   display: none;
-  text-align: center;
-  background-color: white;
-  z-index: 3;
 }
 
-#showElec label {
+#elecPanel label {
   color: #008060;
 }
 
@@ -158,8 +177,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #mapDiv {
-  display: none;
-  z-index: 2;
+  /*  display: none;*/
+  /*  z-index: 2;*/
 }
 
 #viewDiv {
@@ -168,7 +187,8 @@ input[type=number]::-webkit-outer-spin-button {
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: white;
+  /*  Blue of ocean surrounding Australia*/
+  background-color: #98d8f1;
 }
 
 .HomeButton .home {

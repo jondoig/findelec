@@ -68,10 +68,12 @@ for loc in locs_in:
 
       if not error:
         # Define bounding box
-        loc['xw'] = vp['southwest']['lng']
-        loc['xs'] = vp['southwest']['lat']
-        loc['xe'] = vp['northeast']['lng']
-        loc['xn'] = vp['northeast']['lat']
+        x = {}
+        x['xmin'] = vp['southwest']['lng']
+        x['ymin'] = vp['southwest']['lat']
+        x['xmax'] = vp['northeast']['lng']
+        x['ymax'] = vp['northeast']['lat']
+        loc['x'] = x
 
     else:
       print "ERROR: status " + response['status'] + " geocoding " + addr

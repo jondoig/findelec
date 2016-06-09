@@ -35,15 +35,21 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
 
 </head>
 
-<body onload=disableNumBtns( "")>
-  <div id="enterPc">
-    <h1>Find my electorate</h1>
+<body onload="initMap(map)">
+  <div id="mapDiv">
+    <div id="mapHeader">Find my electorate</div>
+    <div id="viewDiv">
+      <div id="HomeButton"></div>
+    </div>
+  </div>
+  <div id="inputPanel" class="panel">
+    <button class="close" onclick="this.parentElement.style.display = 'none'">✖</button>
     <div>
       <!--        <label for="pcInput">Postcode:</label>-->
       <input id="pcInput" class="text_box" placeholder="Postcode" type="text" pattern="^(0(8([0-9][0-9]?)?)?|^[2-4]([0-9]([0-9][0-9]?)?)?|^5([0-8]([0-9][0-9]?)?)?|^6([0-6]([0-9][0-9]?)?)?|^6(7([0-8][0-9]?)?)?|^6(7(9[0-7]?)?)?|^7([0-7]([0-9][0-9]?)?)?)$" onClick="restart()" onkeydown="if (event.keyCode == 13) {document.getElementById('pcButton').click()}">
       <button id="pcButton" onClick="findPc( document.getElementById('pcInput').value)">Go</button>
       <br>
-      <p id="pcErr"></p>
+      <p id="pcErr">Invalid postcode</p>
       <select id="locSel" onchange="findLoc(this.value)">
         <optgroup id="locOptions" label="Please select"></optgroup>
       </select>
@@ -89,7 +95,8 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
 
     </div>
   </div>
-  <div id="showElec">
+  <div id="elecPanel" class="panel">
+    <button class="close" onclick="this.parentElement.style.display = 'none'">✖</button>
     <div>
       <p class="intro"></p>
       <h1></h1>
@@ -100,12 +107,6 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
       <label for="restart">Find another electorate</label>
     </div>
   </div>
-  <div id="mapDiv">
-    <div id="viewDiv">
-      <div id="HomeButton"></div>
-    </div>
-  </div>
-  <div id="mapHeader"></div>
 </body>
 
 </html>

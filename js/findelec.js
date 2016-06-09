@@ -2,9 +2,14 @@ var locs,
   pcLocs,
   elecs;
 
-// var locFilename = "localtest.json";
-var locFilename = "localities.json";
+ var locFilename = "localtest.json";
+//var locFilename = "localities.json";
 var elecFilename = "electorates.json";
+
+//var ozExtent = {"xmin": 112.921112, "ymin": -54.640301,
+//                "xmax": 159.278717, "ymax": -9.22882};
+var ozExtent = {"xmin": 112.296895, "ymin": -44.006562,
+                "xmax": 154.915372, "ymax": -9.599248};
 
 loadJson(locFilename, function (json) {
   locs = json;
@@ -52,7 +57,7 @@ function findPc(pc) {
 
   switch (pcLocs.length) {
     case 0:
-      document.getElementById("pcErr").innerHTML = "Invalid postcode";
+      document.getElementById("pcErr").style.display = "initial";
       alert("Invalid postcode: pcErr should be showing");
       // document.getElementById("pcInput").focus();
       break;
@@ -60,8 +65,7 @@ function findPc(pc) {
       if ("e" in pcLocs[0]) { // If there is an electorate, show it
         showElec(pcLocs[0].e, pcLocs[0]);
       } else { // Otherwise map the locality
-        drawMap(pcLocs[0].s,
-          pcLocs[0].xw, pcLocs[0].xs, pcLocs[0].xe, pcLocs[0].xn);
+        drawMap(map, pcLocs[0].s, pcLocs[0].x);
         locText = titleCase(pcLocs[0].l) + " " + pcLocs[0].p;
         document.getElementById("mapHeader").innerHTML =
           "Where in " + locText.trim() + "? Click map.";
@@ -87,7 +91,7 @@ function findLoc(l) {
         showElec(pcLocs[i].e, pcLocs[i]);
       } else {
         //                        h.innerHTML = "Loading map...";
-        drawMap(pcLocs[i].s, pcLocs[i].xw, pcLocs[i].xs, pcLocs[i].xe, pcLocs[i].xn);
+        drawMap(map, pcLocs[i].s, pcLocs[i].x);
         document.getElementById("mapHeader").innerHTML =
           "Where in " + titleCase(l) + "? Click map.";
       }
@@ -97,7 +101,10 @@ function findLoc(l) {
 }
 
 function showElec(elec, loc) {
-  var elecDiv = document.getElementById("showElec");
+  
+  document.getElementById("inputPanel").style.display = "none";
+  
+  var elecDiv = document.getElementById("elecPanel");
 
   if (loc) {
     elecDiv.querySelector(".intro").innerHTML =
@@ -129,9 +136,9 @@ function locString(loc) {
 
 function restart() {
   document.getElementsByClassName("numpad")[0].style.display = "block";
-  document.getElementById("showElec").style.display = "none";
+  document.getElementById("elecPanel").style.display = "none";
   //            document.getElementById("locSel").style.display = "none";
-  document.getElementById("pcErr").innerHTML = "";
+  document.getElementById("pcErr").style.display = "none";
 
   var pcInput = document.getElementById("pcInput");
   pcInput.value = "";
