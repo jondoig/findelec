@@ -118,7 +118,7 @@ function initMap() {
     document.getElementsByClassName("mapBtns")[0].style.display = "block";
 
     drawMap = function (state, extent) {
-      map.setExtent(new Extent(extent));
+      map.setExtent(Extent(extent));
 
       if (lyr) {
         map.removeLayer(lyr);
@@ -145,8 +145,8 @@ function initMap() {
         var attrs = evt.graphic.attributes;
         var elec = attrs[Object.keys(attrs)[0]]; // First and only attribute
         showElec(elec);
+        map.setExtent(evt.graphic.geometry.getExtent());
       });
-
       map.addLayer(lyr);
     }
   });
@@ -229,8 +229,8 @@ function findLoc(l) {
 function showElec(elec, loc) {
   var elecDiv = document.getElementById("elecPanel");
 
-    elecDiv.querySelector(".intro").innerHTML =
-      locString(loc) + " in the federal electorate of:";
+  elecDiv.querySelector(".intro").innerHTML =
+    locString(loc) + " in the federal electorate of:";
   elecDiv.querySelector("h1").innerHTML = elec;
   elecDiv.querySelector("#profile").innerHTML = "<a href=\"" +
     elecs[elec].profile + "\" target=\"_blank\">Profile</a>";
