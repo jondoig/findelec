@@ -18,6 +18,34 @@ h1 {
   text-align: center;
 }
 
+
+/***************** PANEL ELEMENTS ****************/
+
+#shadow {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 59;
+  background-color: rgba( 0, 0, 0, 0.5);
+  opacity: 1;
+    /*
+  -webkit-
+  -moz-
+  -ms-
+  -o-
+*/
+  -webkit-transition: z-index 0.3s ease-out, opacity 0.3s ease-out;
+  -moz-transition: z-index 0.3s ease-out, opacity 0.3s ease-out;
+  -ms-transition: z-index 0.3s ease-out, opacity 0.3s ease-out;
+  -o-transition: z-index 0.3s ease-out, opacity 0.3s ease-out;
+  transition: z-index 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+#shadow.closed {
+  z-index: -1;
+  opacity: 0;
+}
+
 .panel {
   position: absolute;
   top: 50%;
@@ -30,6 +58,28 @@ h1 {
   background-color: white;
   z-index: 60;
   text-align: center;
+  opacity: 1;
+  /*
+  -webkit-transition: 
+  -moz-transition: 
+  -ms-transition: 
+  -o-transition: 
+*/
+  transition: top 0.3s ease-out, left 0.3s ease-out, width 0.3s ease-out, height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+#inputPanel {
+  width: 165px;
+}
+
+.panel.closed {
+  top: 145px;
+  left: 20px;
+  width: 32px;
+  height: 110px;
+  opacity: 0;
+  z-index: 49;
+  transition: top 0.3s ease-out, left 0.3s ease-out, width 0.3s ease-out, height 0.3s ease-out, opacity 1s ease-out;
 }
 
 button.close {
@@ -47,8 +97,6 @@ button.close:active {
   opacity: 1;
 }
 
-#inputPanel {}
-
 #elecPanel > div,
 #inputPanel > div {
   display: inline-block;
@@ -64,7 +112,7 @@ button.close:active {
 
 #pcInput {
   width: 75px;
-  margin: 0 0 20px 0 ;
+  margin: 0 0 20px 0;
   color: #008060;
   /*  text-align: right;*/
   border: 3px solid #888888;
@@ -176,6 +224,9 @@ input[type=number]::-webkit-outer-spin-button {
   vertical-align: middle;
 }
 
+
+/****************** MAP ELEMENTS *****************/
+
 #mapDiv {
   /*  display: none;*/
   /*  z-index: 2;*/
@@ -191,20 +242,53 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: #98d8f1;
 }
 
-.HomeButton .home {
+.mapBtns {
   position: absolute;
   top: 95px;
   left: 20px;
+  width: 32px;
   z-index: 50;
+  display: none;
+}
+
+.mapBtn {
+  height: 30px;
+  border: 1px solid #57585A;
+  padding: 0;
+  border-radius: 5px;
+  margin-top: 10px;
+  background: #008060 no-repeat center;
+  background-size: 20px 20px;
+}
+
+.mapBtn:hover {
+  /* Lightness -5% hsl(165, 100%, 20%) */
+  background-color: #00664d;
+}
+
+#HomeBtn .home {
+  width: 26px;
+  height: 26px;
   border: 1px solid #57585A;
   background-color: white;
   background-image: url("../images/home.svg");
-  padding: 0;
+}
+
+#pcBtn {
+  background-image: url("../images/auspost.svg");
+}
+
+#elecBtn {
+  background-image: url("../images/vote.svg");
+}
+
+#locateBtn {
+  background-image: url("../images/locate.svg");
 }
 
 .esriSimpleSliderIncrementButton:hover,
 .esriSimpleSliderDecrementButton:hover,
-.HomeButton .home:hover {
+#HomeBtn .home:hover {
   background-color: #AAA;
 }
 

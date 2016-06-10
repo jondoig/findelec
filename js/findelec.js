@@ -113,8 +113,9 @@ function initMap() {
 
     var home = new HomeButton({
       map: map
-    }, "HomeButton");
+    }, "HomeBtn");
     home.startup();
+    document.getElementsByClassName("mapBtns")[0].style.display = "block";
 
     drawMap = function (state, extent) {
       map.setExtent(new Extent(extent));
@@ -271,4 +272,17 @@ function titleCase(str) {
   return str.replace(/\w\S*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
+}
+
+function closeInput() {
+  //  elem.innerHTML = "";
+  document.getElementById("shadow").classList.add('closed');
+}
+
+function openInput(btn) {
+  //  panel.innerHTML = "";
+  document.getElementById("shadow").classList.remove('closed');
+
+  
+//  Open selected btn
 }

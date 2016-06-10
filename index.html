@@ -20,18 +20,10 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
 
   <!--  <script src="js/device.js"></script>-->
 
-<!--  <script src="js/mapelec.js" defer></script>-->
-
   <link rel="stylesheet" href="https://js.arcgis.com/3.16/esri/css/esri.css">
   <link rel="stylesheet" href="css/findelec.css">
-  <!--  <link rel="stylesheet" href="https://js.arcgis.com/3.16/esri/css/main.css">-->
 
   <script src="https://js.arcgis.com/3.16/" defer></script>
-
-  <!--
-  <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
-  <script src="https://js.arcgis.com/4.0/" defer></script>
--->
 
 </head>
 
@@ -39,72 +31,79 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
   <div id="mapDiv">
     <div id="mapHeader">Find my electorate</div>
     <div id="viewDiv">
-      <div id="HomeButton"></div>
-    </div>
-  </div>
-  <div id="inputPanel" class="panel">
-    <button class="close" onclick="this.parentElement.style.display = 'none'">✖</button>
-    <div>
-      <!--        <label for="pcInput">Postcode:</label>-->
-      <input id="pcInput" class="text_box" placeholder="Postcode" type="text" pattern="^(0(8([0-9][0-9]?)?)?|^[2-4]([0-9]([0-9][0-9]?)?)?|^5([0-8]([0-9][0-9]?)?)?|^6([0-6]([0-9][0-9]?)?)?|^6(7([0-8][0-9]?)?)?|^6(7(9[0-7]?)?)?|^7([0-7]([0-9][0-9]?)?)?)$" onClick="restart()" onkeydown="if (event.keyCode == 13) {document.getElementById('pcButton').click()}">
-      <button id="pcButton" onClick="findPc( document.getElementById('pcInput').value)">Go</button>
-      <br>
-      <p id="pcErr">Invalid postcode</p>
-      <select id="locSel" onchange="findLoc(this.value)">
-        <optgroup id="locOptions" label="Please select"></optgroup>
-      </select>
-
-      <div class="numpad">
-        <div id="btn1" class="number_button" onclick="numWrite(1);">
-          <div>1</div>
-        </div>
-        <div id="btn2" class="number_button" onclick="numWrite(2);">
-          <div>2</div>
-        </div>
-        <div id="btn3" class="number_button" onclick="numWrite(3);">
-          <div>3</div>
-        </div>
-        <div id="btn4" class="number_button" onclick="numWrite(4);">
-          <div>4</div>
-        </div>
-        <div id="btn5" class="number_button" onclick="numWrite(5);">
-          <div>5</div>
-        </div>
-        <div id="btn6" class="number_button" onclick="numWrite(6);">
-          <div>6</div>
-        </div>
-        <div id="btn7" class="number_button" onclick="numWrite(7);">
-          <div>7</div>
-        </div>
-        <div id="btn8" class="number_button" onclick="numWrite(8);">
-          <div>8</div>
-        </div>
-        <div id="btn9" class="number_button" onclick="numWrite(9);">
-          <div>9</div>
-        </div>
-        <div id="btnclear" class="number_button" onclick="numWrite('clear');">
-          <div>C</div>
-        </div>
-        <div id="btn0" class="number_button" onclick="numWrite(0);">
-          <div>0</div>
-        </div>
-        <div id="btnback" class="number_button" onclick="numWrite('back');">
-          <div><img src="images/backspace.svg" width=24 height=auto></div>
-        </div>
+      <div class="mapBtns">
+        <div id="HomeBtn" class="mapBtn"></div>
+        <div id="pcBtn" class="mapBtn" onclick="openInput('pc')"></div>
+        <div id="elecBtn" class="mapBtn" onclick="openInput('elec')"></div>
+        <div id="locateBtn" class="mapBtn"></div>
       </div>
-
     </div>
   </div>
-  <div id="elecPanel" class="panel">
-    <button class="close" onclick="this.parentElement.style.display = 'none'">✖</button>
-    <div>
-      <p class="intro"></p>
-      <h1></h1>
-      <p id="profile"></p>
-      <button id="restart" onClick="restart()">
-        <img src="images/repeat.svg" width="20" height="20">
-      </button>
-      <label for="restart">Find another electorate</label>
+  <div id="shadow">
+    <div id="inputPanel" class="panel">
+      <button class="close" onclick="closeInput()">✖</button>
+      <div>
+        <!--        <label for="pcInput">Postcode:</label>-->
+        <input id="pcInput" class="text_box" placeholder="Postcode" type="text" pattern="^(0(8([0-9][0-9]?)?)?|^[2-4]([0-9]([0-9][0-9]?)?)?|^5([0-8]([0-9][0-9]?)?)?|^6([0-6]([0-9][0-9]?)?)?|^6(7([0-8][0-9]?)?)?|^6(7(9[0-7]?)?)?|^7([0-7]([0-9][0-9]?)?)?)$" onClick="restart()" onkeydown="if (event.keyCode == 13) {document.getElementById('pcButton').click()}">
+        <button id="pcButton" onClick="findPc( document.getElementById('pcInput').value)">Go</button>
+        <br>
+        <p id="pcErr">Invalid postcode</p>
+        <select id="locSel" onchange="findLoc(this.value)">
+          <optgroup id="locOptions" label="Please select"></optgroup>
+        </select>
+
+        <div class="numpad">
+          <div id="btn1" class="number_button" onclick="numWrite(1);">
+            <div>1</div>
+          </div>
+          <div id="btn2" class="number_button" onclick="numWrite(2);">
+            <div>2</div>
+          </div>
+          <div id="btn3" class="number_button" onclick="numWrite(3);">
+            <div>3</div>
+          </div>
+          <div id="btn4" class="number_button" onclick="numWrite(4);">
+            <div>4</div>
+          </div>
+          <div id="btn5" class="number_button" onclick="numWrite(5);">
+            <div>5</div>
+          </div>
+          <div id="btn6" class="number_button" onclick="numWrite(6);">
+            <div>6</div>
+          </div>
+          <div id="btn7" class="number_button" onclick="numWrite(7);">
+            <div>7</div>
+          </div>
+          <div id="btn8" class="number_button" onclick="numWrite(8);">
+            <div>8</div>
+          </div>
+          <div id="btn9" class="number_button" onclick="numWrite(9);">
+            <div>9</div>
+          </div>
+          <div id="btnclear" class="number_button" onclick="numWrite('clear');">
+            <div>C</div>
+          </div>
+          <div id="btn0" class="number_button" onclick="numWrite(0);">
+            <div>0</div>
+          </div>
+          <div id="btnback" class="number_button" onclick="numWrite('back');">
+            <div><img src="images/backspace.svg" width=24 height=auto></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div id="elecPanel" class="panel">
+      <button class="close" onclick="this.parentElement.style.display = 'none'">✖</button>
+      <div>
+        <p class="intro"></p>
+        <h1></h1>
+        <p id="profile"></p>
+        <button id="restart" onClick="restart()">
+          <img src="images/repeat.svg" width="20" height="20">
+        </button>
+        <label for="restart">Find another electorate</label>
+      </div>
     </div>
   </div>
 </body>
