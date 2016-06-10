@@ -6,7 +6,7 @@ var locs,
 var locFilename = "localities.json";
 var elecFilename = "electorates.json";
 
-var map, label, symbol;
+var map, lyr, label, symbol;
 
 //var ozExtent = {"xmin": 112.921112, "ymin": -54.640301,
 //                "xmax": 159.278717, "ymax": -9.22882};
@@ -120,8 +120,11 @@ function initMap() {
     drawMap = function (state, extent) {
       map.setExtent(new Extent(extent));
 
+      if (lyr) {
+        map.removeLayer(lyr);
+      }
       var url = urlPrefix + states[state].replace(/ /g, "_") + urlSuffix;
-      var lyr = new FeatureLayer(url, {
+      lyr = new FeatureLayer(url, {
         id: "lyr",
         outFields: [labelFields[state]]
       });
@@ -166,6 +169,7 @@ findPc = function (pc) {
     if (locs[i].p == pc) {
       pcLocs.push(locs[i]);
       if ("e" in locs[i] && !("l" in locs[i])) { // Pc has just 1 elec
+        closePanel("input");
         showElec(locs[i].e, locs[i]);
         break;
       }
@@ -182,10 +186,10 @@ findPc = function (pc) {
       // document.getElementById("pcInput").focus();
       break;
     case 1:
+      closePanel("input");
       if ("e" in pcLocs[0]) { // If there is an electorate, show it
         showElec(pcLocs[0].e, pcLocs[0]);
       } else { // Otherwise map the locality
-        document.getElementById("inputPanel").style.display = "none";
         drawMap(pcLocs[0].s, pcLocs[0].x);
         locText = titleCase(pcLocs[0].l) + " " + pcLocs[0].p;
         document.getElementById("mapHeader").innerHTML =
@@ -208,11 +212,11 @@ findPc = function (pc) {
 function findLoc(l) {
   for (var i = 0; i < pcLocs.length; i++) {
     if (pcLocs[i].l == l) {
+      closePanel("input");
       if ("e" in pcLocs[i]) {
         showElec(pcLocs[i].e, pcLocs[i]);
       } else {
         //        document.getElementById("inputPanel").style.display = "none";
-        closePanel("input");
         drawMap(pcLocs[i].s, pcLocs[i].x);
         document.getElementById("mapHeader").innerHTML =
           "Where in " + titleCase(l) + "? Click map.";
@@ -223,15 +227,10 @@ function findLoc(l) {
 }
 
 function showElec(elec, loc) {
-
-
-
   var elecDiv = document.getElementById("elecPanel");
 
-  if (loc) {
     elecDiv.querySelector(".intro").innerHTML =
       locString(loc) + " in the federal electorate of:";
-  }
   elecDiv.querySelector("h1").innerHTML = elec;
   elecDiv.querySelector("#profile").innerHTML = "<a href=\"" +
     elecs[elec].profile + "\" target=\"_blank\">Profile</a>";
@@ -241,19 +240,23 @@ function showElec(elec, loc) {
 function locString(loc) {
   var otherLocString = "All other places in";
   var string, locVerb = "is";
-
-  if (!("l" in loc)) {
-    string = "Postcode";
-  } else {
-    if (loc.l == "*") {
-      string = otherLocString;
-      locVerb = "are";
+  var mappedLocString = "Your location";
+  if (loc) {
+    if (!("l" in loc)) {
+      string = "Postcode";
     } else {
-      string = titleCase(loc.l);
+      if (loc.l == "*") {
+        string = otherLocString;
+        locVerb = "are";
+      } else {
+        string = titleCase(loc.l);
+      }
     }
-
+    string += " " + loc.p;
+  } else {
+    string = mappedLocString;
   }
-  return string + " " + loc.p + " " + locVerb;;
+  return string + " " + locVerb;
 }
 //
 //function restart() {
@@ -303,6 +306,6 @@ function openPanel(panel, btn) {
     default:
       break;
   }
-   // Open the shadow containing this panel
+  // Open the shadow containing this panel
   elem.parentElement.classList.remove('closed');
 }
