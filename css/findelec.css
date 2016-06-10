@@ -211,9 +211,10 @@ input[type=number]::-webkit-outer-spin-button {
   width: 100%;
   height: 100%;
 */
-  display: none;
+/*  display: none;*/
 }
 
+/*
 #elecPanel label {
   color: #008060;
 }
@@ -223,6 +224,7 @@ input[type=number]::-webkit-outer-spin-button {
   border: 0;
   vertical-align: middle;
 }
+*/
 
 
 /****************** MAP ELEMENTS *****************/

@@ -211,7 +211,8 @@ function findLoc(l) {
       if ("e" in pcLocs[i]) {
         showElec(pcLocs[i].e, pcLocs[i]);
       } else {
-        document.getElementById("inputPanel").style.display = "none";
+        //        document.getElementById("inputPanel").style.display = "none";
+        closePanel("input");
         drawMap(pcLocs[i].s, pcLocs[i].x);
         document.getElementById("mapHeader").innerHTML =
           "Where in " + titleCase(l) + "? Click map.";
@@ -223,7 +224,7 @@ function findLoc(l) {
 
 function showElec(elec, loc) {
 
-  document.getElementById("inputPanel").style.display = "none";
+
 
   var elecDiv = document.getElementById("elecPanel");
 
@@ -234,7 +235,7 @@ function showElec(elec, loc) {
   elecDiv.querySelector("h1").innerHTML = elec;
   elecDiv.querySelector("#profile").innerHTML = "<a href=\"" +
     elecs[elec].profile + "\" target=\"_blank\">Profile</a>";
-  elecDiv.style.display = "block";
+  openPanel("elec");
 }
 
 function locString(loc) {
@@ -254,19 +255,19 @@ function locString(loc) {
   }
   return string + " " + loc.p + " " + locVerb;;
 }
-
-function restart() {
-  document.getElementsByClassName("numpad")[0].style.display = "block";
-  document.getElementById("elecPanel").style.display = "none";
-  //            document.getElementById("locSel").style.display = "none";
-  document.getElementById("pcErr").style.display = "none";
-
-  var pcInput = document.getElementById("pcInput");
-  pcInput.value = "";
-  pcInput.focus();
-  disableNumBtns("");
-  //            pcInput.select();
-}
+//
+//function restart() {
+////  document.getElementsByClassName("numpad")[0].style.display = "block";
+////  document.getElementById("elecPanel").style.display = "none";
+//  //            document.getElementById("locSel").style.display = "none";
+//  document.getElementById("pcErr").style.display = "none";
+//
+//  var pcInput = document.getElementById("pcInput");
+//  pcInput.value = "";
+//  pcInput.focus();
+//  disableNumBtns("");
+//  //            pcInput.select();
+//}
 
 function titleCase(str) {
   return str.replace(/\w\S*/g, function (txt) {
@@ -274,15 +275,34 @@ function titleCase(str) {
   });
 }
 
-function closeInput() {
+function closePanel(panel) {
   //  elem.innerHTML = "";
-  document.getElementById("shadow").classList.add('closed');
+  var elem = document.getElementById(panel + "Panel");
+  if (panel == "input") {
+    elem.classList.add('closed');
+  }
+  // Close the shadow containing this panel
+  elem.parentElement.classList.add('closed');
 }
 
-function openInput(btn) {
+function openPanel(panel, btn) {
   //  panel.innerHTML = "";
-  document.getElementById("shadow").classList.remove('closed');
-
-  
-//  Open selected btn
+  var elem = document.getElementById(panel + "Panel");
+  switch (panel) {
+    case "input":
+      // elem.style.display = "block";
+      elem.classList.remove('closed');
+      document.getElementById("elecPanel").style.display = "none";
+      //  Open selected btn
+      break;
+    case "elec":
+      document.getElementById("inputPanel").classList.add('closed');
+      //      document.getElementById("inputPanel").style.display = "none";
+      elem.style.display = "block";
+      break;
+    default:
+      break;
+  }
+   // Open the shadow containing this panel
+  elem.parentElement.classList.remove('closed');
 }
