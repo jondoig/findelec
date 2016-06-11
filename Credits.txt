@@ -1,7 +1,18 @@
 _______________________________________
 Data
+Postcodes, localities, electorates:
+Australian Electoral Commission
+Accessed June 2016.
+http://apps.aec.gov.au/esearch/
+
+Profiles: http://www.aec.gov.au/profiles/index.htm
 
 
+Candidates:
+
+Candidates of the Australian federal election, 2016
+Wikipedia, accessed 10 June 2016.
+https://en.wikipedia.org/wiki/Candidates_of_the_Australian_federal_election,_2016
 _______________________________________
 
 Icons:
