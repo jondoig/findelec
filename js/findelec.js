@@ -37,7 +37,7 @@ function loadJson(url, func) {
   xhttp.send();
 }
 
-var findPc, drawMap;
+var findPc, findLoc, drawMap;
 
 function initMap() {
   require([
@@ -52,9 +52,10 @@ function initMap() {
         "esri/symbols/SimpleMarkerSymbol",
         "esri/renderers/SimpleRenderer",
         "esri/symbols/SimpleFillSymbol",
+        "esri/tasks/query",
         "esri/symbols/SimpleLineSymbol",
         "dojo/domReady!"
-    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol) {
+    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Query) {
 
     var drawColor = new Color("#008060");
 
@@ -103,6 +104,8 @@ function initMap() {
       ),
       new Color([0, 0, 0, 0])
     );
+    // Empty fill
+    //        new Color(drawColor), 3 // Rainforest green line 
 
     // create a text symbol to define the style of labels
     label = new TextSymbol().setColor(drawColor);
@@ -119,9 +122,7 @@ function initMap() {
     home.startup();
     document.getElementsByClassName("mapBtns")[0].style.display = "block";
 
-    drawMap = function (state, extent) {
-      map.setExtent(Extent(extent));
-
+    drawMap = function (state, extent, elec) {
       if (lyr) {
         map.removeLayer(lyr);
       }
@@ -130,6 +131,37 @@ function initMap() {
         id: "lyr",
         outFields: [labelFields[state]]
       });
+
+      if (extent) {
+        map.setExtent(Extent(extent));
+      } else {
+        if (!elec) {
+          console.log("ERROR: Call to drawMap without extent or elec");
+          return;
+        }
+
+        var query = new Query();
+        var where = labelFields[state] + " = '" + elec + "'";
+        query.where = where;
+        lyr.selectFeatures(query);
+
+        //use a fast bounding box query. will only go to the server if bounding box is outside of the visible map
+        //            lyr.queryFeatures(query, selectInBuffer);
+        lyr.on("selection-complete", function (evt) {
+          //          map.setExtent(evt.graphic.geometry.getExtent());
+          if (evt.features.length == 0) {
+            console.log("ERROR: " + evt.features.length +
+              " features with " + where + " in " + state);
+          } else {
+            if (evt.features.length > 1) {
+              console.log("WARNING: " + evt.features.length +
+                " features with " + where);
+            }
+            map.setExtent(evt.features[0].geometry.getExtent());
+          }
+        });
+
+      }
 
       lyr.setRenderer(new SimpleRenderer(symbol));
 
@@ -149,95 +181,100 @@ function initMap() {
         showElec(elec);
         map.setExtent(evt.graphic.geometry.getExtent());
       });
+
       map.addLayer(lyr);
     }
+
+    findPc = function (pc) {
+      var pc = pc.replace('\n', '').trim();
+      var elem = document.getElementById("locOptions");
+      var options = "<option hidden></option>\n";
+      var otherLocText = "*** OTHER PLACES ***";
+      var locText;
+
+      pcLocs = [];
+
+      if (!locs || locs == []) {
+        alert("No locations loaded (JSON not yet read)");
+      }
+
+      for (var i = 0; i < locs.length; i++) {
+        if (locs[i].p == pc) {
+          pcLocs.push(locs[i]);
+          if ("e" in locs[i] && !("l" in locs[i])) { // Pc has just 1 elec
+            closePanel("input");
+            showElec(locs[i].e, locs[i]);
+            map.setExtent(Extent(locs[i].x));
+            break;
+          }
+        }
+        if (locs[i].p > pc) {
+          break;
+        }
+      }
+
+      switch (pcLocs.length) {
+        case 0:
+          document.getElementById("pcErr").style.display = "initial";
+          alert("Invalid postcode: pcErr should be showing");
+          // document.getElementById("pcInput").focus();
+          break;
+        case 1:
+          closePanel("input");
+          if ("e" in pcLocs[0]) { // If there is an electorate, show it and zoom to it
+            showElec(pcLocs[0].e, pcLocs[0]);
+            map.setExtent(Extent(pcLocs[0].x));
+          } else { // Otherwise map the locality
+            drawMap(pcLocs[0].s, pcLocs[0].x);
+            locText = titleCase(pcLocs[0].l) + " " + pcLocs[0].p;
+            document.getElementById("mapHeader").innerHTML =
+              "Where in " + locText.trim() + "? Click map.";
+          }
+          break;
+        default: // Multiple locs in pc: show in drop-down
+          for (i = 0; i < pcLocs.length; i++) {
+            locText = (pcLocs[i].l == "*") ? otherLocText : pcLocs[i].l;
+            options += "<option value=\"" + pcLocs[i].l + "\">" + locText + "</option>\n";
+          }
+          elem.innerHTML = options;
+          elem.style.display = "initial";
+          var event = new MouseEvent('mousedown');
+          elem.parentElement.dispatchEvent(event);
+          break;
+      }
+    }
+
+    findLoc = function (l) {
+      for (var i = 0; i < pcLocs.length; i++) {
+        if (pcLocs[i].l == l) {
+          closePanel("input");
+          if ("e" in pcLocs[i]) {
+            showElec(pcLocs[i].e, pcLocs[i]);
+            drawMap(pcLocs[i].s, "", pcLocs[i].e);
+          } else {
+            //        document.getElementById("inputPanel").style.display = "none";
+            drawMap(pcLocs[i].s, pcLocs[i].x);
+            document.getElementById("mapHeader").innerHTML =
+              "Where in " + titleCase(l) + "? Click map.";
+          }
+          break;
+        }
+      }
+    }
+
   });
-}
-
-findPc = function (pc) {
-  var pc = pc.replace('\n', '').trim();
-  var elem = document.getElementById("locOptions");
-  var options = "<option hidden></option>\n";
-  var otherLocText = "*** OTHER PLACES ***";
-  var locText;
-
-  pcLocs = [];
-
-  if (!locs || locs == []) {
-    alert("No locations loaded (JSON not yet read)");
-  }
-
-  for (var i = 0; i < locs.length; i++) {
-    if (locs[i].p == pc) {
-      pcLocs.push(locs[i]);
-      if ("e" in locs[i] && !("l" in locs[i])) { // Pc has just 1 elec
-        closePanel("input");
-        showElec(locs[i].e, locs[i]);
-        break;
-      }
-    }
-    if (locs[i].p > pc) {
-      break;
-    }
-  }
-
-  switch (pcLocs.length) {
-    case 0:
-      document.getElementById("pcErr").style.display = "initial";
-      alert("Invalid postcode: pcErr should be showing");
-      // document.getElementById("pcInput").focus();
-      break;
-    case 1:
-      closePanel("input");
-      if ("e" in pcLocs[0]) { // If there is an electorate, show it
-        showElec(pcLocs[0].e, pcLocs[0]);
-      } else { // Otherwise map the locality
-        drawMap(pcLocs[0].s, pcLocs[0].x);
-        locText = titleCase(pcLocs[0].l) + " " + pcLocs[0].p;
-        document.getElementById("mapHeader").innerHTML =
-          "Where in " + locText.trim() + "? Click map.";
-      }
-      break;
-    default: // Multiple locs in pc: show in drop-down
-      for (i = 0; i < pcLocs.length; i++) {
-        locText = (pcLocs[i].l == "*") ? otherLocText : pcLocs[i].l;
-        options += "<option value=\"" + pcLocs[i].l + "\">" + locText + "</option>\n";
-      }
-      elem.innerHTML = options;
-      elem.style.display = "initial";
-      var event = new MouseEvent('mousedown');
-      elem.parentElement.dispatchEvent(event);
-      break;
-  }
-}
-
-function findLoc(l) {
-  for (var i = 0; i < pcLocs.length; i++) {
-    if (pcLocs[i].l == l) {
-      closePanel("input");
-      if ("e" in pcLocs[i]) {
-        showElec(pcLocs[i].e, pcLocs[i]);
-      } else {
-        //        document.getElementById("inputPanel").style.display = "none";
-        drawMap(pcLocs[i].s, pcLocs[i].x);
-        document.getElementById("mapHeader").innerHTML =
-          "Where in " + titleCase(l) + "? Click map.";
-      }
-      break;
-    }
-  }
 }
 
 function showElec(elec, loc) {
   var elecDiv = document.getElementById("elecPanel");
-  var profile = profileUrlPrefix + elec.replace("'","").replace(" ","-");
-  
+  var profile = profileUrlPrefix + elec.replace("'", "").replace(" ", "-");
+
   elecDiv.querySelector(".intro").innerHTML = locString(loc);
-//    locString(loc) + " in the federal electorate of:";
+  //    locString(loc) + " in the federal electorate of:";
   elecDiv.querySelector("h1").innerHTML = elec;
   elecDiv.querySelector("#profile").innerHTML = "<a href='" + profile + "'>Profile</a>";
   elecDiv.querySelector("#candList").innerHTML = formatCands(elec);
-  
+
   openPanel("elec");
 }
 
@@ -266,12 +303,12 @@ function locString(loc) {
 function formatCands(elec) {
   var list = "";
   var e = elecs[elec];
-  
+
   for (i = 0; i < e.length; i++) {
     list += "<div class='cand'><div class='candName'>" + e[i].n + "</div>";
     list += "<div class='partyName'>" + e[i].p + "</div></div>";
   }
-  
+
   return list;
 }
 //
