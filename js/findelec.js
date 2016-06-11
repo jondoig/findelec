@@ -17,6 +17,8 @@ var ozExtent = {
   "ymax": -9.599248
 };
 
+var profileUrlPrefix = "http://aec.gov.au/";
+
 loadJson(locFilename, function (json) {
   locs = json;
 });
@@ -228,12 +230,14 @@ function findLoc(l) {
 
 function showElec(elec, loc) {
   var elecDiv = document.getElementById("elecPanel");
-
-  elecDiv.querySelector(".intro").innerHTML =
-    locString(loc) + " in the federal electorate of:";
+  var profile = profileUrlPrefix + elec.replace("'","").replace(" ","-");
+  
+  elecDiv.querySelector(".intro").innerHTML = locString(loc);
+//    locString(loc) + " in the federal electorate of:";
   elecDiv.querySelector("h1").innerHTML = elec;
-  elecDiv.querySelector("#profile").innerHTML = "<a href=\"" +
-    elecs[elec].profile + "\" target=\"_blank\">Profile</a>";
+  elecDiv.querySelector("#profile").innerHTML = "<a href='" + profile + "'>Profile</a>";
+  elecDiv.querySelector("#candList").innerHTML = formatCands(elec);
+  
   openPanel("elec");
 }
 
@@ -256,7 +260,19 @@ function locString(loc) {
   } else {
     string = mappedLocString;
   }
-  return string + " " + locVerb;
+  return string + " " + locVerb + " in:";
+}
+
+function formatCands(elec) {
+  var list = "";
+  var e = elecs[elec];
+  
+  for (i = 0; i < e.length; i++) {
+    list += "<div class='cand'><div class='candName'>" + e[i].n + "</div>";
+    list += "<div class='partyName'>" + e[i].p + "</div></div>";
+  }
+  
+  return list;
 }
 //
 //function restart() {

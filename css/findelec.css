@@ -9,15 +9,6 @@ body {
   background-color: #e6ecff;
 }
 
-h1 {
-  padding: 5px 0;
-  color: #008060;
-  height: auto;
-  width: auto;
-  /* Rainforest */
-  text-align: center;
-}
-
 
 /***************** PANEL ELEMENTS ****************/
 
@@ -28,7 +19,7 @@ h1 {
   z-index: 59;
   background-color: rgba( 0, 0, 0, 0.5);
   opacity: 1;
-    /*
+  /*
   -webkit-
   -moz-
   -ms-
@@ -211,8 +202,9 @@ input[type=number]::-webkit-outer-spin-button {
   width: 100%;
   height: 100%;
 */
-/*  display: none;*/
+  /*  display: none;*/
 }
+
 
 /*
 #elecPanel label {
@@ -225,6 +217,58 @@ input[type=number]::-webkit-outer-spin-button {
   vertical-align: middle;
 }
 */
+
+.panel h1 {
+  padding: 5px 0;
+  color: hsl(165, 100%, 25%);
+  height: auto;
+  width: auto;
+  /* Rainforest */
+  text-align: center;
+  margin: 10px 0;
+}
+
+.panel h2 {
+  padding: 5px 0;
+  color: hsl(165, 100%, 25%);
+  height: auto;
+  width: auto;
+  /* Rainforest */
+  text-align: left;
+  margin: 5px 0;
+}
+
+.panel p {
+  margin: 5px 0;
+}
+
+.panel p.intro {
+  text-align: left;
+  font-size: 16px;
+  color: #444444;
+}
+
+#candList {
+  display: table;
+  max-height: 300px;
+  width: 300px;
+  overflow-y: auto;
+  border-collapse: collapse;
+}
+
+.cand {
+  display: table-row;
+  margin: 5px 0;
+  background-color: #eeeeee;
+  border: solid 1px hsl(165, 50%, 75%);
+}
+
+.candName,
+.partyName {
+  display: table-cell;
+  padding: 5px;
+  text-align: left;
+}
 
 
 /****************** MAP ELEMENTS *****************/
