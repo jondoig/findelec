@@ -52,10 +52,13 @@ function initMap() {
         "esri/symbols/SimpleMarkerSymbol",
         "esri/renderers/SimpleRenderer",
         "esri/symbols/SimpleFillSymbol",
+//        "esri/graphic",
         "esri/tasks/query",
         "esri/symbols/SimpleLineSymbol",
         "dojo/domReady!"
+//    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Graphic, Query) {
     ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Query) {
+    //        ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol) {
 
     var drawColor = new Color("#008060");
 
@@ -132,37 +135,6 @@ function initMap() {
         outFields: [labelFields[state]]
       });
 
-      if (extent) {
-        map.setExtent(Extent(extent));
-      } else {
-        if (!elec) {
-          console.log("ERROR: Call to drawMap without extent or elec");
-          return;
-        }
-
-        var query = new Query();
-        var where = labelFields[state] + " = '" + elec + "'";
-        query.where = where;
-        lyr.selectFeatures(query);
-
-        //use a fast bounding box query. will only go to the server if bounding box is outside of the visible map
-        //            lyr.queryFeatures(query, selectInBuffer);
-        lyr.on("selection-complete", function (evt) {
-          //          map.setExtent(evt.graphic.geometry.getExtent());
-          if (evt.features.length == 0) {
-            console.log("ERROR: " + evt.features.length +
-              " features with " + where + " in " + state);
-          } else {
-            if (evt.features.length > 1) {
-              console.log("WARNING: " + evt.features.length +
-                " features with " + where);
-            }
-            map.setExtent(evt.features[0].geometry.getExtent());
-          }
-        });
-
-      }
-
       lyr.setRenderer(new SimpleRenderer(symbol));
 
       // create a text symbol to define the style of labels
@@ -183,6 +155,51 @@ function initMap() {
       });
 
       map.addLayer(lyr);
+
+      //      var highlightSymbol = new SimpleFillSymbol(
+      //        SimpleFillSymbol.STYLE_SOLID,
+      //        new SimpleLineSymbol(
+      //          SimpleLineSymbol.STYLE_SOLID,
+      //          new Color([128, 60, 0]), 5
+      //        ),
+      //        new Color([0, 128, 96, 0.35])
+      //      );
+
+
+      if (extent) {
+        map.setExtent(Extent(extent));
+      } else {
+        if (!elec) {
+          console.log("ERROR: Call to drawMap without extent or elec");
+          return;
+        }
+
+        lyr.on("selection-complete", function (evt) {
+          //          map.setExtent(evt.graphic.geometry.getExtent());
+          if (evt.features.length == 0) {
+            console.log("ERROR: " + evt.features.length +
+              " features with " + where + " in " + state);
+          } else {
+            if (evt.features.length > 1) {
+              console.log("WARNING: " + evt.features.length +
+                " features with " + where);
+            }
+            //            var highlightGraphic = new Graphic(evt.features[0].geometry, highlightSymbol);
+            //            map.graphics.add(highlightGraphic);
+
+            map.setExtent(evt.features[0].geometry.getExtent());
+            //            lyr.clearSelection();
+          }
+        });
+
+        var query = new Query();
+        var where = labelFields[state] + " = '" + elec + "'";
+        query.where = where;
+        lyr.selectFeatures(query);
+
+        //use a fast bounding box query. will only go to the server if bounding box is outside of the visible map
+        //            lyr.queryFeatures(query, selectInBuffer);
+      }
     }
 
     findPc = function (pc) {
@@ -303,14 +320,31 @@ function locString(loc) {
 function formatCands(elec) {
   var list = "";
   var e = elecs[elec];
-
+  var img, alt, imgPath = "images/cands/";
   for (i = 0; i < e.length; i++) {
-    list += "<div class='cand'><div class='candName'>" + e[i].n + "</div>";
-    list += "<div class='partyName'>" + e[i].p + "</div></div>";
+    if (i > 0) {
+      list += "<tr class='gap'></tr>";
+    }
+    img = e[i].n + " " + e[i].p + " " + elec + ".jpg";
+    img = imgPath + img.replace(/ /g,"_").toLowerCase();
+    alt = e[i].n + " " + e[i].p + " for " + elec;
+    list += "<tr class='cand'>";
+      list += "<td class='candName'>";
+        list += "<img src='" + img + "' alt='" + alt + "' onerror='imgError(this);'>";
+        list += e[i].n;
+      list += "</td>";
+      list += "<td class='partyName'>" + e[i].p + "</td>";
+    list += "</tr>";
   }
-
   return list;
 }
+
+function imgError(image) {
+    image.onerror = "";
+    image.src = "images/blank.png";
+    return true;
+}
+
 //
 //function restart() {
 ////  document.getElementsByClassName("numpad")[0].style.display = "block";

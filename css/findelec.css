@@ -42,7 +42,8 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin: 20px;
+  /*  margin: 20px;*/
+  margin: auto;
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.75);
@@ -88,11 +89,14 @@ button.close:active {
   opacity: 1;
 }
 
+
+/*
 #elecPanel > div,
 #inputPanel > div {
   display: inline-block;
   position: relative;
 }
+*/
 
 #pcInput,
 #pcButton {
@@ -194,35 +198,14 @@ input[type=number]::-webkit-outer-spin-button {
 */
 
 #elecPanel {
-  /*
-  bottom: 0;
-  right: 0;
-*/
-  /*
-  width: 100%;
-  height: 100%;
-*/
-  /*  display: none;*/
+  width: 70%;
+  max-height: 90%;
+  /*  overflow-y: auto;*/
 }
-
-
-/*
-#elecPanel label {
-  color: #008060;
-}
-
-#restart {
-  background: transparent;
-  border: 0;
-  vertical-align: middle;
-}
-*/
 
 .panel h1 {
   padding: 5px 0;
   color: hsl(165, 100%, 25%);
-  height: auto;
-  width: auto;
   /* Rainforest */
   text-align: center;
   margin: 10px 0;
@@ -231,8 +214,6 @@ input[type=number]::-webkit-outer-spin-button {
 .panel h2 {
   padding: 5px 0;
   color: hsl(165, 100%, 25%);
-  height: auto;
-  width: auto;
   /* Rainforest */
   text-align: left;
   margin: 5px 0;
@@ -248,26 +229,41 @@ input[type=number]::-webkit-outer-spin-button {
   color: #444444;
 }
 
-#candList {
-  display: table;
-  max-height: 300px;
-  width: 300px;
+#cands {
+  max-height: 200px;
   overflow-y: auto;
+}
+
+table#candList {
+  /*  display: table;*/
+  width: 100%;
   border-collapse: collapse;
 }
 
-.cand {
-  display: table-row;
+tr.gap {
+  height: 5px;
+}
+
+tr.cand {
+  /*  display: table-row;*/
   margin: 5px 0;
   background-color: #eeeeee;
   border: solid 1px hsl(165, 50%, 75%);
 }
 
-.candName,
-.partyName {
-  display: table-cell;
+td.candName,
+td.partyName {
+  /*  display: table-cell;*/
   padding: 5px;
   text-align: left;
+  vertical-align: bottom;
+}
+
+.cand img {
+  max-width: 100px;
+/*  width: auto;*/
+  height: 100px;
+  margin-right: 10px;
 }
 
 

@@ -1,6 +1,9 @@
 # Backup folder
 old/
 
+# Candidate images
+images/cands/
+
 # Test files
 *test*
 
