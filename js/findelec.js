@@ -321,28 +321,36 @@ function formatCands(elec) {
   var list = "";
   var e = elecs[elec];
   var img, alt, imgPath = "images/cands/";
+  majors = ["Greens", "Labor", "Lib", "Nat"];
+
   for (i = 0; i < e.length; i++) {
     if (i > 0) {
       list += "<tr class='gap'></tr>";
     }
     img = e[i].n + " " + e[i].p + " " + elec + ".jpg";
-    img = imgPath + img.replace(/ /g,"_").toLowerCase();
+    img = imgPath + img.replace(/ /g, "_").toLowerCase();
     alt = e[i].n + " " + e[i].p + " for " + elec;
     list += "<tr class='cand'>";
-      list += "<td class='candName'>";
-        list += "<img src='" + img + "' alt='" + alt + "' onerror='imgError(this);'>";
-        list += e[i].n;
-      list += "</td>";
-      list += "<td class='partyName'>" + e[i].p + "</td>";
+    list += "<td class='candName'>";
+
+    // Only have photos for major party candidates
+    if (e[i].p in majors) {
+      list += "<img src='" + img + "' alt='" + alt + "' onerror='imgError(this);'>";
+    }
+    list += e[i].n;
+    list += "</td>";
+    list += "<td class='partyName'>" + e[i].p + "</td>";
     list += "</tr>";
   }
   return list;
 }
 
 function imgError(image) {
-    image.onerror = "";
-    image.src = "images/blank.png";
-    return true;
+  image.onerror = "";
+  image.src = "images/blank.png";
+  image.width = 0;
+  image.height = 0;
+  return true;
 }
 
 //
