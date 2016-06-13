@@ -6,23 +6,24 @@ function numWrite(n) {
     return
   }
 
-  var text_box = document.getElementById("pcInput");
+  var textBox = document.getElementById("pcInput");
   switch (n) {
     case "back":
-      text_box.value = text_box.value.slice(0, -1);
+      textBox.value = textBox.value.slice(0, -1);
+      document.getElementById("pcErr").style.display = "none";
       break;
     case "clear":
-      text_box.value = "";
+      clearInput();
       break;
     default:
-      text_box.value += n;
+      textBox.value += n;
       break;
   }
-//  if (text_box.value.length == 4) {
-//    console.log("Bingo! Postcode is " + text_box.value +
-//      ".\nClose numpad and process postcode.");
-//  }
-  disableNumBtns(text_box.value);
+  //  if (textBox.value.length == 4) {
+  //    console.log("Bingo! Postcode is " + textBox.value +
+  //      ".\nClose numpad and process postcode.");
+  //  }
+  disableNumBtns(textBox.value);
 }
 
 function disableNumBtns(n) {

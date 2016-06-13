@@ -37,7 +37,6 @@ function loadJson(url, func) {
   xhttp.send();
 }
 
-//var findPc, findLoc, drawMap;
 var drawMap;
 
 function initMap() {
@@ -208,10 +207,6 @@ function initMap() {
 
 function findPc(pc) {
   var pc = pc.replace('\n', '').trim();
-  var elem = document.getElementById("locOptions");
-  var options = "<option hidden></option>\n";
-  var otherLocText = "*** OTHER PLACES ***";
-  var locText;
 
   pcLocs = [];
 
@@ -249,22 +244,37 @@ function findPc(pc) {
         //            map.setExtent(Extent(pcLocs[0].x));
       } else { // Otherwise map the locality
         drawMap(pcLocs[0].s, pcLocs[0].x);
-        locText = titleCase(pcLocs[0].l) + " " + pcLocs[0].p;
+        var locText = titleCase(pcLocs[0].l) + " " + pcLocs[0].p;
         document.getElementById("mapHeader").innerHTML =
           "Where in " + locText.trim() + "? Click map.";
       }
       break;
     default: // Multiple locs in pc: show in drop-down
-      for (i = 0; i < pcLocs.length; i++) {
-        locText = (pcLocs[i].l == "*") ? otherLocText : pcLocs[i].l;
-        options += "<option value=\"" + pcLocs[i].l + "\">" + locText + "</option>\n";
-      }
-      elem.innerHTML = options;
-      elem.style.display = "initial";
-      var event = new MouseEvent('mousedown');
-      elem.parentElement.dispatchEvent(event);
+      showLocs(pcLocs);
       break;
   }
+}
+
+function showLocs(locs) {
+  var selElem = document.getElementById("locSel"),
+    optElem = selElem.querySelector("#locOptions");
+  var options = "<option hidden></option>\n",
+    otherLocText = "*** OTHER PLACES ***",
+    locText;
+  var event = new MouseEvent('mousedown');
+
+  for (i = 0; i < locs.length; i++) {
+    locText = (locs[i].l == "*") ? otherLocText : locs[i].l;
+    options += "<option value=\"" + locs[i].l + "\">" + locText + "</option>\n";
+  }
+
+  optElem.innerHTML = options;
+  selElem.style.display = "initial";
+  //  selElem.focus();
+  //  selElem.select();
+  window.setTimeout(function () {
+    selElem.dispatchEvent(event);
+  }, 50);
 }
 
 function findLoc(l) {
@@ -381,9 +391,17 @@ function closePanel(panel) {
   var elem = document.getElementById(panel + "Panel");
   if (panel == "input") {
     elem.classList.add('closed');
+    clearInput();
   }
   // Close the shadow containing this panel
   elem.parentElement.classList.add('closed');
+}
+
+function clearInput() {
+  document.getElementById("pcInput").value = "";
+  disableNumBtns("");
+  document.getElementById("locSel").style.display = "none";
+  document.getElementById("pcErr").style.display = "none";
 }
 
 function openPanel(panel, btn) {
