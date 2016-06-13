@@ -347,7 +347,8 @@ function formatCands(elec) {
     list += "<td class='candName'>";
 
     // Only have photos for major party candidates
-    if (e[i].p in majors) {
+    //    if (e[i].p in majors) {
+    if (majors.indexOf(e[i].p) > -1) {
       list += "<img src='" + img + "' alt='" + alt + "' onerror='imgError(this);'>";
     }
     list += e[i].n;
@@ -361,8 +362,8 @@ function formatCands(elec) {
 function imgError(image) {
   image.onerror = "";
   image.src = "images/blank.png";
-  image.width = 0;
-  image.height = 0;
+  image.style.width = 0;
+  image.style.height = 0;
   return true;
 }
 
