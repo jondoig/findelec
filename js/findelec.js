@@ -3,8 +3,9 @@ var locs,
   elecs;
 
 //var locFilename = "localtest.json";
-var locFilename = "localities.json";
-var elecFilename = "electorates.json";
+var locFilename = "localities.json",
+  elecFilename = "electorates.json",
+  partyFilename = "parties.json";
 
 var map, lyr, label, symbol;
 
@@ -18,12 +19,14 @@ var ozExtent = {
 };
 
 var profileUrlPrefix = "http://aec.gov.au/";
-
 loadJson(locFilename, function (json) {
   locs = json;
 });
 loadJson(elecFilename, function (json) {
   elecs = json;
+});
+loadJson(partyFilename, function (json) {
+  parties = json;
 });
 
 function loadJson(url, func) {
@@ -53,12 +56,12 @@ function initMap() {
         "esri/renderers/SimpleRenderer",
         "esri/symbols/SimpleFillSymbol",
 //        "esri/graphic",
-        "esri/tasks/query",
+//        "esri/tasks/query",
         "esri/symbols/SimpleLineSymbol",
         "dojo/domReady!"
 //    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Graphic, Query) {
-    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Query) {
-    //        ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol) {
+//    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Query) {
+            ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol) {
 
     var drawColor = new Color("#008060");
 
@@ -93,9 +96,9 @@ function initMap() {
       //      extent: new Extent(west, south, east, north),
       showLabels: true,
       extent: new Extent(ozExtent),
-      fitExtent: true,
-      minScale: 40000000, // User cannot zoom out beyond 1:40m (Australia)
-      maxScale: 9000 // User cannot zoom in beyond 1:9k (street)
+      fitExtent: true
+        //      ,minScale: 40000000, // User cannot zoom out beyond 1:40m (Australia)
+        //      maxScale: 9000 // User cannot zoom in beyond 1:9k (street)
     });
 
     //create symbol to draw the electorates layer
@@ -245,8 +248,9 @@ function findPc(pc) {
       } else { // Otherwise map the locality
         drawMap(pcLocs[0].s, pcLocs[0].x);
         var locText = titleCase(pcLocs[0].l) + " " + pcLocs[0].p;
-        document.getElementById("mapHeader").innerHTML =
-          "Where in " + locText.trim() + "? Click map.";
+        var mapHdrElem = document.getElementById("mapHeader");
+        mapHdrElem.innerHTML = "<h2>Where in " + locText.trim() + "?</h2><p>Click map</p>";
+        mapHdrElem.classList.remove('closed');
       }
       break;
     default: // Multiple locs in pc: show in drop-down
@@ -287,8 +291,9 @@ function findLoc(l) {
       } else {
         //        document.getElementById("inputPanel").style.display = "none";
         drawMap(pcLocs[i].s, pcLocs[i].x);
-        document.getElementById("mapHeader").innerHTML =
-          "Where in " + titleCase(l) + "? Click map.";
+        var mapHdrElem = document.getElementById("mapHeader");
+        mapHdrElem.innerHTML = "<h2>Where in " + titleCase(l) + "?</h2><p>Click map</p>";
+        mapHdrElem.classList.remove('closed');
       }
       break;
     }
@@ -332,28 +337,73 @@ function locString(loc) {
 
 function formatCands(elec) {
   var list = "";
-  var e = elecs[elec];
+  //  var e = elecs[elec];
   var img, alt, imgPath = "images/cands/";
-  majors = ["Greens", "Labor", "Lib", "Nat"];
+  var cand, party;
+  var candLink, candLinkClass, candFbLink, partyLink, partyFbLink;
+  var fbBaseUrl = "//facebook.com/";
+  var googleIFLuckyBaseUrl = "//google.com.au/search?btnI=I&q="
 
-  for (i = 0; i < e.length; i++) {
+  for (i = 0; i < elecs[elec].length; i++) {
     if (i > 0) {
       list += "<tr class='gap'></tr>";
     }
-    img = e[i].n + " " + e[i].p + " " + elec + ".jpg";
-    img = imgPath + img.replace(/ /g, "_").toLowerCase();
-    alt = e[i].n + " " + e[i].p + " for " + elec;
+    cand = elecs[elec][i];
     list += "<tr class='cand'>";
     list += "<td class='candName'>";
 
-    // Only have photos for major party candidates
-    //    if (e[i].p in majors) {
-    if (majors.indexOf(e[i].p) > -1) {
-      list += "<img src='" + img + "' alt='" + alt + "' onerror='imgError(this);'>";
+    partyLink = cand.p;
+    partyfbLink = "";
+
+    if (parties.hasOwnProperty(cand.p)) { // Include details for cand's party
+      party = parties[cand.p];
+      partyLink = party["n"] || cand.p;
+      // I only have candidate photos for major parties
+      if (party["major"] == true) {
+        img = cand.n + " " + cand.p + " " + elec + ".jpg";
+        img = imgPath + img.replace(/ /g, "_").toLowerCase();
+        alt = cand.n + " " + partyLink + "candidate for " + elec;
+        list += "<img src='" + img + "' alt='" + alt + "' onerror='imgError(this);'>";
+      }
+      if (party["u"]) { // Add party website if available
+        partyLink = "<a class='partyLink' href='http://" +
+          party["u"] + "' target='_blank'>" + partyLink + "</a>";
+      }
+      if (party["f"]) { // Add party facebook link if available
+        partyfbLink = "<a class='fbLink' href='" + fbBaseUrl +
+          party["f"] + "' target='_blank'>" + "</a>";
+      }
     }
-    list += e[i].n;
-    list += "</td>";
-    list += "<td class='partyName'>" + e[i].p + "</td>";
+
+    if (cand["u"]) { // Add candidate page from party (or other) website if available
+      if (cand["u"].length == 1) {
+        if (cand["u"][0].substring(0, 2) == "//") {
+          candLink = cand["u"][0];
+        } else { // Join party website and candidate path
+          candLink = "http://" + party["u"] + "/" + cand["u"][0];
+        }
+      } else { // two items in candidate URL array: sub-domain and path
+        candLink = "http://" + cand["u"][0] + "." + party["u"] + "/" + cand["u"][1];
+      }
+      candLinkClass = "candLink";
+    } else {
+      // No link: use Google I'm Feeling Lucky
+      candLink = googleIFLuckyBaseUrl + encodeURI(cand.n + " " + cand.p + " " + elec);
+      candLinkClass = "candLink guess";
+    }
+    candLink = "<a class='" + candLinkClass + "' href='" +
+      candLink + "' target='_blank'>" + cand.n + "</a>";
+
+    if (cand["f"]) { // Add candidate facebook link if available
+      candfbLink = "<a class='fbLink' href='" +
+        fbBaseUrl + cand["f"] + "' target='_blank'>" + "</a>";
+    } else {
+      candfbLink = "";
+    }
+
+    list += candLink + candfbLink + "</td>";
+    list += "<td class='partyName'>" + partyLink +
+      partyfbLink + "</td>";
     list += "</tr>";
   }
   return list;
@@ -396,6 +446,9 @@ function closePanel(panel) {
   }
   // Close the shadow containing this panel
   elem.parentElement.classList.add('closed');
+
+  // Hide the map header
+  document.getElementById("mapHeader").classList.add('closed');
 }
 
 function clearInput() {

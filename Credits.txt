@@ -11,8 +11,13 @@ Profiles: http://www.aec.gov.au/profiles/index.htm
 Candidates:
 
 Candidates of the Australian federal election, 2016
-Wikipedia, accessed 10 June 2016.
-https://en.wikipedia.org/wiki/Candidates_of_the_Australian_federal_election,_2016
+http://www.aec.gov.au/election/candidates.htm
+_______________________________________
+
+Candidate photos:
+
+From major party sites (Greens, Labor, Liberal, National)
+
 _______________________________________
 
 Icons:
