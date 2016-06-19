@@ -42,21 +42,17 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
   <div id="shadow">
     <div id="inputPanel" class="panel">
       <button class="close" onclick="closePanel('input')">✖</button>
-      <div>
-        <!--        <label for="pcInput">Postcode:</label>-->
-        <input id="pcInput" class="text_box" placeholder="Postcode" type="text" pattern="^(0(8([0-9][0-9]?)?)?|^[2-4]([0-9]([0-9][0-9]?)?)?|^5([0-8]([0-9][0-9]?)?)?|^6([0-6]([0-9][0-9]?)?)?|^6(7([0-8][0-9]?)?)?|^6(7(9[0-7]?)?)?|^7([0-7]([0-9][0-9]?)?)?)$" onClick="clearInput()" onkeydown="if (event.keyCode == 13) {document.getElementById('pcButton').click()}">
-        <button id="pcButton" onClick="findPc( document.getElementById('pcInput').value)">Go</button>
-        <br>
-        <p id="pcErr">Invalid postcode</p>
+        <input id="pcInput" class="inputBtn" placeholder="Postcode" type="text" pattern="^(0(8([0-9][0-9]?)?)?|^[2-4]([0-9]([0-9][0-9]?)?)?|^5([0-8]([0-9][0-9]?)?)?|^6([0-6]([0-9][0-9]?)?)?|^6(7([0-8][0-9]?)?)?|^6(7(9[0-7]?)?)?|^7([0-7]([0-9][0-9]?)?)?)$" onClick="this.classList.add('active'); clearInput(); if (!mouse) document.getElementById('numpad').classList.remove('closed')" onBlur="deactivate(this)" onkeyup="switch (this.value.length) {case 4: findPc(this.value); break; case 3: document.getElementById('pcErr').style.display = 'none'; break; default: break;}">
         <select id="locSel" onchange="findLoc(this.value)">
           <optgroup id="locOptions" label="Please select"></optgroup>
         </select>
+        <p id="pcErr">Invalid postcode</p>
 
-        <div class="numpad">
+        <div id="numpad" class="closed">
           <div id="btn1" class="number_button" onclick="numWrite(1);">
             <div>1</div>
           </div>
-          <div id="btn2" class="number_button" onclick="numWrite(2);">
+          <div id="btn2" class="number_button" onclick="numWrite(2)">
             <div>2</div>
           </div>
           <div id="btn3" class="number_button" onclick="numWrite(3);">
@@ -71,7 +67,7 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
           <div id="btn6" class="number_button" onclick="numWrite(6);">
             <div>6</div>
           </div>
-          <div id="btn7" class="number_button" onclick="numWrite(7);">
+          <div id="btn7" class="number_button" onclick="numWrite(7)">
             <div>7</div>
           </div>
           <div id="btn8" class="number_button" onclick="numWrite(8);">
@@ -90,15 +86,20 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             <div><img src="images/backspace.svg" width=24 height=auto></div>
           </div>
         </div>
+        <input id="elecInput" class="inputBtn" placeholder="Electorate" list="elecList" onClick="deactivate(document.getElementById('pcInput')); this.classList.add('active')" onBlur="deactivate(this)" onInput=" showElec(this.value); closePanel('input')">
+        <datalist id="elecList">
+        </datalist>
+        <select id="elecInputPolyfill" onChange="showElec(this.value)"></select>
+        <button id="locateBtn" class="inputBtn" onClick="locate()" width="100">Locate me</button>
 
-      </div>
+
     </div>
   </div>
   <div id="shadow" class="closed">
     <div id="elecPanel" class="panel">
       <button class="close" onclick="closePanel('elec')">✖</button>
       <div>
-        <p class="intro"></p>
+        <!--        <p class="intro"></p>-->
         <h1></h1>
         <p id="profile"></p>
         <h2>Candidates</h2>

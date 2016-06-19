@@ -19,10 +19,9 @@ function numWrite(n) {
       textBox.value += n;
       break;
   }
-  //  if (textBox.value.length == 4) {
-  //    console.log("Bingo! Postcode is " + textBox.value +
-  //      ".\nClose numpad and process postcode.");
-  //  }
+  if (textBox.value.length == 4) {
+    findPc(textBox.value);
+  }
   disableNumBtns(textBox.value);
 }
 

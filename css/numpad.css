@@ -2,14 +2,35 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.numpad {
+/*
+#numpad {
+  display: initial;
+  position: relative;
+    top: 0;
+    z-index: 2;
+}
+*/
+
+#numpad.closed {
+  /*
+  top: -100%;
+  z-index: -1;
+*/
+  display: none;
+}
+
+#numpad {
+/*  position:relative;*/
   height: 180px;
   width: 135px;
-  background-color: #ccccff;
+/*  background-color: #ccccff;*/
+  background-color: #d2eef9;
   border-radius: 10px;
   padding: 10px;
-  /*  clear: both;*/
-  /*  overflow: auto;*/
+  margin: 15px 0 0 5px;
+/*  margin-bottom: 20px;*/
+/*  clear: both;*/
+/*  overflow: auto;*/
 }
 
 .number_button {

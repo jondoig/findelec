@@ -24,10 +24,27 @@ loadJson(locFilename, function (json) {
 });
 loadJson(elecFilename, function (json) {
   elecs = json;
+  loadElecs();
 });
 loadJson(partyFilename, function (json) {
   parties = json;
 });
+
+// Detect mouse movement
+var mouse = false;
+var pcInputElem = document.getElementById("pcInput");
+
+function mouseListen() {
+  pcInputElem.removeEventListener('mouseover', mouseListen, false);
+  // If pcInput not clicked in 10ms, there's a mouse
+  window.setTimeout(function () {
+    if (!hasClass(pcInputElem, "active")) {
+      mouse = true;
+    }
+  }, 10);
+};
+
+pcInputElem.addEventListener('mouseover', mouseListen, false);
 
 function loadJson(url, func) {
   var xhttp = new XMLHttpRequest();
@@ -38,6 +55,21 @@ function loadJson(url, func) {
   };
   xhttp.open("GET", url, true);
   xhttp.send();
+}
+
+// Load  electorates into datalist if supported, otherwise into select options
+function loadElecs() {
+  var options = "";
+  var elecArray = Object.keys(elecs).sort();
+
+  for (var i = 0; i < elecArray.length; i++) {
+    options += "<option value=\"" + elecArray[i] + "\">" + elecArray[i] + "</option>\n";
+  }
+  if ("options" in document.createElement("datalist")) {
+    document.getElementById("elecList").innerHTML = options;
+  } else {
+    document.getElementById("elecListPolyfill").innerHTML = options;
+  }
 }
 
 var drawMap;
@@ -153,6 +185,7 @@ function initMap() {
       lyr.on("click", function (evt) {
         var attrs = evt.graphic.attributes;
         var elec = attrs[Object.keys(attrs)[0]]; // First and only attribute
+        document.getElementById("mapHeader").classList.add('closed');
         showElec(elec);
         map.setExtent(evt.graphic.geometry.getExtent());
       });
@@ -236,7 +269,7 @@ function findPc(pc) {
   switch (pcLocs.length) {
     case 0:
       document.getElementById("pcErr").style.display = "initial";
-      alert("Invalid postcode: pcErr should be showing");
+      //      alert("Invalid postcode: pcErr should be showing");
       // document.getElementById("pcInput").focus();
       break;
     case 1:
@@ -254,7 +287,11 @@ function findPc(pc) {
       }
       break;
     default: // Multiple locs in pc: show in drop-down
+      if (!mouse) {
+        document.getElementById("numpad").classList.add("closed");
+      }
       showLocs(pcLocs);
+      document.getElementById("pcInput").classList.add("active");
       break;
   }
 }
@@ -303,9 +340,14 @@ function findLoc(l) {
 function showElec(elec, loc) {
   var elecDiv = document.getElementById("elecPanel");
   var profile = profileUrlPrefix + elec.replace("'", "").replace(" ", "-");
+  //  var introElem = elecDiv.querySelector(".intro");
+  //  if (loc) {
+  //    introElem.innerHTML = locString(loc);
+  //    introElem.style.display = "initial";
+  //  } else {
+  //    introElem.style.display = "none";
+  //  }
 
-  elecDiv.querySelector(".intro").innerHTML = locString(loc);
-  //    locString(loc) + " in the federal electorate of:";
   elecDiv.querySelector("h1").innerHTML = elec;
   elecDiv.querySelector("#profile").innerHTML = "<a href='" + profile + "'>Profile</a>";
   elecDiv.querySelector("#candList").innerHTML = formatCands(elec);
@@ -313,27 +355,33 @@ function showElec(elec, loc) {
   openPanel("elec");
 }
 
-function locString(loc) {
-  var otherLocString = "All other places in";
-  var string, locVerb = "is";
-  var mappedLocString = "Your location";
-  if (loc) {
-    if (!("l" in loc)) {
-      string = "Postcode";
-    } else {
-      if (loc.l == "*") {
-        string = otherLocString;
-        locVerb = "are";
-      } else {
-        string = titleCase(loc.l);
-      }
-    }
-    string += " " + loc.p;
-  } else {
-    string = mappedLocString;
-  }
-  return string + " " + locVerb + " in:";
+function locate() {
+
 }
+
+//function locString(loc) {
+//  var otherLocString = "All other places in";
+//  var string, locVerb = "is";
+////  var mappedLocString = "Your location";
+////  if (loc) {
+//    if (!("l" in loc)) {
+//      string = "Postcode";
+//    } else {
+//      if (loc.l == "*") {
+//        string = otherLocString;
+//        locVerb = "are";
+//      } else {
+//        string = titleCase(loc.l);
+//      }
+//    }
+//    string += " " + loc.p;
+//    return string + " " + locVerb + " in:";
+////  } else {
+////    return "";
+////    // Can't assume mapped: can be from elecInput
+////    // string = mappedLocString;
+////  }
+//}
 
 function formatCands(elec) {
   var list = "";
@@ -361,7 +409,7 @@ function formatCands(elec) {
       // I only have candidate photos for major parties
       if (party["major"] == true) {
         img = cand.n + " " + cand.p + " " + elec + ".jpg";
-        img = imgPath + img.replace(/ /g, "_").toLowerCase();
+        img = imgPath + img.replace(/ /g, "_").replace(/\'/g, "").toLowerCase();
         alt = cand.n + " " + partyLink + "candidate for " + elec;
         list += "<img src='" + img + "' alt='" + alt + "' onerror='imgError(this);'>";
       }
@@ -441,7 +489,15 @@ function closePanel(panel) {
   //  elem.innerHTML = "";
   var elem = document.getElementById(panel + "Panel");
   if (panel == "input") {
-    elem.classList.add('closed');
+//    if (!mouse) {
+//      document.getElementById("numpad").classList.add("closed");
+//    }
+    var inputs = elem.querySelectorAll(".inputBtn:not(button)");
+    for (var i = 0; i < inputs.length; i++) {
+//      inputs[i].classList.remove("active");
+      deactivate(inputs[i]);
+    }
+    elem.classList.add("closed");
     clearInput();
   }
   // Close the shadow containing this panel
@@ -456,6 +512,7 @@ function clearInput() {
   disableNumBtns("");
   document.getElementById("locSel").style.display = "none";
   document.getElementById("pcErr").style.display = "none";
+  document.getElementById("elecInput").value = "";
 }
 
 function openPanel(panel, btn) {
@@ -465,11 +522,18 @@ function openPanel(panel, btn) {
     case "input":
       // elem.style.display = "block";
       elem.classList.remove('closed');
-      document.getElementById("elecPanel").style.display = "none";
+//      document.getElementById("elecPanel").style.display = "none";
       //  Open selected btn
+      var btnElem = document.getElementById(btn + "Input");
+      btnElem.classList.add("active");
+      if (btn == "pc" && !mouse) {
+        document.getElementById("numpad").classList.remove("closed")
+      } else {
+        btnElem.focus();
+      }
       break;
     case "elec":
-      document.getElementById("inputPanel").classList.add('closed');
+      closePanel("input");
       //      document.getElementById("inputPanel").style.display = "none";
       elem.style.display = "block";
       break;
@@ -478,4 +542,33 @@ function openPanel(panel, btn) {
   }
   // Open the shadow containing this panel
   elem.parentElement.classList.remove('closed');
+}
+
+function hasClass(element, cls) {
+  return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+}
+
+function deactivate(btn) {
+  switch (btn.id) {
+    case "pcInput":
+      window.setTimeout(function () {
+        var activeElem = document.activeElement;
+        console.log("Active: " + activeElem.id);
+        console.log("Mouse: " + mouse);
+        if (!(activeElem.id == "locSel" ||
+            activeElem.parentElement.parentElement.id == "numpad")) {
+          if (!mouse) {
+            document.getElementById("numpad").classList.add('closed');
+          }
+          document.getElementById("pcInput").classList.remove('active');
+        }
+      }, 10);
+      break;
+    case "elecInput":
+      document.getElementById("elecInput").classList.remove('active');
+      break;
+    default:
+      break;
+  }
+  clearInput();
 }
