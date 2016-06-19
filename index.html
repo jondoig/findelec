@@ -33,15 +33,17 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
     <div id="viewDiv">
       <div class="mapBtns">
         <div id="HomeBtn" class="mapBtn"></div>
+        <div id="LocateButton" class="mapBtn" title="Find electorate by my location"></div>
         <div id="pcBtn" class="mapBtn" onclick="openPanel('input','pc')" title="Find electorate by postcode"></div>
         <div id="elecBtn" class="mapBtn" onclick="openPanel('input','elec')" title="Find electorate by name"></div>
-        <div id="locateBtn" class="mapBtn" title="Zoom map to your location"></div>
+<!--        <div id="locateBtn" class="mapBtn" title="Zoom map to your location"></div>-->
       </div>
     </div>
   </div>
   <div id="shadow">
     <div id="inputPanel" class="panel">
       <button class="close" onclick="closePanel('input')">✖</button>
+        <button id="locateBtn" class="inputBtn" onClick="geoLocate.locate(); closePanel('input')" width="100">My location</button>
         <input id="pcInput" class="inputBtn" placeholder="Postcode" type="text" pattern="^(0(8([0-9][0-9]?)?)?|^[2-4]([0-9]([0-9][0-9]?)?)?|^5([0-8]([0-9][0-9]?)?)?|^6([0-6]([0-9][0-9]?)?)?|^6(7([0-8][0-9]?)?)?|^6(7(9[0-7]?)?)?|^7([0-7]([0-9][0-9]?)?)?)$" onClick="this.classList.add('active'); clearInput(); if (!mouse) document.getElementById('numpad').classList.remove('closed')" onBlur="deactivate(this)" onkeyup="switch (this.value.length) {case 4: findPc(this.value); break; case 3: document.getElementById('pcErr').style.display = 'none'; break; default: break;}">
         <select id="locSel" onchange="findLoc(this.value)">
           <optgroup id="locOptions" label="Please select"></optgroup>
@@ -86,13 +88,10 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             <div><img src="images/backspace.svg" width=24 height=auto></div>
           </div>
         </div>
-        <input id="elecInput" class="inputBtn" placeholder="Electorate" list="elecList" onClick="deactivate(document.getElementById('pcInput')); this.classList.add('active')" onBlur="deactivate(this)" onInput=" showElec(this.value); closePanel('input')">
+        <input id="elecInput" class="inputBtn" placeholder="Electorate" pattern="^[a-zA-Z][a-zA-Z\- ]*$" list="elecList" onClick="deactivate(document.getElementById('pcInput')); this.classList.add('active')" onBlur="deactivate(this)" onInput="var p = new RegExp(this.pattern); if(p.test(this.value)) {showElec(this.value); closePanel('input')}">
         <datalist id="elecList">
         </datalist>
         <select id="elecInputPolyfill" onChange="showElec(this.value)"></select>
-        <button id="locateBtn" class="inputBtn" onClick="locate()" width="100">Locate me</button>
-
-
     </div>
   </div>
   <div id="shadow" class="closed">
@@ -106,12 +105,6 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
         <div id="cands">
           <table id="candList"></table>
         </div>
-        <!--
-        <button id="restart" onClick="restart()">
-          <img src="images/repeat.svg" width="20" height="20">
-        </button>
-        <label for="restart">Find another electorate</label>
--->
       </div>
     </div>
   </div>

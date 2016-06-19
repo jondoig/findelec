@@ -88,12 +88,13 @@ function initMap() {
         "esri/renderers/SimpleRenderer",
         "esri/symbols/SimpleFillSymbol",
 //        "esri/graphic",
-//        "esri/tasks/query",
+        "esri/tasks/query",
         "esri/symbols/SimpleLineSymbol",
+        "esri/dijit/LocateButton",
         "dojo/domReady!"
 //    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Graphic, Query) {
 //    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Query) {
-            ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol) {
+            ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, Query, SimpleLineSymbol, LocateButton) {
 
     var drawColor = new Color("#008060");
 
@@ -158,6 +159,41 @@ function initMap() {
       map: map
     }, "HomeBtn");
     home.startup();
+
+    geoLocate = new LocateButton({
+      map: map,
+      setScale: false
+    }, "LocateButton");
+    geoLocate.startup();
+
+    geoLocate.on("locate", function (evt) {
+      console.log(evt.position);
+      var lat = evt.position.coords.latitude;
+      var lng = evt.position.coords.longitude;
+      var ext = {
+        xmin: lng - 0.03,
+        ymin: lat - 0.03,
+        xmax: lng + 0.03,
+        ymax: lat + 0.03
+      }
+
+      drawMap("NSW", ext);
+      var  mapHdr = document.getElementById("mapHeader");
+      mapHdr.innerHTML = "Click map for electorate";
+      mapHdr.classList.remove("closed");
+//      var query = new Query();
+//      query.geometry = evt.graphic.geometry;
+//      lyr.selectFeatures(query, lyr.SELECTION_NEW);
+    });
+
+    //    lyr.on("selection-complete") {
+    //      var attrs = evt.graphic.attributes;
+    //      var elec = attrs[Object.keys(attrs)[0]]; // First and only attribute
+    ////      document.getElementById("mapHeader").classList.add('closed');
+    //      showElec(elec);
+    //      map.setExtent(evt.graphic.geometry.getExtent());
+    //    }
+
     document.getElementsByClassName("mapBtns")[0].style.display = "block";
 
     drawMap = function (state, extent, elec) {
@@ -489,12 +525,12 @@ function closePanel(panel) {
   //  elem.innerHTML = "";
   var elem = document.getElementById(panel + "Panel");
   if (panel == "input") {
-//    if (!mouse) {
-//      document.getElementById("numpad").classList.add("closed");
-//    }
+    //    if (!mouse) {
+    //      document.getElementById("numpad").classList.add("closed");
+    //    }
     var inputs = elem.querySelectorAll(".inputBtn:not(button)");
     for (var i = 0; i < inputs.length; i++) {
-//      inputs[i].classList.remove("active");
+      //      inputs[i].classList.remove("active");
       deactivate(inputs[i]);
     }
     elem.classList.add("closed");
@@ -522,7 +558,7 @@ function openPanel(panel, btn) {
     case "input":
       // elem.style.display = "block";
       elem.classList.remove('closed');
-//      document.getElementById("elecPanel").style.display = "none";
+      //      document.getElementById("elecPanel").style.display = "none";
       //  Open selected btn
       var btnElem = document.getElementById(btn + "Input");
       btnElem.classList.add("active");
@@ -553,10 +589,12 @@ function deactivate(btn) {
     case "pcInput":
       window.setTimeout(function () {
         var activeElem = document.activeElement;
-        console.log("Active: " + activeElem.id);
-        console.log("Mouse: " + mouse);
+        //        console.log("Active: " + activeElem.id);
+        //        console.log("Mouse: " + mouse);
         if (!(activeElem.id == "locSel" ||
-            activeElem.parentElement.parentElement.id == "numpad")) {
+            (activeElem.parentElement &&
+              activeElem.parentElement.parentElement &&
+              activeElem.parentElement.parentElement.id == "numpad"))) {
           if (!mouse) {
             document.getElementById("numpad").classList.add('closed');
           }

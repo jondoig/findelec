@@ -431,14 +431,16 @@ a.guess:hover::after {
 
 .mapBtns {
   position: absolute;
-  top: 95px;
+/*  top: 95px;*/
+  top: 145px;
   left: 20px;
   width: 32px;
   z-index: 50;
   display: none;
 }
 
-.mapBtn {
+.mapBtn,
+#LocateButton .zoomLocateButton {
   height: 30px;
   border: 1px solid #57585A;
   padding: 0;
@@ -449,7 +451,8 @@ a.guess:hover::after {
 }
 
 .mapBtn:hover,
-.inputBtn:hover {
+.inputBtn:hover,
+#LocateButton .zoomLocateButton:hover {
   /* Lightness -5% hsl(165, 100%, 20%) */
   background-color: #00664d;
 }
@@ -460,6 +463,10 @@ a.guess:hover::after {
   border: 1px solid #57585A;
   background-color: white;
   background-image: url("../images/home.svg");
+}
+
+#LocateButton .zoomLocateButton {
+  background-image: url("../images/locate.svg");
 }
 
 #pcBtn {
