@@ -34,8 +34,11 @@ def compareCand(a, b):
       return 1
 
 # For each electorate, sort candidates
-for elec, cands in elecs_in.iteritems():
-  elecs_out[elec] = sorted(cands, cmp=compareCand)
+for k, v in elecs_in.iteritems():
+#  print k, sorted(v['c'], cmp=compareCand)
+  v['c'].sort(cmp=compareCand)
+  elecs_out[k] = v
+#  elecs_out[elec] = sorted(cands, cmp=compareCand)
 
 #Write sorted electorates to json file
 with open(outfilename + '.json', 'w') as outfile:

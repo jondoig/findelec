@@ -167,7 +167,7 @@ function initMap() {
     geoLocate.startup();
 
     geoLocate.on("locate", function (evt) {
-      console.log(evt.position);
+//      console.log(evt.position);
       var lat = evt.position.coords.latitude;
       var lng = evt.position.coords.longitude;
       var ext = {
@@ -178,12 +178,12 @@ function initMap() {
       }
 
       drawMap("NSW", ext);
-      var  mapHdr = document.getElementById("mapHeader");
+      var mapHdr = document.getElementById("mapHeader");
       mapHdr.innerHTML = "Click map for electorate";
       mapHdr.classList.remove("closed");
-//      var query = new Query();
-//      query.geometry = evt.graphic.geometry;
-//      lyr.selectFeatures(query, lyr.SELECTION_NEW);
+      //      var query = new Query();
+      //      query.geometry = evt.graphic.geometry;
+      //      lyr.selectFeatures(query, lyr.SELECTION_NEW);
     });
 
     //    lyr.on("selection-complete") {
@@ -291,7 +291,7 @@ function findPc(pc) {
       pcLocs.push(locs[i]);
       if ("e" in locs[i] && !("l" in locs[i])) { // Pc has just 1 elec
         closePanel("input");
-        showElec(locs[i].e, locs[i]);
+        showElec(locs[i].e);
         drawMap(pcLocs[i].s, "", locs[i].e);
         //            map.setExtent(Extent(locs[i].x));
         break;
@@ -311,7 +311,7 @@ function findPc(pc) {
     case 1:
       closePanel("input");
       if ("e" in pcLocs[0]) { // If there is an electorate, show it and zoom to it
-        showElec(pcLocs[0].e, pcLocs[0]);
+        showElec(pcLocs[0].e);
         drawMap(pcLocs[i].s, "", pcLocs[i].e);
         //            map.setExtent(Extent(pcLocs[0].x));
       } else { // Otherwise map the locality
@@ -359,7 +359,7 @@ function findLoc(l) {
     if (pcLocs[i].l == l) {
       closePanel("input");
       if ("e" in pcLocs[i]) {
-        showElec(pcLocs[i].e, pcLocs[i]);
+        showElec(pcLocs[i].e);
         drawMap(pcLocs[i].s, "", pcLocs[i].e);
       } else {
         //        document.getElementById("inputPanel").style.display = "none";
@@ -373,7 +373,15 @@ function findLoc(l) {
   }
 }
 
-function showElec(elec, loc) {
+function findElec(elec) {
+  if (elec in elecs) {
+    closePanel('input');
+    showElec(elec);
+    drawMap(elecs[elec].s, "", elec);
+  }
+}
+
+function showElec(elec) {
   var elecDiv = document.getElementById("elecPanel");
   var profile = profileUrlPrefix + elec.replace("'", "").replace(" ", "-");
   //  var introElem = elecDiv.querySelector(".intro");
@@ -385,7 +393,7 @@ function showElec(elec, loc) {
   //  }
 
   elecDiv.querySelector("h1").innerHTML = elec;
-  elecDiv.querySelector("#profile").innerHTML = "<a href='" + profile + "'>Profile</a>";
+  elecDiv.querySelector("#profile").innerHTML = "<a href='" + profile + "' target='_blank'>Profile</a>";
   elecDiv.querySelector("#candList").innerHTML = formatCands(elec);
 
   openPanel("elec");
@@ -428,11 +436,11 @@ function formatCands(elec) {
   var fbBaseUrl = "//facebook.com/";
   var googleIFLuckyBaseUrl = "//google.com.au/search?btnI=I&q="
 
-  for (i = 0; i < elecs[elec].length; i++) {
+  for (i = 0; i < elecs[elec].c.length; i++) {
     if (i > 0) {
       list += "<tr class='gap'></tr>";
     }
-    cand = elecs[elec][i];
+    cand = elecs[elec].c[i];
     list += "<tr class='cand'>";
     list += "<td class='candName'>";
 

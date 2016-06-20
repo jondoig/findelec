@@ -88,7 +88,7 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
             <div><img src="images/backspace.svg" width=24 height=auto></div>
           </div>
         </div>
-        <input id="elecInput" class="inputBtn" placeholder="Electorate" pattern="^[a-zA-Z][a-zA-Z\- ]*$" list="elecList" onClick="deactivate(document.getElementById('pcInput')); this.classList.add('active')" onBlur="deactivate(this)" onInput="var p = new RegExp(this.pattern); if(p.test(this.value)) {showElec(this.value); closePanel('input')}">
+        <input id="elecInput" class="inputBtn" placeholder="Electorate" pattern="^[a-zA-Z][a-zA-Z\- ]*$" list="elecList" onClick="deactivate(document.getElementById('pcInput')); this.classList.add('active')" onBlur="deactivate(this)" onInput="var p = new RegExp(this.pattern); if(p.test(this.value)) {findElec(this.value)}">
         <datalist id="elecList">
         </datalist>
         <select id="elecInputPolyfill" onChange="showElec(this.value)"></select>
