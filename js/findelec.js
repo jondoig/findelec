@@ -80,6 +80,7 @@ function initMap() {
         "esri/dijit/HomeButton",
         "esri/layers/FeatureLayer",
         "esri/geometry/Extent",
+        "esri/geometry/Point",
         "esri/symbols/TextSymbol",
         "esri/symbols/Font",
         "esri/layers/LabelClass",
@@ -94,7 +95,7 @@ function initMap() {
         "dojo/domReady!"
 //    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Graphic, Query) {
 //    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Query) {
-            ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, Query, SimpleLineSymbol, LocateButton) {
+            ], function (Map, HomeButton, FeatureLayer, Extent, Point, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, Query, SimpleLineSymbol, LocateButton) {
 
     var drawColor = new Color("#008060");
 
@@ -167,20 +168,21 @@ function initMap() {
     geoLocate.startup();
 
     geoLocate.on("locate", function (evt) {
-//      console.log(evt.position);
+      //      console.log(evt.position);
       var lat = evt.position.coords.latitude;
       var lng = evt.position.coords.longitude;
       var ext = {
-        xmin: lng - 0.03,
-        ymin: lat - 0.03,
-        xmax: lng + 0.03,
-        ymax: lat + 0.03
-      }
+        xmin: lng,
+        ymin: lat,
+        xmax: lng,
+        ymax: lat
+      };
 
       drawMap("NSW", ext);
       var mapHdr = document.getElementById("mapHeader");
-      mapHdr.innerHTML = "Click map for electorate";
+      mapHdr.innerHTML = "Click map for electorate details";
       mapHdr.classList.remove("closed");
+
       //      var query = new Query();
       //      query.geometry = evt.graphic.geometry;
       //      lyr.selectFeatures(query, lyr.SELECTION_NEW);
@@ -197,54 +199,41 @@ function initMap() {
     document.getElementsByClassName("mapBtns")[0].style.display = "block";
 
     drawMap = function (state, extent, elec) {
-      if (lyr) {
-        map.removeLayer(lyr);
-      }
-      var url = urlPrefix + states[state].replace(/ /g, "_") + urlSuffix;
-      lyr = new FeatureLayer(url, {
-        id: "lyr",
-        outFields: [labelFields[state]]
-      });
 
-      lyr.setRenderer(new SimpleRenderer(symbol));
+      // Create layer if no layer or state has changed
+      var stateUrlString = states[state].replace(/ /g, "_");
+      //      console.log("Create layer? " + (!lyr || lyr.url.indexOf(stateUrlString) < 0));
+      if (!lyr || lyr.url.indexOf(stateUrlString) < 0) {
 
-      // create a text symbol to define the style of labels
-      var labelJson = {
-        "labelExpressionInfo": {
-          "value": "{" + labelFields[state] + "}"
+        if (lyr) {
+          map.removeLayer(lyr);
         }
-      };
-      var labelClass = new LabelClass(labelJson);
-      labelClass.symbol = label;
-      lyr.setLabelingInfo([labelClass]);
 
-      lyr.on("click", function (evt) {
-        var attrs = evt.graphic.attributes;
-        var elec = attrs[Object.keys(attrs)[0]]; // First and only attribute
-        document.getElementById("mapHeader").classList.add('closed');
-        showElec(elec);
-        map.setExtent(evt.graphic.geometry.getExtent());
-      });
+        var url = urlPrefix + stateUrlString + urlSuffix;
+        lyr = new FeatureLayer(url, {
+          id: "lyr",
+          outFields: [labelFields[state]]
+        });
 
-      map.addLayer(lyr);
+        lyr.setRenderer(new SimpleRenderer(symbol));
 
-      //      var highlightSymbol = new SimpleFillSymbol(
-      //        SimpleFillSymbol.STYLE_SOLID,
-      //        new SimpleLineSymbol(
-      //          SimpleLineSymbol.STYLE_SOLID,
-      //          new Color([128, 60, 0]), 5
-      //        ),
-      //        new Color([0, 128, 96, 0.35])
-      //      );
+        // create a text symbol to define the style of labels
+        var labelJson = {
+          "labelExpressionInfo": {
+            "value": "{" + labelFields[state] + "}"
+          }
+        };
+        var labelClass = new LabelClass(labelJson);
+        labelClass.symbol = label;
+        lyr.setLabelingInfo([labelClass]);
 
-
-      if (extent) {
-        map.setExtent(Extent(extent));
-      } else {
-        if (!elec) {
-          console.log("ERROR: Call to drawMap without extent or elec");
-          return;
-        }
+        lyr.on("click", function (evt) {
+          var attrs = evt.graphic.attributes;
+          var elec = attrs[Object.keys(attrs)[0]]; // First and only attribute
+          document.getElementById("mapHeader").classList.add('closed');
+          showElec(elec);
+          map.setExtent(evt.graphic.geometry.getExtent());
+        });
 
         lyr.on("selection-complete", function (evt) {
           //          map.setExtent(evt.graphic.geometry.getExtent());
@@ -259,18 +248,48 @@ function initMap() {
             //            var highlightGraphic = new Graphic(evt.features[0].geometry, highlightSymbol);
             //            map.graphics.add(highlightGraphic);
 
+            // TODO: cope with multiple features in electorate
             map.setExtent(evt.features[0].geometry.getExtent());
+            showElec(elec || evt.features[0].attributes[labelFields[state]]);
             //            lyr.clearSelection();
           }
         });
 
+        map.addLayer(lyr);
+      }
+      //      var highlightSymbol = new SimpleFillSymbol(
+      //        SimpleFillSymbol.STYLE_SOLID,
+      //        new SimpleLineSymbol(
+      //          SimpleLineSymbol.STYLE_SOLID,
+      //          new Color([128, 60, 0]), 5
+      //        ),
+      //        new Color([0, 128, 96, 0.35])
+      //      );
+
+      if (extent) {
+        if (extent.xmin == extent.xmax && extent.ymin == extent.ymax) {
+          // (Geolocated) point: show and zoom to elec
+
+          var query = new Query();
+          query.geometry = new Point(extent.xmin, extent.ymin);
+          //          query.outFields = [labelFields[state]];
+          //          query.outFields = ["Elect_div"];
+          lyr.selectFeatures(query);
+
+        } else {
+          map.setExtent(Extent(extent));
+        }
+      } else {
+        if (!elec) {
+          console.log("ERROR: Call to drawMap without extent or elec");
+          return;
+        }
+
         var query = new Query();
         var where = labelFields[state] + " = '" + elec + "'";
         query.where = where;
+        //        query.outFields = [labelFields[state]];
         lyr.selectFeatures(query);
-
-        //use a fast bounding box query. will only go to the server if bounding box is outside of the visible map
-        //            lyr.queryFeatures(query, selectInBuffer);
       }
     }
 
@@ -376,7 +395,7 @@ function findLoc(l) {
 function findElec(elec) {
   if (elec in elecs) {
     closePanel('input');
-    showElec(elec);
+    //    showElec(elec);
     drawMap(elecs[elec].s, "", elec);
   }
 }
