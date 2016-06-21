@@ -276,8 +276,8 @@ input.inputBtn.active:valid {
   display: none;
   position: fixed;
   /*  top: 42px;*/
-/*  top: 100px;*/
-  top: 140px;
+  top: 100px;
+/*  top: 140px;*/
   left: 50%;
   transform: translateX(-50%);
   z-index: -40;
