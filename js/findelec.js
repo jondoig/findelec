@@ -558,7 +558,7 @@ function closePanel(panel) {
     var inputs = elem.querySelectorAll(".inputBtn:not(button)");
     for (var i = 0; i < inputs.length; i++) {
       //      inputs[i].classList.remove("active");
-      deactivate(inputs[i]);
+      switchBtn(inputs[i], false);
     }
     elem.classList.add("closed");
     clearInput();
@@ -611,29 +611,38 @@ function hasClass(element, cls) {
   return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
 }
 
-function deactivate(btn) {
-  switch (btn.id) {
-    case "pcInput":
-      window.setTimeout(function () {
-        var activeElem = document.activeElement;
-        //        console.log("Active: " + activeElem.id);
-        //        console.log("Mouse: " + mouse);
-        if (!(activeElem.id == "locSel" ||
-            (activeElem.parentElement &&
-              activeElem.parentElement.parentElement &&
-              activeElem.parentElement.parentElement.id == "numpad"))) {
-          if (!mouse) {
-            document.getElementById("numpad").classList.add('closed');
-          }
-          document.getElementById("pcInput").classList.remove('active');
+function switchBtn(btn, on) {
+  if (on) {
+    switch (btn.id) {
+      case "pcInput":
+        if (!mouse) {
+          document.getElementById('numpad').classList.remove('closed');
         }
-      }, 10);
-      break;
-    case "elecInput":
-      document.getElementById("elecInput").classList.remove('active');
-      break;
-    default:
-      break;
+        switchBtn(document.getElementById('elecInput'), false);
+        break;
+      case "elecInput":
+        switchBtn(document.getElementById('pcInput'), false);
+        break;
+      default:
+        console.warn("Unknown button '" + btn.id + "' in function switchBtn");
+        break;
+    }
+    btn.classList.add('active');
+  } else { // off
+    switch (btn.id) {
+      case "pcInput":
+        if (!mouse) {
+          document.getElementById("numpad").classList.add('closed');
+        }
+        //          document.getElementById("locSel").style.display = 'none';
+        break;
+      case "elecInput":
+        break;
+      default:
+        console.warn("Unknown button '" + btn.id + "' in function switchBtn");
+        return;
+    }
+    btn.classList.remove('active');
   }
   clearInput();
 }
