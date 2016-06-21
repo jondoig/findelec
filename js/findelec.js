@@ -32,19 +32,27 @@ loadJson(partyFilename, function (json) {
 
 // Detect mouse movement
 var mouse = false;
-var pcInputElem = document.getElementById("pcInput");
+var clicked = false;
+//var InputElem = document.getElementById("pcInput");
 
 function mouseListen() {
-  pcInputElem.removeEventListener('mouseover', mouseListen, false);
-  // If pcInput not clicked in 10ms, there's a mouse
+  //  pcInputElem.removeEventListener('mouseover', mouseListen, false);
+  document.removeEventListener('mouseover', mouseListen, false);
+  // If not clicked in 10ms, there's a mouse
   window.setTimeout(function () {
-    if (!hasClass(pcInputElem, "active")) {
+    if (!clicked) {
       mouse = true;
     }
-  }, 10);
+  }, 50);
 };
 
-pcInputElem.addEventListener('mouseover', mouseListen, false);
+function clickListen() {
+  document.removeEventListener('click', clickListen, false);
+  clicked = true;
+};
+//pcInputElem.addEventListener('mouseover', mouseListen, false);
+document.addEventListener('mouseover', mouseListen, false);
+document.addEventListener('click', clickListen, false);
 
 function loadJson(url, func) {
   var xhttp = new XMLHttpRequest();
@@ -160,6 +168,10 @@ function initMap() {
       map: map
     }, "HomeBtn");
     home.startup();
+
+    home.on("home", function () {
+      openPanel("input");
+    });
 
     geoLocate = new LocateButton({
       map: map,
@@ -567,7 +579,9 @@ function closePanel(panel) {
   elem.parentElement.classList.add('closed');
 
   // Hide the map header
-  document.getElementById("mapHeader").classList.add('closed');
+  var hdrClass = document.getElementById("mapHeader").classList;
+  hdrClass.remove('title'); // Subsequent messages will not be title-styled
+  hdrClass.add('closed');
 }
 
 function clearInput() {
@@ -586,13 +600,16 @@ function openPanel(panel, btn) {
       // elem.style.display = "block";
       elem.classList.remove('closed');
       //      document.getElementById("elecPanel").style.display = "none";
-      //  Open selected btn
-      var btnElem = document.getElementById(btn + "Input");
-      btnElem.classList.add("active");
-      if (btn == "pc" && !mouse) {
-        document.getElementById("numpad").classList.remove("closed")
-      } else {
-        btnElem.focus();
+      
+      if (btn) {
+        //  Open selected btn
+        var btnElem = document.getElementById(btn + "Input");
+        btnElem.classList.add("active");
+        if (btn == "pc" && !mouse) {
+          document.getElementById("numpad").classList.remove("closed")
+        } else {
+          btnElem.focus();
+        }
       }
       break;
     case "elec":
