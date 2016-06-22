@@ -59,7 +59,7 @@ document.addEventListener('click', clickListen, false);
 function loadJson(url, func) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
+    if (xhttp.readyState === 4 && xhttp.status === 200) {
       func(JSON.parse(xhttp.responseText));
     }
   };
@@ -284,7 +284,7 @@ function initMap() {
 
         lyr.on("selection-complete", function (evt) {
           //          map.setExtent(evt.graphic.geometry.getExtent());
-          if (evt.features.length == 0) {
+          if (evt.features.length === 0) {
             console.log("ERROR: " + evt.features.length +
               " features with " + where + " in " + state);
           } else {
@@ -316,7 +316,7 @@ function initMap() {
       //      );
 
       if (extent) {
-        if (extent.xmin == extent.xmax && extent.ymin == extent.ymax) {
+        if (extent.xmin === extent.xmax && extent.ymin === extent.ymax) {
           // (Geolocated) point: show and zoom to elec
 
           var query = new Query();
@@ -350,12 +350,12 @@ function findPc(pc) {
 
   pcLocs = [];
 
-  if (!locs || locs == []) {
+  if (!locs || locs === []) {
     alert("No locations loaded (JSON not yet read)");
   }
 
   for (var i = 0; i < locs.length; i++) {
-    if (locs[i].p == pc) {
+    if (locs[i].p === pc) {
       pcLocs.push(locs[i]);
       if ("e" in locs[i] && !("l" in locs[i])) { // Pc has just 1 elec
         //        closePanel("input");
@@ -380,7 +380,7 @@ function findPc(pc) {
       closePanel("input");
       if ("e" in pcLocs[0]) { // If there is an electorate, show it and zoom to it
         //        showElec(pcLocs[0].e);
-        drawMap(pcLocs[i].s, "", pcLocs[i].e);
+        drawMap(pcLocs[0].s, "", pcLocs[0].e);
         //            map.setExtent(Extent(pcLocs[0].x));
       } else { // Otherwise map the locality
         drawMap(pcLocs[0].s, pcLocs[0].x);
@@ -407,7 +407,7 @@ function showLocs(locs) {
   var event = new MouseEvent('mousedown');
 
   for (i = 0; i < locs.length; i++) {
-    locText = (locs[i].l == "*") ? otherLocText : locs[i].l;
+    locText = (locs[i].l === "*") ? otherLocText : locs[i].l;
     options += "<option value=\"" + locs[i].l + "\">" + locText + "</option>\n";
   }
 
@@ -422,7 +422,7 @@ function showLocs(locs) {
 
 function findLoc(l) {
   for (var i = 0; i < pcLocs.length; i++) {
-    if (pcLocs[i].l == l) {
+    if (pcLocs[i].l === l) {
       closePanel("input");
       if ("e" in pcLocs[i]) {
         //        showElec(pcLocs[i].e);
@@ -477,7 +477,7 @@ function locate() {
 //    if (!("l" in loc)) {
 //      string = "Postcode";
 //    } else {
-//      if (loc.l == "*") {
+//      if (loc.l === "*") {
 //        string = otherLocString;
 //        locVerb = "are";
 //      } else {
@@ -496,7 +496,7 @@ function locate() {
 function formatCands(elec) {
   var tRow, tBody = "";
   //  var e = elecs[elec];
-  var img, alt, imgPath = "images/cands/";
+  var img, png, alt, imgPath = "images/cands/";
   var cand, party;
   var candNameElem, candLink, candFbLink, candLinkClass, candLinkTitle;
   var partyName, partyNameElem, partyLink, partyFbLink, partyLinkClass, partyLinkTitle;
@@ -522,8 +522,8 @@ function formatCands(elec) {
 
     // Add candidate page from party (or other) website if available
     if (cand.u) {
-      if (cand.u.length == 1) {
-        if (cand.u[0].substring(0, 2) == "//") {
+      if (cand.u.length === 1) {
+        if (cand.u[0].substring(0, 2) === "//") {
           candLink = cand.u[0];
         } else { // Join party website and candidate path
           candLink = "http://" + party.u + "/" + cand.u[0];
@@ -549,11 +549,12 @@ function formatCands(elec) {
       partyName = party.n || cand.p;
 
       // I only have candidate photos for major parties
-      if (party.major == true) {
+      if (party.major) {
         img = cand.n + " " + cand.p + " " + elec + ".jpg";
         img = imgPath + img.replace(/ /g, "_").replace(/\'/g, "").toLowerCase();
-        alt = cand.n + " " + partyName + " candidate for " + elec;
-        tRow += "<div class='imgFrame'><a href='" + candLink + "' target='_blank'><img src='" + img + "' width='100px' height='auto' alt='" + alt + "' onerror='imgError(this);'></a></div>";
+        png = img.replace(/jpg$/,"png");
+        alt = (cand.n + " " + partyName + " candidate for " + elec).replace(/'/g,"\'");
+        tRow += "<a href='" + candLink + "' target='_blank'><div class='imgFrame' style='background-image: url(" + img + "), url(" + png + ")'></div></a>";
       }
 
       if (party.u) {
@@ -568,7 +569,7 @@ function formatCands(elec) {
         partyLinkTitle = googleIFLTitle;
       }
 
-      if (cand.p == "Ind") {
+      if (cand.p === "Ind") {
         // Independents have no party so no party website or party Facebook page
         partyNameElem = partyName;
       } else {
@@ -597,11 +598,11 @@ function formatCands(elec) {
 
     candNameElem = "<p class='candLink'>" + candNameElem + candFbLink + "</p>";
 
-    if (cand.p == "Ind" || (parties.hasOwnProperty(cand.p) && party.major == true)) {
+    if (cand.p === "Ind" || (parties.hasOwnProperty(cand.p) && party.major)) {
       tRow = tRow.replace("<tr class='cand'>", "<tr class='cand " + cand.p.toLowerCase() + "'>");
     }
 
-    if (parties.hasOwnProperty(cand.p) && party.major == true) {
+    if (parties.hasOwnProperty(cand.p) && party.major) {
       tRow += "</td><td class='rightCol'>";
       tRow += candNameElem;
     } else {
@@ -615,13 +616,19 @@ function formatCands(elec) {
   return tBody;
 }
 
-function imgError(image) {
-  image.onerror = "";
-  image.src = "images/blank.png";
-  image.style.width = 0;
-  image.style.height = 0;
-  return true;
-}
+// Can't use this now we're using background-image instead of img. Just use fall-back png
+//function imgError(image) {
+//  // If file extension is .jpg, try again with .png (e.g. Lib Victoria)
+//  if (image.src.split(".").pop().toLowerCase() === "jpg") {
+//    image.src = image.src.replace(/jpg$/, "png");
+//  } else {
+//    image.onerror = "";
+//    image.src = "images/blank.png";
+//    image.style.width = 0;
+//    image.style.height = 0;
+//  }
+//  return true;
+//}
 
 //
 //function restart() {
@@ -650,7 +657,7 @@ function properName(name) {
 function closePanel(panel) {
   //  elem.innerHTML = "";
   var elem = document.getElementById(panel + "Panel");
-  if (panel == "input") {
+  if (panel === "input") {
     //    if (!mouse) {
     //      document.getElementById("numpad").classList.add("closed");
     //    }
@@ -689,7 +696,7 @@ function openPanel(panel, btn) {
         //  Open selected btn
         var btnElem = document.getElementById(btn + "Input");
         btnElem.classList.add("active");
-        if (btn == "pc" && !mouse) {
+        if (btn === "pc" && !mouse) {
           document.getElementById("numpad").classList.remove("closed")
         } else {
           btnElem.focus();
@@ -745,6 +752,7 @@ function switchBtn(btn, on) {
         return;
     }
     btn.classList.remove('active');
+    btn.blur();
   }
   clearInput();
 }

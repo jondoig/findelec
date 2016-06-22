@@ -42,7 +42,7 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
   </div>
   <div id="shadow">
     <div id="inputPanel" class="panel">
-      <button class="close" onclick="closePanel('input')">✖</button>
+      <button class="close" onclick="this.blur(); closePanel('input')">✖</button>
       <button id="locateBtn" class="inputBtn" onClick="geoLocate.locate(); closePanel('input')">My location</button>
       <input id="pcInput" class="inputBtn" placeholder="Postcode" type="text" pattern="^(0(8([0-9][0-9]?)?)?|^[2-4]([0-9]([0-9][0-9]?)?)?|^5([0-8]([0-9][0-9]?)?)?|^6([0-6]([0-9][0-9]?)?)?|^6(7([0-8][0-9]?)?)?|^6(7(9[0-7]?)?)?|^7([0-7]([0-9][0-9]?)?)?)$" onClick="switchBtn(this, true)" onkeyup="switch (this.value.length) {case 4: findPc(this.value); break; case 3: document.getElementById('pcErr').style.display = 'none'; break; default: break;}">
       <select id="locSel" onchange="findLoc(this.value)">
@@ -96,7 +96,7 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
   </div>
   <div id="shadow" class="closed">
     <div id="elecPanel" class="panel">
-      <button class="close" onclick="closePanel('elec')">✖</button>
+      <button class="close" onclick="this.blur(); closePanel('elec')">✖</button>
       <div class="header">
         <!--        <p class="intro"></p>-->
         <h1></h1>

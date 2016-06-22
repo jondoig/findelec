@@ -239,7 +239,7 @@ input.inputBtn.active:valid {
   color: red;
   background-color: #f8dddd;
   /*  Marching ants*/
-/*
+  /*
   background-image: -webkit-linear-gradient(left, #f44 50%, #f8dddd 50%), -webkit-linear-gradient(left, #f44 50%, #f8dddd 50%), -webkit-linear-gradient(top, #f44 50%, #f8dddd 50%), -webkit-linear-gradient(top, #f44 50%, #f8dddd 50%);
   background-image: linear-gradient(to right, #f44 50%, #f8dddd 50%), linear-gradient(to right, #f44 50%, #f8dddd 50%), linear-gradient(to bottom, #f44 50%, #f8dddd 50%), linear-gradient(to bottom, #f44 50%, #f8dddd 50%);
   background-size: 10px 1px, 10px 1px, 1px 10px, 1px 10px;
@@ -513,9 +513,20 @@ a.guess:hover::after {
 .cand .imgFrame {
   width: 100px;
   height: 100px;
-  overflow-y: hidden;
   margin-right: 10px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top left;
 }
+
+/*
+.cand .imgFrame img {
+  min-height: 100px;
+  min-width: 100px;
+  width: auto;
+  height: auto;
+}
+*/
 
 
 /****************** MAP ELEMENTS *****************/
