@@ -47,19 +47,20 @@ a:visited {
 
 .panel {
   position: absolute;
-  top: 150px;
   left: 50%;
   transform: translateX(-50%);
   /*  margin: 20px;*/
   margin: auto;
   /*  padding: 25px;*/
-  padding: 10px 10px 25px 10px;
+  /*  padding: 10px 10px 25px 10px;*/
+  padding: 0 0 20px 0;
   border-radius: 10px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.75);
   background-color: white;
   z-index: 60;
   text-align: center;
   opacity: 1;
+  max-height: 90%;
   /*
   -webkit-transition: 
   -moz-transition: 
@@ -73,11 +74,12 @@ a:visited {
 /************** INPUT PANEL ELEMENTS *************/
 
 #inputPanel {
-/*  width: 165px;*/
-/*
+  /*  width: 165px;*/
+  /*
   Match width of drop-down for longest locality:
     pc 2620 RENDEZVOUS CREEK DISTRICT
 */
+  top: 150px;
   width: 238px;
 }
 
@@ -93,27 +95,28 @@ a:visited {
 
 button.close {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  border: 0;
-  background-color: white;
-  opacity: 0.5;
+  top: 3px;
+  right: 3px;
+  border: none;
+  background: none;
+  color: rgba(0, 0, 0, 0.5);
   font-size: 16px;
+  cursor: pointer;
 }
 
 button.close:hover,
 button.close:active {
-  opacity: 1;
+  color: rgba(0, 0, 0, 1);
 }
 
-
-/*
-#elecPanel > div,
-#inputPanel > div {
-  display: inline-block;
-  position: relative;
+#elecPanel button.close {
+  color: rgba(255, 255, 255, 0.5);
 }
-*/
+
+#elecPanel button.close:hover,
+#elecPanel button.close:active {
+  color: rgba(255, 255, 255, 1);
+}
 
 .inputBtn {
   /*  width: 100px;*/
@@ -229,7 +232,7 @@ input[type=number]::-webkit-outer-spin-button {
 */
 
 input.inputBtn.active:valid {
-  background-color: #d2eef9;
+  background-color: hsl(200, 75%, 90%);
 }
 
 .inputBtn.active:invalid {
@@ -277,7 +280,7 @@ input.inputBtn.active:valid {
   position: fixed;
   /*  top: 42px;*/
   top: 100px;
-/*  top: 140px;*/
+  /*  top: 140px;*/
   left: 50%;
   transform: translateX(-50%);
   z-index: -40;
@@ -305,7 +308,7 @@ input.inputBtn.active:valid {
 #pcErr {
   display: none;
   position: fixed;
-  top: 60px;
+  top: 125px;
   left: 50%;
   width: 100%;
   transform: translateX(-50%);
@@ -334,77 +337,167 @@ input.inputBtn.active:valid {
 /************** ELEC PANEL ELEMENTS **************/
 
 #elecPanel {
-  width: 70%;
+  width: 400px;
+  max-width: 90%;
+  min-height: 200px;
   max-height: 90%;
-  /*  overflow-y: auto;*/
+  /*  top: 50%;*/
+  /*  transform: translate(-50%, -50%);*/
+  padding-bottom: 10px;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  margin-top: 20px;
+}
+
+.panel .header {
+  padding: 5px 0;
+  color: white;
+  background-color: hsl(165, 100%, 25%);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  /* Rainforest */
+  text-align: center;
+  margin: 0;
 }
 
 .panel h1 {
-  padding: 5px 0;
-  color: hsl(165, 100%, 25%);
-  /* Rainforest */
-  text-align: center;
-  margin: 10px 0;
+  margin: 20px 10px 0 10px;
+}
+
+.panel .header a {
+  /*  color: hsl(200, 75%, 90%);*/
+  color: hsl(60, 80%, 80%);
+  /*  font-weight: bold;*/
+}
+
+.panel .header a:hover {
+  /*  color: hsl(200, 75%, 90%);*/
+  color: hsl(60, 100%, 60%);
+  /*  font-weight: bold;*/
 }
 
 .panel h2 {
-  padding: 5px 0;
+  padding: 10px 10px 0 10px;
   color: hsl(165, 100%, 25%);
   /* Rainforest */
   text-align: left;
   margin: 5px 0;
 }
 
-.panel p {
-  margin: 5px 0;
+.panel #profile {
+  margin: 0;
+  padding: 5px 0;
+  color: white;
+  background-color: hsl(165, 100%, 25%);
 }
 
-.panel p.intro {
-  text-align: left;
-  font-size: 16px;
-  color: #444444;
-}
-
-#cands {
-  max-height: 200px;
+div#candyWrapper {
   overflow-y: auto;
+  margin: 0 10px;
 }
 
-table#candList {
-  /*  display: table;*/
+table#candies {
   width: 100%;
   border-collapse: collapse;
+  border-spacing: 0;
+  border: none;
 }
 
 tr.gap {
-  height: 5px;
+  height: 10px;
 }
 
 tr.cand {
   /*  display: table-row;*/
   margin: 5px 0;
-  background-color: #eeeeee;
-  border: solid 1px hsl(165, 50%, 75%);
+  /*  background-color: #eeeeee;*/
+  border: solid 1px hsl(300, 45%, 45%);
+  border-color: hsl(300, 45%, 45%);
 }
 
-td.candName,
-td.partyName {
+.cand td {
   /*  display: table-cell;*/
   padding: 5px;
   text-align: left;
-  vertical-align: bottom;
+  vertical-align: middle;
   /*  font-weight: bold;*/
+  border: none;
 }
 
+.cand td.rightCol {
+  background-image: linear-gradient(to bottom right, white 75%, hsl(300, 45%, 45%));
+}
+
+
+/*
+.cand td.leftCol {
+  border-right: none;
+}
+
+.cand td.rightCol {
+  border-left: none;
+}
+*/
+
+tr.cand.greens {
+  border-color: hsl(139, 46%, 45%);
+}
+
+.cand.greens td.rightCol {
+  background-image: linear-gradient(to bottom right, white 75%, hsl(139, 46%, 45%));
+}
+
+tr.cand.labor {
+  border-color: hsl(357, 76%, 56%);
+}
+
+.cand.labor td.rightCol {
+  background-image: linear-gradient(to bottom right, white 75%, hsl(357, 76%, 56%));
+}
+
+tr.cand.lib,
+tr.cand.nat,
+tr.cand.lnp {
+  border-color: hsl(216, 70%, 36%);
+}
+
+.cand.lib td.rightCol,
+.cand.nat td.rightCol,
+.cand.lnp td.rightCol {
+  background-image: linear-gradient(to bottom right, white 75%, hsl(216, 70%, 36%));
+}
+
+tr.cand.ind {
+  border-color: hsl(30, 70%, 50%);
+}
+
+.cand.ind td.rightCol {
+  background-image: linear-gradient(to bottom right, white 75%, hsl(30, 70%, 50%));
+}
+
+.rightCol .candLink {
+  margin-bottom: 2px;
+}
+
+.partyLink {
+  font-weight: bold;
+}
+
+.candLink + .partyLink {
+  margin-top: 2px;
+}
+
+
+/*
 a.guess::after {
   content: "?";
   font-weight: bold;
   color: #444444;
   font-size: 10px;
   vertical-align: top;
-  /*  margin-left: 0px;*/
   padding: 0 4px;
-  /*  border: 1px solid #888888;*/
   border-radius: 50%;
   background-color: #DDDDDD;
   width: 20px;
@@ -413,11 +506,12 @@ a.guess::after {
 a.guess:hover::after {
   content: "Google";
 }
+*/
 
-.cand img {
-  max-width: 100px;
-  /*  width: auto;*/
+.cand .imgFrame {
+  width: 100px;
   height: 100px;
+  overflow-y: hidden;
   margin-right: 10px;
 }
 
@@ -515,14 +609,14 @@ a.guess:hover::after {
   margin: 20px auto;
   /*  padding: 5px 10px;*/
   /*  border-radius: 15px;*/
-/*  padding: 15px 20px;*/
-  padding: 5px;
+  /*  padding: 15px 20px;*/
+  padding: 5px 20px;
   border-radius: 50px;
-/*  max-width: 95%;*/
+  /*  max-width: 95%;*/
   /*  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);*/
   box-shadow: 0 0 30px 0 rgba(0, 0, 0, 1);
   /*  box-shadow: inset 0 0 10px 0 #1fa9e0;*/
-  /*  background-color: #d2eef9; pale blue*/
+  /*  background-color: hsl(200, 75%, 90%); pale blue*/
   background-color: white;
   background-color: hsl(60, 100%, 97%);
   border: solid 2px hsl(60, 100%, 80%);
@@ -532,7 +626,7 @@ a.guess:hover::after {
   z-index: 60;
   opacity: 1;
   text-align: center;
-/*  background-image: radial-gradient(rgba(255, 255, 204, 1) 50%, rgba(255, 255, 255, 0) 75%);*/
+  /*  background-image: radial-gradient(rgba(255, 255, 204, 1) 50%, rgba(255, 255, 255, 0) 75%);*/
 }
 
 #mapHeader.title {
@@ -545,8 +639,7 @@ a.guess:hover::after {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   border: none;
-    padding: 0 20px;
-
+  padding: 0 20px;
   /*
   background: none;
   color: hsl(75, 100%, 40%);

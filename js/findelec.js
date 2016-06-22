@@ -18,6 +18,8 @@ var ozExtent = {
   "ymax": -9.599248
 };
 
+var titleText = "Find my electorate";
+
 var profileUrlPrefix = "http://aec.gov.au/";
 loadJson(locFilename, function (json) {
   locs = json;
@@ -171,6 +173,7 @@ function initMap() {
 
     home.on("home", function () {
       openPanel("input");
+      openHdr(titleText, true);
     });
 
     geoLocate = new LocateButton({
@@ -191,9 +194,7 @@ function initMap() {
       };
 
       drawMap("NSW", ext);
-      var mapHdr = document.getElementById("mapHeader");
-      mapHdr.innerHTML = "Click map for electorate details";
-      mapHdr.classList.remove("closed");
+      openHdr("Click map for electorate details");
 
       //      var query = new Query();
       //      query.geometry = evt.graphic.geometry;
@@ -242,7 +243,7 @@ function initMap() {
         lyr.on("click", function (evt) {
           var attrs = evt.graphic.attributes;
           var elec = attrs[Object.keys(attrs)[0]]; // First and only attribute
-          document.getElementById("mapHeader").classList.add('closed');
+          closeHdr();
           showElec(elec);
           map.setExtent(evt.graphic.geometry.getExtent());
         });
@@ -347,10 +348,8 @@ function findPc(pc) {
         //            map.setExtent(Extent(pcLocs[0].x));
       } else { // Otherwise map the locality
         drawMap(pcLocs[0].s, pcLocs[0].x);
-        var locText = titleCase(pcLocs[0].l) + " " + pcLocs[0].p;
-        var mapHdrElem = document.getElementById("mapHeader");
-        mapHdrElem.innerHTML = "<h2>Where in " + locText.trim() + "?</h2><p>Click map</p>";
-        mapHdrElem.classList.remove('closed');
+        var locText = properName(pcLocs[0].l) + " " + pcLocs[0].p;
+        openHdr("<h2>Where in " + locText.trim() + "?</h2><p>Click map</p>");
       }
       break;
     default: // Multiple locs in pc: show in drop-down
@@ -395,9 +394,7 @@ function findLoc(l) {
       } else {
         //        document.getElementById("inputPanel").style.display = "none";
         drawMap(pcLocs[i].s, pcLocs[i].x);
-        var mapHdrElem = document.getElementById("mapHeader");
-        mapHdrElem.innerHTML = "<h2>Where in " + titleCase(l) + "?</h2><p>Click map</p>";
-        mapHdrElem.classList.remove('closed');
+        openHdr("<h2>Where in " + properName(l) + "?</h2><p>Click map</p>");
       }
       break;
     }
@@ -425,7 +422,9 @@ function showElec(elec) {
 
   elecDiv.querySelector("h1").innerHTML = elec;
   elecDiv.querySelector("#profile").innerHTML = "<a href='" + profile + "' target='_blank'>Profile</a>";
-  elecDiv.querySelector("#candList").innerHTML = formatCands(elec);
+
+  elecDiv.querySelector("#candies").innerHTML = formatCands(elec);
+  elecDiv.querySelector("#candyWrapper").style.maxHeight = candyHeight() + "px";
 
   openPanel("elec");
 }
@@ -446,7 +445,7 @@ function locate() {
 //        string = otherLocString;
 //        locVerb = "are";
 //      } else {
-//        string = titleCase(loc.l);
+//        string = properName(loc.l);
 //      }
 //    }
 //    string += " " + loc.p;
@@ -459,77 +458,125 @@ function locate() {
 //}
 
 function formatCands(elec) {
-  var list = "";
+  var tRow, tBody = "";
   //  var e = elecs[elec];
   var img, alt, imgPath = "images/cands/";
   var cand, party;
-  var candLink, candLinkClass, candFbLink, partyLink, partyFbLink;
+  var candNameElem, candLink, candFbLink, candLinkClass, candLinkTitle;
+  var partyName, partyNameElem, partyLink, partyFbLink, partyLinkClass, partyLinkTitle;
   var fbBaseUrl = "//facebook.com/";
+  var googleIFLTitle = " title='Google search'";
+  var candTitle = " title='Candidate web page'",
+    partyTitle = " title='Party website'";
   var googleIFLuckyBaseUrl = "//google.com.au/search?btnI=I&q="
 
   for (i = 0; i < elecs[elec].c.length; i++) {
     if (i > 0) {
-      list += "<tr class='gap'></tr>";
+      tRow = "<tr class='gap'></tr>";
+    } else {
+      tRow = "";
     }
     cand = elecs[elec].c[i];
-    list += "<tr class='cand'>";
-    list += "<td class='candName'>";
+    tRow += "<tr class='cand'>";
+    tRow += "<td class='leftCol'>";
 
-    partyLink = cand.p;
-    partyfbLink = "";
+    cand.n = properName(cand.n);
+    candFbLink = "";
+    partyFbLink = "";
 
-    if (parties.hasOwnProperty(cand.p)) { // Include details for cand's party
-      party = parties[cand.p];
-      partyLink = party["n"] || cand.p;
-      // I only have candidate photos for major parties
-      if (party["major"] == true) {
-        img = cand.n + " " + cand.p + " " + elec + ".jpg";
-        img = imgPath + img.replace(/ /g, "_").replace(/\'/g, "").toLowerCase();
-        alt = cand.n + " " + partyLink + "candidate for " + elec;
-        list += "<img src='" + img + "' alt='" + alt + "' onerror='imgError(this);'>";
-      }
-      if (party["u"]) { // Add party website if available
-        partyLink = "<a class='partyLink' href='http://" +
-          party["u"] + "' target='_blank'>" + partyLink + "</a>";
-      }
-      if (party["f"]) { // Add party facebook link if available
-        partyfbLink = "<a class='fbLink' href='" + fbBaseUrl +
-          party["f"] + "' target='_blank'>" + "</a>";
-      }
-    }
-
-    if (cand["u"]) { // Add candidate page from party (or other) website if available
-      if (cand["u"].length == 1) {
-        if (cand["u"][0].substring(0, 2) == "//") {
-          candLink = cand["u"][0];
+    // Add candidate page from party (or other) website if available
+    if (cand.u) {
+      if (cand.u.length == 1) {
+        if (cand.u[0].substring(0, 2) == "//") {
+          candLink = cand.u[0];
         } else { // Join party website and candidate path
-          candLink = "http://" + party["u"] + "/" + cand["u"][0];
+          candLink = "http://" + party.u + "/" + cand.u[0];
         }
       } else { // two items in candidate URL array: sub-domain and path
-        candLink = "http://" + cand["u"][0] + "." + party["u"] + "/" + cand["u"][1];
+        candLink = "http://" + cand.u[0] + "." + party.u + "/" + cand.u[1];
       }
-      candLinkClass = "candLink";
+      candLinkClass = "";
+      candLinkTitle = candTitle;
     } else {
       // No link: use Google I'm Feeling Lucky
       candLink = googleIFLuckyBaseUrl + encodeURI(cand.n + " " + cand.p + " " + elec);
-      candLinkClass = "candLink guess";
+      candLinkClass = " class='guess'";
+      candLinkTitle = googleIFLTitle;
     }
-    candLink = "<a class='" + candLinkClass + "' href='" +
+
+    partyName = cand.p;
+
+    if (parties.hasOwnProperty(cand.p)) {
+      // Include details for cand's party
+
+      party = parties[cand.p];
+      partyName = party.n || cand.p;
+
+      // I only have candidate photos for major parties
+      if (party.major == true) {
+        img = cand.n + " " + cand.p + " " + elec + ".jpg";
+        img = imgPath + img.replace(/ /g, "_").replace(/\'/g, "").toLowerCase();
+        alt = cand.n + " " + partyName + " candidate for " + elec;
+        tRow += "<div class='imgFrame'><a href='" + candLink + "' target='_blank'><img src='" + img + "' width='100px' height='auto' alt='" + alt + "' onerror='imgError(this);'></a></div>";
+      }
+
+      if (party.u) {
+        // Add party website if available
+        partyLink = "http://" + party.u;
+        partyLinkClass = "";
+        partyLinkTitle = partyTitle;
+      } else {
+        // No link: use Google I'm Feeling Lucky
+        partyLink = googleIFLuckyBaseUrl + encodeURI(partyName);
+        partyLinkClass = " class='guess'";
+        partyLinkTitle = googleIFLTitle;
+      }
+
+      if (cand.p == "Ind") {
+        // Independents have no party so no party website or party Facebook page
+        partyNameElem = partyName;
+      } else {
+        partyNameElem = "<a" + partyLinkClass + partyLinkTitle + " href='" +
+          partyLink + "' target='_blank'>" + partyName + "</a>";
+
+        if (party.f) {
+          // Add party facebook link if available
+          partyFbLink = "<a class='fbLink' title='Party Facebook page' href='" +
+            fbBaseUrl + party.f + "' target='_blank'>" + "</a>";
+        }
+      }
+    } else {
+      console.warn("No party found for '" + partyName + "'")
+      partyNameElem = partyName;
+    }
+    partyNameElem = "<p class='partyLink'>" + partyNameElem + partyFbLink + "</p>";
+
+    candNameElem = "<a" + candLinkClass + candLinkTitle + " href='" +
       candLink + "' target='_blank'>" + cand.n + "</a>";
 
-    if (cand["f"]) { // Add candidate facebook link if available
-      candfbLink = "<a class='fbLink' href='" +
-        fbBaseUrl + cand["f"] + "' target='_blank'>" + "</a>";
-    } else {
-      candfbLink = "";
+    if (cand.f) { // Add candidate facebook link if available
+      candFbLink = "<a class='fbLink' title='Candidate Facebook page' href='" +
+        fbBaseUrl + cand.f + "' target='_blank'>" + "</a>";
     }
 
-    list += candLink + candfbLink + "</td>";
-    list += "<td class='partyName'>" + partyLink +
-      partyfbLink + "</td>";
-    list += "</tr>";
+    candNameElem = "<p class='candLink'>" + candNameElem + candFbLink + "</p>";
+
+    if (cand.p == "Ind" || (parties.hasOwnProperty(cand.p) && party.major == true)) {
+      tRow = tRow.replace("<tr class='cand'>", "<tr class='cand " + cand.p.toLowerCase() + "'>");
+    }
+
+    if (parties.hasOwnProperty(cand.p) && party.major == true) {
+      tRow += "</td><td class='rightCol'>";
+      tRow += candNameElem;
+    } else {
+      tRow += candNameElem;
+      tRow += "</td><td class='rightCol'>";
+    }
+    tRow += partyNameElem + "</td></tr>";
+
+    tBody += tRow;
   }
-  return list;
+  return tBody;
 }
 
 function imgError(image) {
@@ -554,10 +601,14 @@ function imgError(image) {
 //  //            pcInput.select();
 //}
 
-function titleCase(str) {
-  return str.replace(/\w\S*/g, function (txt) {
-    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-  });
+function properName(name) {
+  return ("" + name.replace(/[^\s\-\']+[\s\-\']*/g, function (word) {
+    return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+  }).replace(/\b(Van|De|Der|Da|Von)\b/g, function (nobiliaryParticle) {
+    return nobiliaryParticle.toLowerCase();
+  }).replace(/Mc(.)/g, function (match, letter3) {
+    return 'Mc' + letter3.toUpperCase();
+  }));
 }
 
 function closePanel(panel) {
@@ -578,10 +629,7 @@ function closePanel(panel) {
   // Close the shadow containing this panel
   elem.parentElement.classList.add('closed');
 
-  // Hide the map header
-  var hdrClass = document.getElementById("mapHeader").classList;
-  hdrClass.remove('title'); // Subsequent messages will not be title-styled
-  hdrClass.add('closed');
+  closeHdr();
 }
 
 function clearInput() {
@@ -600,7 +648,7 @@ function openPanel(panel, btn) {
       // elem.style.display = "block";
       elem.classList.remove('closed');
       //      document.getElementById("elecPanel").style.display = "none";
-      
+
       if (btn) {
         //  Open selected btn
         var btnElem = document.getElementById(btn + "Input");
@@ -634,6 +682,7 @@ function switchBtn(btn, on) {
       case "pcInput":
         if (!mouse) {
           document.getElementById('numpad').classList.remove('closed');
+          btn.blur();
         }
         switchBtn(document.getElementById('elecInput'), false);
         break;
@@ -662,4 +711,42 @@ function switchBtn(btn, on) {
     btn.classList.remove('active');
   }
   clearInput();
+}
+
+function openHdr(msg, title) {
+  var mapHdr = document.getElementById("mapHeader");
+  mapHdr.innerHTML = msg;
+  mapHdr.classList.remove("closed");
+  if (title) {
+    mapHdr.classList.add("title");
+  } else {
+    mapHdr.classList.remove("title");
+  }
+}
+
+function closeHdr() {
+  var classList = document.getElementById("mapHeader").classList;
+  classList.add('closed');
+  classList.remove('title');
+}
+
+function candyHeight() {
+  var elecPanel = document.getElementById("elecPanel");
+
+  var style = window.getComputedStyle(elecPanel, null);
+
+  return parseInt(style.getPropertyValue("height")) -
+    fullHeight(elecPanel.querySelector(".header")) -
+    fullHeight(elecPanel.querySelector("h2"));
+}
+
+function fullHeight(el) {
+  // Get the DOM Node if you pass in a string
+  el = (typeof el === 'string') ? document.querySelector(el) : el;
+
+  var styles = window.getComputedStyle(el);
+  var margin = parseFloat(styles['marginTop']) +
+    parseFloat(styles['marginBottom']);
+
+  return Math.ceil(el.offsetHeight + margin);
 }
