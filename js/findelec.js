@@ -240,6 +240,40 @@ function initMap() {
         labelClass.symbol = label;
         lyr.setLabelingInfo([labelClass]);
 
+        map.on("zoom-start", function () {
+          console.log("Map zoom-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          if (lyr) {
+            lyr.showLabels = false;
+          }
+        });
+        map.on("zoom-end", function () {
+          console.log("Map zoom-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          if (lyr) {
+            window.setTimeout(function () {
+              lyr.showLabels = true;
+              lyr.redraw();
+            }, 100);
+          }
+        });
+
+        //Pause labelling during zoom so we don't  see "undefined"
+        map.on("update-start", function () {
+          console.log("Map update-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          if (lyr) {
+            lyr.showLabels = false;
+          }
+        });
+
+        map.on("update-end", function () {
+          console.log("Map update-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          if (lyr) {
+            window.setTimeout(function () {
+              lyr.showLabels = true;
+              lyr.redraw();
+            }, 100);
+          }
+        });
+
         lyr.on("click", function (evt) {
           var attrs = evt.graphic.attributes;
           var elec = attrs[Object.keys(attrs)[0]]; // First and only attribute
@@ -264,6 +298,8 @@ function initMap() {
             // TODO: cope with multiple features in electorate
             map.setExtent(evt.features[0].geometry.getExtent());
             showElec(elec || evt.features[0].attributes[labelFields[state]]);
+            elec = "";
+            //            showElec(evt.features[0].attributes[labelFields[state]]);
             //            lyr.clearSelection();
           }
         });
@@ -287,12 +323,12 @@ function initMap() {
           query.geometry = new Point(extent.xmin, extent.ymin);
           //          query.outFields = [labelFields[state]];
           //          query.outFields = ["Elect_div"];
-          lyr.selectFeatures(query);
+          lyr.selectFeatures(query, lyr.SELECTION_NEW);
 
         } else {
           map.setExtent(Extent(extent));
         }
-      } else {
+      } else { // Extent not specified: must have elec
         if (!elec) {
           console.log("ERROR: Call to drawMap without extent or elec");
           return;
@@ -302,7 +338,7 @@ function initMap() {
         var where = labelFields[state] + " = '" + elec + "'";
         query.where = where;
         //        query.outFields = [labelFields[state]];
-        lyr.selectFeatures(query);
+        lyr.selectFeatures(query, lyr.SELECTION_NEW);
       }
     }
 
@@ -322,9 +358,9 @@ function findPc(pc) {
     if (locs[i].p == pc) {
       pcLocs.push(locs[i]);
       if ("e" in locs[i] && !("l" in locs[i])) { // Pc has just 1 elec
-        closePanel("input");
-        showElec(locs[i].e);
-        drawMap(pcLocs[i].s, "", locs[i].e);
+        //        closePanel("input");
+        //        showElec(locs[i].e);
+        //        drawMap(pcLocs[i].s, "", locs[i].e);
         //            map.setExtent(Extent(locs[i].x));
         break;
       }
@@ -343,7 +379,7 @@ function findPc(pc) {
     case 1:
       closePanel("input");
       if ("e" in pcLocs[0]) { // If there is an electorate, show it and zoom to it
-        showElec(pcLocs[0].e);
+        //        showElec(pcLocs[0].e);
         drawMap(pcLocs[i].s, "", pcLocs[i].e);
         //            map.setExtent(Extent(pcLocs[0].x));
       } else { // Otherwise map the locality
@@ -357,7 +393,7 @@ function findPc(pc) {
         document.getElementById("numpad").classList.add("closed");
       }
       showLocs(pcLocs);
-      document.getElementById("pcInput").classList.add("active");
+      //      document.getElementById("pcInput").classList.add("active");
       break;
   }
 }
@@ -389,7 +425,7 @@ function findLoc(l) {
     if (pcLocs[i].l == l) {
       closePanel("input");
       if ("e" in pcLocs[i]) {
-        showElec(pcLocs[i].e);
+        //        showElec(pcLocs[i].e);
         drawMap(pcLocs[i].s, "", pcLocs[i].e);
       } else {
         //        document.getElementById("inputPanel").style.display = "none";
