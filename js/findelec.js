@@ -7,7 +7,7 @@ var locFilename = "localities.json",
   elecFilename = "electorates.json",
   partyFilename = "parties.json";
 
-var map, lyr, label, symbol;
+var map, lyr, label, symbol, drawMap;
 
 //var ozExtent = {"xmin": 112.921112, "ymin": -54.640301,
 //                "xmax": 159.278717, "ymax": -9.22882};
@@ -21,6 +21,10 @@ var ozExtent = {
 var titleText = "Find my electorate";
 
 var profileUrlPrefix = "http://aec.gov.au/";
+
+var mouse = false;
+var clicked = false;
+
 loadJson(locFilename, function (json) {
   locs = json;
 });
@@ -33,47 +37,11 @@ loadJson(partyFilename, function (json) {
 });
 
 // Detect mouse movement
-var mouse = false;
-var clicked = false;
-//var InputElem = document.getElementById("pcInput");
-
-function mouseListen() {
-  //  pcInputElem.removeEventListener('mouseover', mouseListen, false);
-  document.removeEventListener('mouseover', mouseListen, false);
-  // If not clicked in 10ms, there's a mouse
-  window.setTimeout(function () {
-    if (!clicked) {
-      mouse = true;
-    }
-  }, 50);
-};
-
-function clickListen() {
-  document.removeEventListener('click', clickListen, false);
-  clicked = true;
-};
 //pcInputElem.addEventListener('mouseover', mouseListen, false);
 document.addEventListener('mouseover', mouseListen, false);
 document.addEventListener('click', clickListen, false);
 
-//var dataListSupported = "options" in document.createElement("datalist");
-// Test for datalist support: https://gist.github.com/flecno/5315453
-//var dataListSupported = !!(document.createElement('datalist') && window.HTMLDataListElement);
-var dataListSupported = false; // For testing
-
-if (!dataListSupported) {
-  alert("Datalist is not supported, adding polyfill");
-  var head = document.getElementsByTagName('head')[0];
-  var js = document.createElement("script");
-  js.type = "text/javascript";
-  js.src = "js/datalist.polyfill.min.js";
-  head.appendChild(js);
-
-  //  document.getElementById("elecInput").style.display = "none";
-  //  document.getElementById("elecInputPolyfill").style.display = "block";
-} else {
-  alert("Datalist is supported, no polyfill");
-}
+addEvents();
 
 function loadJson(url, func) {
   var xhttp = new XMLHttpRequest();
@@ -103,7 +71,92 @@ function loadElecs() {
   //  }
 }
 
-var drawMap;
+function mouseListen() {
+  //  pcInputElem.removeEventListener('mouseover', mouseListen, false);
+  document.removeEventListener('mouseover', mouseListen, false);
+  // If not clicked in 10ms, there's a mouse
+  window.setTimeout(function () {
+    if (!clicked) {
+      mouse = true;
+    }
+  }, 50);
+};
+
+function clickListen() {
+  document.removeEventListener('click', clickListen, false);
+  clicked = true;
+};
+
+function addEvents() {
+
+  document.getElementById("pcBtn").addEventListener("click", function () {
+    openPanel('input', 'pc');
+  });
+
+  document.getElementById("elecBtn").addEventListener("click", function () {
+    openPanel('input', 'elec');
+  });
+
+  document.getElementById("closeInput").addEventListener("click", function () {
+    this.blur();
+    closePanel('input');
+  });
+
+  document.getElementById("closeElec").addEventListener("click", function () {
+    this.blur();
+    closePanel('elec');
+  });
+
+  document.getElementById("locateBtn").addEventListener("click", function () {
+    geoLocate.locate();
+    closePanel('input');
+  });
+
+  document.getElementById("pcInput").addEventListener("click", function () {
+    switchBtn(this, true);
+  });
+
+  document.getElementById("elecInput").addEventListener("click", function () {
+    switchBtn(this, true);
+  });
+
+  document.getElementById("pcInput").addEventListener("keyup", function () {
+    switch (this.value.length) {
+      case 4:
+        findPc(this.value);
+        break;
+      case 3:
+        document.getElementById('pcErr').style.display = 'none';
+        break;
+      default:
+        break;
+    }
+  });
+
+  document.getElementById("elecInput").addEventListener("input", function () {
+    var p = new RegExp(this.pattern);
+    if (p.test(this.value)) {
+      findElec(this.value);
+    }
+  });
+
+  document.getElementById("locSel").addEventListener("change", function () {
+    findLoc(this.value);
+  });
+
+  for (var i = 0; i <= 9; i++) {
+    document.getElementById("btn" + i).addEventListener("click", function () {
+      numWrite(i);
+    });
+  }
+
+  for (var i in ["Clear", "Back"]) {
+    document.getElementById("btn" + i).addEventListener("click", function () {
+      numWrite(i.toLowerCase);
+    });
+  }
+
+}
 
 function initMap() {
   require([
@@ -262,13 +315,13 @@ function initMap() {
         lyr.setLabelingInfo([labelClass]);
 
         map.on("zoom-start", function () {
-          console.log("Map zoom-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          //          console.log("Map zoom-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             lyr.showLabels = false;
           }
         });
         map.on("zoom-end", function () {
-          console.log("Map zoom-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          //          console.log("Map zoom-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             window.setTimeout(function () {
               lyr.showLabels = true;
@@ -279,14 +332,14 @@ function initMap() {
 
         //Pause labelling during zoom so we don't  see "undefined"
         map.on("update-start", function () {
-          console.log("Map update-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          //          console.log("Map update-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             lyr.showLabels = false;
           }
         });
 
         map.on("update-end", function () {
-          console.log("Map update-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          //          console.log("Map update-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             window.setTimeout(function () {
               lyr.showLabels = true;
@@ -573,8 +626,8 @@ function formatCands(elec) {
       if (party.major) {
         img = cand.n + " " + cand.p + " " + elec + ".jpg";
         img = imgPath + img.replace(/ /g, "_").replace(/\'/g, "").toLowerCase();
-        png = img.replace(/jpg$/,"png");
-        alt = (cand.n + " " + partyName + " candidate for " + elec).replace(/'/g,"\'");
+        png = img.replace(/jpg$/, "png");
+        alt = (cand.n + " " + partyName + " candidate for " + elec).replace(/'/g, "\'");
         tRow += "<a href='" + candLink + "' target='_blank'><div class='imgFrame' style='background-image: url(" + img + "), url(" + png + ")'></div></a>";
       }
 
@@ -694,6 +747,7 @@ function closePanel(panel) {
   elem.parentElement.classList.add('closed');
 
   closeHdr();
+  map.enableMapNavigation();
 }
 
 function clearInput() {
@@ -710,6 +764,7 @@ function clearInput() {
 function openPanel(panel, btn) {
   //  panel.innerHTML = "";
   var elem = document.getElementById(panel + "Panel");
+  map.disableMapNavigation();
   switch (panel) {
     case "input":
       // elem.style.display = "block";
