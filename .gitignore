@@ -1,6 +1,9 @@
 # Backup folder
 old/
 
+# File copies made in Windows explorer
+* - Copy*
+
 # Candidate images
 images/cands/
 
