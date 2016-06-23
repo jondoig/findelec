@@ -41,6 +41,25 @@ loadJson(partyFilename, function (json) {
 document.addEventListener('mouseover', mouseListen, false);
 document.addEventListener('click', clickListen, false);
 
+//var dataListSupported = "options" in document.createElement("datalist");
+// Test for datalist support: https://gist.github.com/flecno/5315453
+//var dataListSupported = !!(document.createElement('datalist') && window.HTMLDataListElement);
+var dataListSupported = false; // For testing
+
+if (!dataListSupported) {
+  alert("Datalist is not supported, adding polyfill");
+  var head = document.getElementsByTagName('head')[0];
+  var js = document.createElement("script");
+  js.type = "text/javascript";
+  js.src = "js/datalist.polyfill.min.js";
+  head.appendChild(js);
+
+  //  document.getElementById("elecInput").style.display = "none";
+  //  document.getElementById("elecInputPolyfill").style.display = "block";
+} else {
+  alert("Datalist is supported, no polyfill");
+}
+
 addEvents();
 
 function loadJson(url, func) {
