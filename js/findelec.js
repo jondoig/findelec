@@ -7,7 +7,7 @@ var locFilename = "localities.json",
   elecFilename = "electorates.json",
   partyFilename = "parties.json";
 
-var map, lyr, label, symbol;
+var map, lyr, label, symbol, drawMap;
 
 //var ozExtent = {"xmin": 112.921112, "ymin": -54.640301,
 //                "xmax": 159.278717, "ymax": -9.22882};
@@ -21,6 +21,10 @@ var ozExtent = {
 var titleText = "Find my electorate";
 
 var profileUrlPrefix = "http://aec.gov.au/";
+
+var mouse = false;
+var clicked = false;
+
 loadJson(locFilename, function (json) {
   locs = json;
 });
@@ -33,25 +37,6 @@ loadJson(partyFilename, function (json) {
 });
 
 // Detect mouse movement
-var mouse = false;
-var clicked = false;
-//var InputElem = document.getElementById("pcInput");
-
-function mouseListen() {
-  //  pcInputElem.removeEventListener('mouseover', mouseListen, false);
-  document.removeEventListener('mouseover', mouseListen, false);
-  // If not clicked in 10ms, there's a mouse
-  window.setTimeout(function () {
-    if (!clicked) {
-      mouse = true;
-    }
-  }, 50);
-};
-
-function clickListen() {
-  document.removeEventListener('click', clickListen, false);
-  clicked = true;
-};
 //pcInputElem.addEventListener('mouseover', mouseListen, false);
 document.addEventListener('mouseover', mouseListen, false);
 document.addEventListener('click', clickListen, false);
@@ -85,7 +70,21 @@ function loadElecs() {
   }
 }
 
-var drawMap;
+function mouseListen() {
+  //  pcInputElem.removeEventListener('mouseover', mouseListen, false);
+  document.removeEventListener('mouseover', mouseListen, false);
+  // If not clicked in 10ms, there's a mouse
+  window.setTimeout(function () {
+    if (!clicked) {
+      mouse = true;
+    }
+  }, 50);
+};
+
+function clickListen() {
+  document.removeEventListener('click', clickListen, false);
+  clicked = true;
+};
 
 function addEvents() {
 
