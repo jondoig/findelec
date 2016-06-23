@@ -746,6 +746,7 @@ function closePanel(panel) {
   elem.parentElement.classList.add('closed');
 
   closeHdr();
+  map.enableMapNavigation();
 }
 
 function clearInput() {
@@ -759,6 +760,7 @@ function clearInput() {
 function openPanel(panel, btn) {
   //  panel.innerHTML = "";
   var elem = document.getElementById(panel + "Panel");
+  map.disableMapNavigation();
   switch (panel) {
     case "input":
       // elem.style.display = "block";
