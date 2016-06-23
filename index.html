@@ -16,7 +16,7 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
   <script src="js/numpad.js" defer></script>
 
   <link rel="stylesheet" href="css/numpad.css">
-<!--  <link rel="stylesheet" href="css/marchingAnts.css">-->
+  <!--  <link rel="stylesheet" href="css/marchingAnts.css">-->
 
   <!--  <script src="js/device.js"></script>-->
 
@@ -34,61 +34,62 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
       <div class="mapBtns">
         <div id="HomeBtn" class="mapBtn"></div>
         <div id="LocateButton" class="mapBtn" title="Find electorate by my location"></div>
-        <div id="pcBtn" class="mapBtn" onclick="openPanel('input','pc')" title="Find electorate by postcode"></div>
-        <div id="elecBtn" class="mapBtn" onclick="openPanel('input','elec')" title="Find electorate by name"></div>
+        <div id="pcBtn" class="mapBtn" title="Find electorate by postcode"></div>
+        <div id="elecBtn" class="mapBtn" title="Find electorate by name"></div>
         <!--        <div id="locateBtn" class="mapBtn" title="Zoom map to your location"></div>-->
       </div>
     </div>
   </div>
   <div id="shadow">
     <div id="inputPanel" class="panel">
-      <button class="close" onclick="this.blur(); closePanel('input')">✖</button>
-      <button id="locateBtn" class="inputBtn" onClick="geoLocate.locate(); closePanel('input')">My location</button>
-      <input id="pcInput" class="inputBtn" placeholder="Postcode" type="text" pattern="^(0(8([0-9][0-9]?)?)?|^[2-4]([0-9]([0-9][0-9]?)?)?|^5([0-8]([0-9][0-9]?)?)?|^6([0-6]([0-9][0-9]?)?)?|^6(7([0-8][0-9]?)?)?|^6(7(9[0-7]?)?)?|^7([0-7]([0-9][0-9]?)?)?)$" onClick="switchBtn(this, true)" onkeyup="switch (this.value.length) {case 4: findPc(this.value); break; case 3: document.getElementById('pcErr').style.display = 'none'; break; default: break;}">
-      <select id="locSel" onchange="findLoc(this.value)">
+      <button id="closeInput" class="close">✖</button>
+      <button id="locateBtn" class="inputBtn">My location</button>
+      <input id="pcInput" class="inputBtn" placeholder="Postcode" type="text" pattern="^(0(8([0-9][0-9]?)?)?|^[2-4]([0-9]([0-9][0-9]?)?)?|^5([0-8]([0-9][0-9]?)?)?|^6([0-6]([0-9][0-9]?)?)?|^6(7([0-8][0-9]?)?)?|^6(7(9[0-7]?)?)?|^7([0-7]([0-9][0-9]?)?)?)$">
+      <select id="locSel">
         <optgroup id="locOptions" label="Please select"></optgroup>
       </select>
       <p id="pcErr">Invalid postcode</p>
 
       <div id="numpad" class="closed">
-        <div id="btn1" class="numBtn" onclick="numWrite(1);">
+        <div id="btn1" class="numBtn">
           <div>1</div>
         </div>
-        <div id="btn2" class="numBtn" onclick="numWrite(2)">
+        <div id="btn2" class="numBtn">
           <div>2</div>
         </div>
-        <div id="btn3" class="numBtn" onclick="numWrite(3);">
+        <div id="btn3" class="numBtn">
           <div>3</div>
         </div>
-        <div id="btn4" class="numBtn" onclick="numWrite(4);">
+        <div id="btn4" class="numBtn">
           <div>4</div>
         </div>
-        <div id="btn5" class="numBtn" onclick="numWrite(5);">
+        <div id="btn5" class="numBtn">
           <div>5</div>
         </div>
-        <div id="btn6" class="numBtn" onclick="numWrite(6);">
+        <div id="btn6" class="numBtn">
           <div>6</div>
         </div>
-        <div id="btn7" class="numBtn" onclick="numWrite(7)">
+        <div id="btn7" class="numBtn">
           <div>7</div>
         </div>
-        <div id="btn8" class="numBtn" onclick="numWrite(8);">
+        <div id="btn8" class="numBtn">
           <div>8</div>
         </div>
-        <div id="btn9" class="numBtn" onclick="numWrite(9);">
+        <div id="btn9" class="numBtn">
           <div>9</div>
         </div>
-        <div id="btnClear" class="numBtn" onclick="numWrite('clear');">
+        <div id="btnClear" class="numBtn">
           <div>C</div>
         </div>
-        <div id="btn0" class="numBtn" onclick="numWrite(0);">
+        <div id="btn0" class="numBtn">
           <div>0</div>
         </div>
-        <div id="btnBack" class="numBtn" onclick="numWrite('back');">
+        <div id="btnBack" class="numBtn">
           <div><img src="images/backspace.svg"></div>
         </div>
       </div>
-      <input id="elecInput" class="inputBtn" placeholder="Electorate" pattern="^[a-zA-Z][a-zA-Z\- ]*$" list="elecList" onClick="switchBtn(this, true)" onInput="var p = new RegExp(this.pattern); if(p.test(this.value)) {findElec(this.value)}">
+<!--      <input id="elecInput" class="inputBtn" placeholder="Electorate" pattern="^[a-zA-Z][a-zA-Z\- ]*$" list="elecList" onInput="var p = new RegExp(this.pattern); if(p.test(this.value)) {findElec(this.value)}">-->
+      <input id="elecInput" class="inputBtn" placeholder="Electorate" pattern="^[a-zA-Z][a-zA-Z\- ]*$" list="elecList">
       <datalist id="elecList">
       </datalist>
       <select id="elecInputPolyfill" onChange="showElec(this.value)"></select>
@@ -96,7 +97,7 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
   </div>
   <div id="shadow" class="closed">
     <div id="elecPanel" class="panel">
-      <button class="close" onclick="this.blur(); closePanel('elec')">✖</button>
+      <button id="closeElec" class="close">✖</button>
       <div class="header">
         <!--        <p class="intro"></p>-->
         <h1></h1>

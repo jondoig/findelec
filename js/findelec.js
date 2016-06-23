@@ -56,6 +56,9 @@ function clickListen() {
 document.addEventListener('mouseover', mouseListen, false);
 document.addEventListener('click', clickListen, false);
 
+
+addEvents();
+
 function loadJson(url, func) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
@@ -83,6 +86,77 @@ function loadElecs() {
 }
 
 var drawMap;
+
+function addEvents() {
+
+  document.getElementById("pcBtn").addEventListener("click", function () {
+    openPanel('input', 'pc');
+  });
+
+  document.getElementById("elecBtn").addEventListener("click", function () {
+    openPanel('input', 'elec');
+  });
+
+  document.getElementById("closeInput").addEventListener("click", function () {
+    this.blur();
+    closePanel('input');
+  });
+
+  document.getElementById("closeElec").addEventListener("click", function () {
+    this.blur();
+    closePanel('elec');
+  });
+
+  document.getElementById("locateBtn").addEventListener("click", function () {
+    geoLocate.locate();
+    closePanel('input');
+  });
+
+  document.getElementById("pcInput").addEventListener("click", function () {
+    switchBtn(this, true);
+  });
+
+  document.getElementById("elecInput").addEventListener("click", function () {
+    switchBtn(this, true);
+  });
+
+  document.getElementById("pcInput").addEventListener("keyup", function () {
+    switch (this.value.length) {
+      case 4:
+        findPc(this.value);
+        break;
+      case 3:
+        document.getElementById('pcErr').style.display = 'none';
+        break;
+      default:
+        break;
+    }
+  });
+
+  document.getElementById("elecInput").addEventListener("input", function () {
+    var p = new RegExp(this.pattern);
+    if (p.test(this.value)) {
+      findElec(this.value);
+    }
+  });
+
+  document.getElementById("locSel").addEventListener("change", function () {
+    findLoc(this.value);
+  });
+
+  for (var i = 0; i <= 9; i++) {
+    document.getElementById("btn" + i).addEventListener("click", function () {
+      numWrite(i);
+    });
+  }
+
+  for (var i in ["Clear", "Back"]) {
+    document.getElementById("btn" + i).addEventListener("click", function () {
+      numWrite(i.toLowerCase);
+    });
+  }
+
+}
 
 function initMap() {
   require([
