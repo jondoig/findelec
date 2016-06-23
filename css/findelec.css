@@ -260,10 +260,6 @@ input.inputBtn.active:valid {
   background-image: url("../images/auspost.svg");
 }
 
-#elecInput {
-  background-image: url("../images/vote.svg");
-}
-
 
 /*
 #pcButton {
@@ -331,9 +327,19 @@ input.inputBtn.active:valid {
 
 */
 
+
+/*#elecInput,#elecInputPolyfill {*/
+
+#elecInput {
+  background-image: url("../images/vote.svg");
+}
+
+
+/*
 #elecInputPolyfill {
   display: none
 }
+*/
 
 
 /************** ELEC PANEL ELEMENTS **************/
@@ -519,6 +525,7 @@ a.guess:hover::after {
   background-position: top left;
 }
 
+
 /*
 .cand .imgFrame img {
   min-height: 100px;
@@ -667,4 +674,40 @@ a.guess:hover::after {
 
 #mapHeader h2 {
   font-size: 28px;
+}
+
+
+/* From https://github.com/Fyrd/purejs-datalist-polyfill */
+
+#elecList{
+  background-color: red;
+}
+
+.datalist-polyfill {
+  list-style: none;
+  display: none;
+  background: white;
+  box-shadow: 0 2px 2px #999;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 60;
+}
+
+.datalist-polyfill:empty {
+  display: none !important;
+}
+
+.datalist-polyfill > li {
+  padding: 3px;
+  font: 13px "Lucida Grande", Sans-Serif;
+}
+
+.datalist-polyfill__active {
+  background: #3875d7;
+  color: white;
 }
