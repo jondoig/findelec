@@ -314,13 +314,13 @@ function initMap() {
         lyr.setLabelingInfo([labelClass]);
 
         map.on("zoom-start", function () {
-          console.log("Map zoom-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          //          console.log("Map zoom-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             lyr.showLabels = false;
           }
         });
         map.on("zoom-end", function () {
-          console.log("Map zoom-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          //          console.log("Map zoom-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             window.setTimeout(function () {
               lyr.showLabels = true;
@@ -331,14 +331,14 @@ function initMap() {
 
         //Pause labelling during zoom so we don't  see "undefined"
         map.on("update-start", function () {
-          console.log("Map update-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          //          console.log("Map update-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             lyr.showLabels = false;
           }
         });
 
         map.on("update-end", function () {
-          console.log("Map update-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
+          //          console.log("Map update-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             window.setTimeout(function () {
               lyr.showLabels = true;
@@ -625,8 +625,8 @@ function formatCands(elec) {
       if (party.major) {
         img = cand.n + " " + cand.p + " " + elec + ".jpg";
         img = imgPath + img.replace(/ /g, "_").replace(/\'/g, "").toLowerCase();
-        png = img.replace(/jpg$/,"png");
-        alt = (cand.n + " " + partyName + " candidate for " + elec).replace(/'/g,"\'");
+        png = img.replace(/jpg$/, "png");
+        alt = (cand.n + " " + partyName + " candidate for " + elec).replace(/'/g, "\'");
         tRow += "<a href='" + candLink + "' target='_blank'><div class='imgFrame' style='background-image: url(" + img + "), url(" + png + ")'></div></a>";
       }
 
