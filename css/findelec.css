@@ -48,6 +48,8 @@ a:visited {
 .panel {
   position: absolute;
   left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
   transform: translateX(-50%);
   /*  margin: 20px;*/
   margin: auto;
@@ -284,6 +286,8 @@ input.inputBtn.active:valid {
   /*  top: 42px;*/
   /*  top: 140px;*/
   left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
   transform: translateX(-50%);
   z-index: -40;
   font-size: 14px;
@@ -627,6 +631,8 @@ a.guess:hover::after {
   position: fixed;
   top: 0;
   left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
   transform: translateX(-50%);
   margin: 20px auto;
   /*  padding: 5px 10px;*/
