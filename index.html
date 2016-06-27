@@ -88,11 +88,10 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
           <div><img src="images/backspace.svg"></div>
         </div>
       </div>
-<!--      <input id="elecInput" class="inputBtn" placeholder="Electorate" pattern="^[a-zA-Z][a-zA-Z\- ]*$" list="elecList" onInput="var p = new RegExp(this.pattern); if(p.test(this.value)) {findElec(this.value)}">-->
+      <!--      <input id="elecInput" class="inputBtn" placeholder="Electorate" pattern="^[a-zA-Z][a-zA-Z\- ]*$" list="elecList" onInput="var p = new RegExp(this.pattern); if(p.test(this.value)) {findElec(this.value)}">-->
       <input id="elecInput" class="inputBtn" placeholder="Electorate" pattern="^[a-zA-Z][a-zA-Z\- ]*$" list="elecList">
-      <datalist id="elecList">
-      </datalist>
-      <select id="elecInputPolyfill" onChange="showElec(this.value)"></select>
+      <datalist id="elecList"></datalist>
+      <select id="elecInputPolyfill"></select>
     </div>
   </div>
   <div id="shadow" class="closed">

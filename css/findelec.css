@@ -277,17 +277,25 @@ input.inputBtn.active:valid {
 }
 */
 
-#locSel {
+#locSel,
+#elecInputPolyfill {
   display: none;
   position: fixed;
   /*  top: 42px;*/
-  top: 100px;
   /*  top: 140px;*/
   left: 50%;
   transform: translateX(-50%);
   z-index: -40;
   font-size: 14px;
   color: #008060;
+}
+
+#locSel {
+  top: 100px;
+}
+
+#elecInputPolyfill {
+  top: 175px;
 }
 
 
@@ -518,6 +526,7 @@ a.guess:hover::after {
   background-size: cover;
   background-position: top left;
 }
+
 
 /*
 .cand .imgFrame img {

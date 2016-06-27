@@ -25,12 +25,14 @@ var profileUrlPrefix = "http://aec.gov.au/";
 var mouse = false;
 var clicked = false;
 
+var elecArray = [];
+
 loadJson(locFilename, function (json) {
   locs = json;
 });
 loadJson(elecFilename, function (json) {
   elecs = json;
-  loadElecs();
+  elecArray = loadElecs();
 });
 loadJson(partyFilename, function (json) {
   parties = json;
@@ -43,6 +45,24 @@ document.addEventListener('click', clickListen, false);
 
 
 addEvents();
+
+// Test for datalist support: https://gist.github.com/flecno/5315453
+//var dataListSupported = !!(document.createElement('datalist') && window.HTMLDataListElement);
+var dataListSupported = false; // For testing
+
+//if (!dataListSupported) {
+////  alert("Datalist is not supported, adding polyfill");
+//  //  var head = document.getElementsByTagName('head')[0];
+//  //  var js = document.createElement("script");
+//  //  js.type = "text/javascript";
+//  //  js.src = "js/datalist.polyfill.min.js";
+//  //  head.appendChild(js);
+//
+//  //  document.getElementById("elecInput").style.display = "none";
+//  //  document.getElementById("elecInputPolyfill").style.display = "block";
+//} else {
+////  alert("Datalist is supported, no polyfill");
+//}
 
 function loadJson(url, func) {
   var xhttp = new XMLHttpRequest();
@@ -58,16 +78,19 @@ function loadJson(url, func) {
 // Load  electorates into datalist if supported, otherwise into select options
 function loadElecs() {
   var options = "";
-  var elecArray = Object.keys(elecs).sort();
+  var myArray = Object.keys(elecs).sort();
 
-  for (var i = 0; i < elecArray.length; i++) {
-    options += "<option value=\"" + elecArray[i] + "\">" + elecArray[i] + "</option>\n";
-  }
-  if ("options" in document.createElement("datalist")) {
+  //  for (var i = 0; i < myArray.length; i++) {
+  //    options += "<option>" + myArray[i] + "</option>\n";
+  //  }
+  options = "<option>" + myArray.join("</option>\n<option>") + "</option>\n";
+  if (dataListSupported) {
     document.getElementById("elecList").innerHTML = options;
-  } else {
-    document.getElementById("elecListPolyfill").innerHTML = options;
   }
+  //  else {
+  //    document.getElementById("elecInputPolyfill").innerHTML = options;
+  //  }
+  return myArray;
 }
 
 function mouseListen() {
@@ -137,6 +160,10 @@ function addEvents() {
     if (p.test(this.value)) {
       findElec(this.value);
     }
+  });
+
+  document.getElementById("elecInputPolyfill").addEventListener("change", function () {
+    findElec(this.value);
   });
 
   document.getElementById("locSel").addEventListener("change", function () {
@@ -459,13 +486,13 @@ function findPc(pc) {
       if (!mouse) {
         document.getElementById("numpad").classList.add("closed");
       }
-      showLocs(pcLocs);
+      selLoc(pcLocs);
       //      document.getElementById("pcInput").classList.add("active");
       break;
   }
 }
 
-function showLocs(locs) {
+function selLoc(locs) {
   var selElem = document.getElementById("locSel"),
     optElem = selElem.querySelector("#locOptions");
   var options = "<option hidden></option>\n",
@@ -509,7 +536,32 @@ function findElec(elec) {
     closePanel('input');
     //    showElec(elec);
     drawMap(elecs[elec].s, "", elec);
+  } else {
+    if (!dataListSupported) {
+//      alert("Datalist not supported, adding polyfill");
+      selElec(elec);
+    }
   }
+}
+
+function selElec(i) {
+  var selElem = document.getElementById("elecInputPolyfill"),
+    options = "<option hidden></option>\n",
+    event = new MouseEvent('mousedown');
+
+  i = i.toUpperCase();
+  for (j = 0; j < elecArray.length; j++) {
+    if (elecArray[j].toUpperCase().startsWith(i)) {
+      options += "<option>" + elecArray[j] + "</option>\n";
+    }
+  }
+
+  selElem.innerHTML = options;
+  selElem.style.display = "initial";
+
+  window.setTimeout(function () {
+    selElem.dispatchEvent(event);
+  }, 50);
 }
 
 function showElec(elec) {
@@ -749,6 +801,9 @@ function clearInput() {
   document.getElementById("locSel").style.display = "none";
   document.getElementById("pcErr").style.display = "none";
   document.getElementById("elecInput").value = "";
+  if (!dataListSupported) {
+    document.getElementById("elecInputPolyfill").style.display = "none";
+  }
 }
 
 function openPanel(panel, btn) {
