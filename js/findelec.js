@@ -196,10 +196,11 @@ function initMap() {
         "esri/tasks/query",
         "esri/symbols/SimpleLineSymbol",
         "esri/dijit/LocateButton",
+        "esri/tasks/locator",
         "dojo/domReady!"
 //    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Graphic, Query) {
 //    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Query) {
-            ], function (Map, HomeButton, FeatureLayer, Extent, Point, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, Query, SimpleLineSymbol, LocateButton) {
+            ], function (Map, HomeButton, FeatureLayer, Extent, Point, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, Query, SimpleLineSymbol, LocateButton, Locator) {
 
     var drawColor = new Color("#008060");
 
@@ -228,6 +229,8 @@ function initMap() {
       VIC: "ELECT_DIV",
       WA: "Elect_div"
     };
+
+    var stateLocatorUrl = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 
     map = new Map("viewDiv", {
       basemap: "streets",
@@ -287,12 +290,36 @@ function initMap() {
         ymax: lat
       };
 
-      drawMap("NSW", ext);
+      //      stateLocator.locationToAddress(new Point(evt.position.coords), 1, drawState, errState);
+      stateLocator.locationToAddress(new Point(evt.position.coords), "", drawState);
+    });
+
+    //    map.infoWindow.hide();
+
+    function drawState(result) {
+      var state = result.address.Region;
+      var ext = {
+        xmin: result.location.x,
+        ymin: result.location.y,
+        xmax: result.location.x,
+        ymax: result.location.y
+      };
+      for (s in states) {
+        if (states[s] === state) {
+          break;
+        }
+      }
+
+      drawMap(s, ext);
       openHdr("Click map for electorate details");
 
       //      var query = new Query();
       //      query.geometry = evt.graphic.geometry;
       //      lyr.selectFeatures(query, lyr.SELECTION_NEW);
+    }
+
+    var stateLocator = new Locator(stateLocatorUrl, {
+      countryCode: "AU"
     });
 
     //    lyr.on("selection-complete") {
@@ -391,8 +418,13 @@ function initMap() {
 
             // TODO: cope with multiple features in electorate
             map.setExtent(evt.features[0].geometry.getExtent());
-            showElec(properName(elec || evt.features[0].attributes[labelFields[state]]));
-            elec = "";
+            elec = elec || evt.features[0].attributes[labelFields[state]];
+            if (elec) {
+              showElec(properName(elec));
+              elec = "";
+            } else {
+              console.warn("Blank elec - cannot show");
+            }
             //            showElec(evt.features[0].attributes[labelFields[state]]);
             //            lyr.clearSelection();
           }
@@ -538,7 +570,7 @@ function findElec(elec) {
     drawMap(elecs[elec].s, "", elec);
   } else {
     if (!dataListSupported) {
-//      alert("Datalist not supported, adding polyfill");
+      //      alert("Datalist not supported, adding polyfill");
       selElec(elec);
     }
   }
