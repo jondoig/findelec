@@ -47,8 +47,8 @@ document.addEventListener('click', clickListen, false);
 addEvents();
 
 // Test for datalist support: https://gist.github.com/flecno/5315453
-//var dataListSupported = !!(document.createElement('datalist') && window.HTMLDataListElement);
-var dataListSupported = false; // For testing
+var dataListSupported = !!(document.createElement('datalist') && window.HTMLDataListElement);
+//var dataListSupported = false; // For testing
 
 //if (!dataListSupported) {
 ////  alert("Datalist is not supported, adding polyfill");
