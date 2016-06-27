@@ -867,6 +867,7 @@ function openPanel(panel, btn) {
     case "elec":
       closePanel("input");
       //      document.getElementById("inputPanel").style.display = "none";
+      document.getElementById("candyWrapper").scrollTop = 0;
       elem.style.display = "block";
       break;
     default:
