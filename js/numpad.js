@@ -1,18 +1,19 @@
-function numWrite(n) {
+function numWrite(btn) {
   // Based on http://webdevelopersreference.blogspot.com.au/2012/01/on-screen-number-pad-using-javascript.html
-
   // Do nothing if disabled number key is pressed
-  if (document.getElementById("btn" + n).classList.contains("disabled")) {
+  if (btn.classList.contains("disabled")) {
     return
   }
 
+  var n = btn.id.replace("btn","");
+  
   var textBox = document.getElementById("pcInput");
   switch (n) {
-    case "back":
+    case "Back":
       textBox.value = textBox.value.slice(0, -1);
       document.getElementById("pcErr").style.display = "none";
       break;
-    case "clear":
+    case "Clear":
       clearInput();
       break;
     default:

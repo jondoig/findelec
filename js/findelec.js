@@ -143,18 +143,12 @@ function addEvents() {
     findLoc(this.value);
   });
 
-  for (var i = 0; i <= 9; i++) {
-    document.getElementById("btn" + i).addEventListener("click", function () {
-      numWrite(i);
+  var btns = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "Clear", "Back"];
+  for (var i = 0; i < btns.length; i++) {
+    document.getElementById("btn" + btns[i]).addEventListener("click", function () {
+      numWrite(this);
     });
   }
-
-  for (var i in ["Clear", "Back"]) {
-    document.getElementById("btn" + i).addEventListener("click", function () {
-      numWrite(i.toLowerCase);
-    });
-  }
-
 }
 
 function initMap() {
