@@ -306,12 +306,15 @@ function initMap() {
       };
       for (s in states) {
         if (states[s] === state) {
+          drawMap(s, ext);
+          openHdr("Click map for electorate details");
           break;
         }
       }
 
-      drawMap(s, ext);
-      openHdr("Click map for electorate details");
+      if (states[s] != state) {
+        openHdr("Location found is outside Australia");
+      }
 
       //      var query = new Query();
       //      query.geometry = evt.graphic.geometry;
@@ -331,7 +334,7 @@ function initMap() {
     //    }
 
     document.getElementsByClassName("mapBtns")[0].style.display = "block";
-    
+
     openHdr(titleText, true);
 
     drawMap = function (state, extent, elec) {
