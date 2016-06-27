@@ -370,7 +370,7 @@ function initMap() {
 
         lyr.on("click", function (evt) {
           var attrs = evt.graphic.attributes;
-          var elec = attrs[Object.keys(attrs)[0]]; // First and only attribute
+          var elec = properName(attrs[Object.keys(attrs)[0]]); // First and only attribute
           closeHdr();
           showElec(elec);
           map.setExtent(evt.graphic.geometry.getExtent());
@@ -391,7 +391,7 @@ function initMap() {
 
             // TODO: cope with multiple features in electorate
             map.setExtent(evt.features[0].geometry.getExtent());
-            showElec(elec || evt.features[0].attributes[labelFields[state]]);
+            showElec(properName(elec || evt.features[0].attributes[labelFields[state]]));
             elec = "";
             //            showElec(evt.features[0].attributes[labelFields[state]]);
             //            lyr.clearSelection();
