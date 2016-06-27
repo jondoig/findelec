@@ -18,7 +18,7 @@ var ozExtent = {
   "ymax": -9.599248
 };
 
-var titleText = "Find my electorate";
+var titleText = "Find my <img src='images/flag_au.svg'> electorate";
 
 var profileUrlPrefix = "http://aec.gov.au/";
 
@@ -331,6 +331,8 @@ function initMap() {
     //    }
 
     document.getElementsByClassName("mapBtns")[0].style.display = "block";
+    
+    openHdr(titleText, true);
 
     drawMap = function (state, extent, elec) {
 

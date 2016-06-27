@@ -79,7 +79,7 @@ a:visited {
   Match width of drop-down for longest locality:
     pc 2620 RENDEZVOUS CREEK DISTRICT
 */
-  top: 150px;
+  top: 170px;
   width: 238px;
 }
 
@@ -667,6 +667,12 @@ a.guess:hover::after {
   color: hsl(75, 100%, 40%);
   text-shadow: -1px -1px white, 1px 1px #333;
 */
+}
+
+#mapHeader.title img {
+  height: 25px;
+  width: auto;
+  display: inline;
 }
 
 #mapHeader h2,
