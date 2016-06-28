@@ -676,6 +676,15 @@ function formatCands(elec) {
     candFbLink = "";
     partyFbLink = "";
 
+    if (parties.hasOwnProperty(cand.p)) {
+      party = parties[cand.p];
+      partyName = party.n || cand.p;
+    } else {
+      console.warn("No party found for '" + partyName + "'");
+      partyName = cand.p;
+      partyNameElem = partyName;
+    }
+
     // Add candidate page from party (or other) website if available
     if (cand.u) {
       if (cand.u.length === 1) {
@@ -696,13 +705,8 @@ function formatCands(elec) {
       candLinkTitle = googleIFLTitle;
     }
 
-    partyName = cand.p;
-
     if (parties.hasOwnProperty(cand.p)) {
       // Include details for cand's party
-
-      party = parties[cand.p];
-      partyName = party.n || cand.p;
 
       // I only have candidate photos for major parties
       if (party.major) {
@@ -738,9 +742,6 @@ function formatCands(elec) {
             fbBaseUrl + party.f + "' target='_blank'>" + "</a>";
         }
       }
-    } else {
-      console.warn("No party found for '" + partyName + "'")
-      partyNameElem = partyName;
     }
     partyNameElem = "<p class='partyLink'>" + partyNameElem + partyFbLink + "</p>";
 
