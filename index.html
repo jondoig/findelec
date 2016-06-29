@@ -40,8 +40,8 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
       </div>
     </div>
     <div id="footer">
-      <a id="aboutLink" href="">About</a> |
-      <a href="mailto:jonathan.doig@gmail.com?subject='Find my electorate'">Feedback</a>
+      <a id="aboutLink" href="javascript:openPanel('about');">About</a> |
+      <a href="mailto:mail@findmyelectorate.com?subject=Find%20my%20electorate" target="_blank">Feedback</a>
     </div>
   </div>
   <div id="shadow">
@@ -100,8 +100,8 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
   </div>
   <div id="shadow" class="closed">
     <div id="elecPanel" class="panel">
-      <button id="closeElec" class="close">✖</button>
       <div class="header">
+        <button id="closeElec" class="close">✖</button>
         <!--        <p class="intro"></p>-->
         <h1></h1>
         <p id="profile"></p>
@@ -112,29 +112,37 @@ https://googledrive.com/host/0B4rKiNtdxe1NYTk5OExBRnlqSFE/index.html
       </div>
     </div>
   </div>
-  <div id="shadow">
+  <div id="shadow" class="closed">
     <div id="aboutPanel" class="panel">
-      <button id="closeElec" class="close">✖</button>
       <div class="header">
+        <button id="closeAbout" class="close">✖</button>
         <!--        <p class="intro"></p>-->
-        <h1>About this website</h1>
+        <h1>About this web app</h1>
       </div>
       <div class="panelBody">
+        <p>
+          <i><b>Find my electorate</b></i> helps Australian voters identify their federal electoral division and learn about their local candidates for the 2016 election.
+        </p>
+        <p>
+          Web app by <a href="https://www.linkedin.com/in/jonathan-doig-1a98781b" target="_blank"> Jonathan Doig</a> using <a href="https://developers.arcgis.com/javascript/3/" target="_blank">ArcGIS API for Javascript</a>.
+        </p>
+
         <p>
           Data accessed June 2016 from Australian Electoral Commission: <a href="http://www.aec.gov.au/electorates/gis/" target="_blank">electoral boundaries</a>, <a href="http://www.aec.gov.au/election/candidates.htm" target="_blank">candidates</a>, <a href="http://apps.aec.gov.au/esearch/" target="_blank">postcodes and localities</a>.</p>
         <p>
           Candidate photos from party websites.</p>
-        <p>Icons:</p>
-        <ul class="icons">
-          <li><a href="https://www.aftership.com/courier/australia-post" target="_blank"> <img src="images/auspost.svg"> aftership</a></li>
-          <li><a href="http://plainicon.com/download-icon/48480/backspace" target="_blank"> <img src="images/backspace.svg"> Amadeze/Plainicon</a></li>
-          <li><a href="https://commons.wikimedia.org/wiki/File:Aiga_mail_inverted_nobg.svg" target="_blank"> <img src="images/email_all.svg"> US DoT - AIGA/Wikimedia</a></li>
-          <li><a href="https://commons.wikimedia.org/wiki/File:F_icon.svg" target="_blank"> <img src="images/facebook.svg"> Facebook/Wikimedia</a></li>
-          <li><a href="https://en.wikipedia.org/wiki/File:Flag_of_Australia.svg" target="_blank"> <img src="images/flag_au.svg" class="nobg"> Wikimedia</a></li>
-          <li><a href="https://commons.wikimedia.org/wiki/File:Ic_my_location_48px.svg" target="_blank"> <img src="images/locate.svg"> Google/Wikimedia</a></li>
-          <li><a href="https://thenounproject.com/term/vote/22039/" target="_blank"> <img src="images/vote.svg"> Re Jean Soo/the Noun project</a></li>
-        </ul>
-
+        <p>
+          Icons:
+          <span class="icons">
+              <a href="https://www.aftership.com/courier/australia-post" target="_blank" title="aftership"><img src="images/auspost.svg"></a>
+              <a href="http://plainicon.com/download-icon/48480/backspace" target="_blank" title="Amadeze/Plainicon"><img src="images/backspace.svg"></a>
+              <a href="https://commons.wikimedia.org/wiki/File:Aiga_mail_inverted_nobg.svg" target="_blank" title="US DoT - AIGA/Wikimedia"><img src="images/email_all.svg"></a>
+              <a href="https://commons.wikimedia.org/wiki/File:F_icon.svg" target="_blank" title="Facebook/Wikimedia"><img src="images/facebook.svg"></a>
+              <a href="https://en.wikipedia.org/wiki/File:Flag_of_Australia.svg" target="_blank" title="Wikimedia"><img src="images/flag_au.svg" class="nobg"></a>
+              <a href="https://commons.wikimedia.org/wiki/File:Ic_my_location_48px.svg" target="_blank" title="Google/Wikimedia"><img src="images/locate.svg"></a>
+              <a href="https://thenounproject.com/term/vote/22039/" target="_blank" title="Re Jean Soo/the Noun project"><img src="images/vote.svg"></a>
+          </span>
+        </p>
       </div>
     </div>
   </div>

@@ -20,7 +20,7 @@ var ozExtent = {
 
 var titleText = "Find my <img src='images/flag_au.svg'> electorate";
 
-var profileUrlPrefix = "http://aec.gov.au/";
+var profileUrlPrefix = "//aec.gov.au/";
 
 var mouse = false;
 var clicked = false;
@@ -129,6 +129,11 @@ function addEvents() {
     closePanel('elec');
   });
 
+  document.getElementById("closeAbout").addEventListener("click", function () {
+    this.blur();
+    closePanel('about');
+  });
+
   document.getElementById("locateBtn").addEventListener("click", function () {
     geoLocate.locate();
     closePanel('input');
@@ -230,7 +235,8 @@ function initMap() {
       WA: "Elect_div"
     };
 
-    var stateLocatorUrl = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+//    var stateLocatorUrl = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+    var stateLocatorUrl = "//geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 
     map = new Map("viewDiv", {
       basemap: "streets",
@@ -814,6 +820,11 @@ function properName(name) {
 function closePanel(panel) {
   //  elem.innerHTML = "";
   var elem = document.getElementById(panel + "Panel");
+
+  if ((' ' + elem.className + ' ').indexOf(' closed ') > -1) {
+    return;
+  }
+
   if (panel === "input") {
     //    if (!mouse) {
     //      document.getElementById("numpad").classList.add("closed");
@@ -871,6 +882,10 @@ function openPanel(panel, btn) {
       document.getElementById("candyWrapper").scrollTop = 0;
       elem.style.display = "block";
       break;
+    case "about":
+      closePanel("input");
+      closePanel("elec");
+      closeHdr();
     default:
       break;
   }

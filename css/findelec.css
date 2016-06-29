@@ -59,7 +59,7 @@ a:visited {
   border-radius: 10px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.75);
   background-color: white;
-  z-index: 60;
+  z-index: 70;
   text-align: center;
   opacity: 1;
   max-height: 90%;
@@ -111,12 +111,12 @@ button.close:active {
   color: rgba(0, 0, 0, 1);
 }
 
-#elecPanel button.close {
+.header button.close {
   color: rgba(255, 255, 255, 0.5);
 }
 
-#elecPanel button.close:hover,
-#elecPanel button.close:active {
+.header button.close:hover,
+.header button.close:active {
   color: rgba(255, 255, 255, 1);
 }
 
@@ -554,10 +554,16 @@ a.guess:hover::after {
 
 .panelBody {
   text-align: left;
-  margin: 10px 20px 0 20px;
+  margin: 0px 20px 0 20px;
   overflow-y: auto;
 }
 
+.panelBody p {
+  margin: 16px 0 0 0;
+}
+
+
+/*
 ul.icons {
   list-style: none;
   padding-left: 15px;
@@ -566,6 +572,7 @@ ul.icons {
 .icons li {
   margin: 5px 0;
 }
+*/
 
 .icons img {
   background-color: hsl(165, 100%, 25%);
