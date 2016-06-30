@@ -2,15 +2,12 @@ var locs,
   pcLocs,
   elecs;
 
-//var locFilename = "localtest.json";
 var locFilename = "localities.json",
   elecFilename = "electorates.json",
   partyFilename = "parties.json";
 
 var map, lyr, label, symbol, drawMap;
 
-//var ozExtent = {"xmin": 112.921112, "ymin": -54.640301,
-//                "xmax": 159.278717, "ymax": -9.22882};
 var ozExtent = {
   "xmin": 112.296895,
   "ymin": -44.006562,
@@ -39,7 +36,6 @@ loadJson(partyFilename, function (json) {
 });
 
 // Detect mouse movement
-//pcInputElem.addEventListener('mouseover', mouseListen, false);
 document.addEventListener('mouseover', mouseListen, false);
 document.addEventListener('click', clickListen, false);
 
@@ -48,21 +44,6 @@ addEvents();
 
 // Test for datalist support: https://gist.github.com/flecno/5315453
 var dataListSupported = !!(document.createElement('datalist') && window.HTMLDataListElement);
-//var dataListSupported = false; // For testing
-
-//if (!dataListSupported) {
-////  alert("Datalist is not supported, adding polyfill");
-//  //  var head = document.getElementsByTagName('head')[0];
-//  //  var js = document.createElement("script");
-//  //  js.type = "text/javascript";
-//  //  js.src = "js/datalist.polyfill.min.js";
-//  //  head.appendChild(js);
-//
-//  //  document.getElementById("elecInput").style.display = "none";
-//  //  document.getElementById("elecInputPolyfill").style.display = "block";
-//} else {
-////  alert("Datalist is supported, no polyfill");
-//}
 
 function loadJson(url, func) {
   var xhttp = new XMLHttpRequest();
@@ -80,21 +61,14 @@ function loadElecs() {
   var options = "";
   var myArray = Object.keys(elecs).sort();
 
-  //  for (var i = 0; i < myArray.length; i++) {
-  //    options += "<option>" + myArray[i] + "</option>\n";
-  //  }
   options = "<option>" + myArray.join("</option>\n<option>") + "</option>\n";
   if (dataListSupported) {
     document.getElementById("elecList").innerHTML = options;
   }
-  //  else {
-  //    document.getElementById("elecInputPolyfill").innerHTML = options;
-  //  }
   return myArray;
 }
 
 function mouseListen() {
-  //  pcInputElem.removeEventListener('mouseover', mouseListen, false);
   document.removeEventListener('mouseover', mouseListen, false);
   // If not clicked in 10ms, there's a mouse
   window.setTimeout(function () {
@@ -198,14 +172,11 @@ function initMap() {
         "esri/symbols/SimpleMarkerSymbol",
         "esri/renderers/SimpleRenderer",
         "esri/symbols/SimpleFillSymbol",
-//        "esri/graphic",
         "esri/tasks/query",
         "esri/symbols/SimpleLineSymbol",
         "esri/dijit/LocateButton",
         "esri/tasks/locator",
         "dojo/domReady!"
-//    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Graphic, Query) {
-//    ], function (Map, HomeButton, FeatureLayer, Extent, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, SimpleLineSymbol, Query) {
             ], function (Map, HomeButton, FeatureLayer, Extent, Point, TextSymbol, Font, LabelClass, Color, SimpleMarkerSymbol, SimpleRenderer, SimpleFillSymbol, Query, SimpleLineSymbol, LocateButton, Locator) {
 
     var drawColor = new Color("#008060");
@@ -236,17 +207,13 @@ function initMap() {
       WA: "Elect_div"
     };
 
-    //    var stateLocatorUrl = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
     var stateLocatorUrl = "//geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 
     map = new Map("viewDiv", {
       basemap: "streets",
-      //      extent: new Extent(west, south, east, north),
       showLabels: true,
       extent: new Extent(ozExtent),
       fitExtent: true
-        //      ,minScale: 40000000, // User cannot zoom out beyond 1:40m (Australia)
-        //      maxScale: 9000 // User cannot zoom in beyond 1:9k (street)
     });
 
     //create symbol to draw the electorates layer
@@ -258,12 +225,9 @@ function initMap() {
       ),
       new Color([0, 0, 0, 0])
     );
-    // Empty fill
-    //        new Color(drawColor), 3 // Rainforest green line 
 
     // create a text symbol to define the style of labels
     label = new TextSymbol().setColor(drawColor);
-    //    label.font.setSize("14pt");
     label.font.setSize("18pt");
     label.font.setFamily("arial");
     label.font.setWeight(Font.WEIGHT_BOLD);
@@ -287,7 +251,6 @@ function initMap() {
     geoLocate.startup();
 
     geoLocate.on("locate", function (evt) {
-      //      console.log(evt.position);
       var lat = evt.position.coords.latitude;
       var lng = evt.position.coords.longitude;
       var ext = {
@@ -297,11 +260,8 @@ function initMap() {
         ymax: lat
       };
 
-      //      stateLocator.locationToAddress(new Point(evt.position.coords), 1, drawState, errState);
       stateLocator.locationToAddress(new Point(evt.position.coords), "", drawState);
     });
-
-    //    map.infoWindow.hide();
 
     function drawState(result) {
       var state = result.address.Region;
@@ -322,23 +282,11 @@ function initMap() {
       if (states[s] != state) {
         openHdr("Location found is outside Australia");
       }
-
-      //      var query = new Query();
-      //      query.geometry = evt.graphic.geometry;
-      //      lyr.selectFeatures(query, lyr.SELECTION_NEW);
     }
 
     var stateLocator = new Locator(stateLocatorUrl, {
       countryCode: "AU"
     });
-
-    //    lyr.on("selection-complete") {
-    //      var attrs = evt.graphic.attributes;
-    //      var elec = attrs[Object.keys(attrs)[0]]; // First and only attribute
-    ////      document.getElementById("mapHeader").classList.add('closed');
-    //      showElec(elec);
-    //      map.setExtent(evt.graphic.geometry.getExtent());
-    //    }
 
     document.getElementsByClassName("mapBtns")[0].style.display = "block";
 
@@ -348,7 +296,6 @@ function initMap() {
 
       // Create layer if no layer or state has changed
       var stateUrlString = states[state].replace(/ /g, "_");
-      //      console.log("Create layer? " + (!lyr || lyr.url.indexOf(stateUrlString) < 0));
       if (!lyr || lyr.url.indexOf(stateUrlString) < 0) {
 
         if (lyr) {
@@ -374,13 +321,11 @@ function initMap() {
         lyr.setLabelingInfo([labelClass]);
 
         map.on("zoom-start", function () {
-          //          console.log("Map zoom-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             lyr.showLabels = false;
           }
         });
         map.on("zoom-end", function () {
-          //          console.log("Map zoom-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             window.setTimeout(function () {
               lyr.showLabels = true;
@@ -391,14 +336,12 @@ function initMap() {
 
         //Pause labelling during zoom so we don't  see "undefined"
         map.on("update-start", function () {
-          //          console.log("Map update-start, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             lyr.showLabels = false;
           }
         });
 
         map.on("update-end", function () {
-          //          console.log("Map update-end, lyr: " + lyr.url.replace(/.*2016_/, ""));
           if (lyr) {
             window.setTimeout(function () {
               lyr.showLabels = true;
@@ -416,7 +359,6 @@ function initMap() {
         });
 
         lyr.on("selection-complete", function (evt) {
-          //          map.setExtent(evt.graphic.geometry.getExtent());
           if (evt.features.length === 0) {
             console.log("ERROR: " + evt.features.length +
               " features with " + where + " in " + state);
@@ -425,8 +367,6 @@ function initMap() {
               console.log("WARNING: " + evt.features.length +
                 " features with " + where);
             }
-            //            var highlightGraphic = new Graphic(evt.features[0].geometry, highlightSymbol);
-            //            map.graphics.add(highlightGraphic);
 
             // TODO: cope with multiple features in electorate
             map.setExtent(evt.features[0].geometry.getExtent());
@@ -437,21 +377,11 @@ function initMap() {
             } else {
               console.warn("Blank elec - cannot show");
             }
-            //            showElec(evt.features[0].attributes[labelFields[state]]);
-            //            lyr.clearSelection();
           }
         });
 
         map.addLayer(lyr);
       }
-      //      var highlightSymbol = new SimpleFillSymbol(
-      //        SimpleFillSymbol.STYLE_SOLID,
-      //        new SimpleLineSymbol(
-      //          SimpleLineSymbol.STYLE_SOLID,
-      //          new Color([128, 60, 0]), 5
-      //        ),
-      //        new Color([0, 128, 96, 0.35])
-      //      );
 
       if (extent) {
         if (extent.xmin === extent.xmax && extent.ymin === extent.ymax) {
@@ -459,8 +389,6 @@ function initMap() {
 
           var query = new Query();
           query.geometry = new Point(extent.xmin, extent.ymin);
-          //          query.outFields = [labelFields[state]];
-          //          query.outFields = ["Elect_div"];
           lyr.selectFeatures(query, lyr.SELECTION_NEW);
 
         } else {
@@ -496,10 +424,6 @@ function findPc(pc) {
     if (locs[i].p === pc) {
       pcLocs.push(locs[i]);
       if ("e" in locs[i] && !("l" in locs[i])) { // Pc has just 1 elec
-        //        closePanel("input");
-        //        showElec(locs[i].e);
-        //        drawMap(pcLocs[i].s, "", locs[i].e);
-        //            map.setExtent(Extent(locs[i].x));
         break;
       }
     }
@@ -511,15 +435,11 @@ function findPc(pc) {
   switch (pcLocs.length) {
     case 0:
       document.getElementById("pcErr").style.display = "initial";
-      //      alert("Invalid postcode: pcErr should be showing");
-      // document.getElementById("pcInput").focus();
       break;
     case 1:
       closePanel("input");
       if ("e" in pcLocs[0]) { // If there is an electorate, show it and zoom to it
-        //        showElec(pcLocs[0].e);
         drawMap(pcLocs[0].s, "", pcLocs[0].e);
-        //            map.setExtent(Extent(pcLocs[0].x));
       } else { // Otherwise map the locality
         drawMap(pcLocs[0].s, pcLocs[0].x);
         var locText = properName(pcLocs[0].l) + " " + pcLocs[0].p;
@@ -538,8 +458,6 @@ function findPc(pc) {
 
 function selLoc(locs) {
   var selElem = document.getElementById("locSel"),
-    //    optElem = selElem.querySelector("#locOptions");
-    //  var options = "<option hidden></option>\n",
     options = "",
     otherLocText = "*** ALL OTHER PLACES ***",
     maxLocLen = 17,
@@ -547,60 +465,26 @@ function selLoc(locs) {
 
   for (i = 0; i < locs.length; i++) {
     locText = (locs[i].l === "*") ? otherLocText : locs[i].l;
-//    if (locText.length > maxLocLen) {
-//      locText = locText.substr(0, maxLocLen - 2) + "&hellip;";
-//    }
     options += "<option value=\"" + locs[i].l + "\">" + locText + "</option>\n";
   }
 
   selElem.innerHTML = options;
   selElem.style.display = "block";
-  //  selElem.focus();
-  //  selElem.select();
-  //  clickElem(selElem);
   openSel(selElem);
 }
 
 function openSel(elem) {
   var maxSelSize = 10;
   elem.size = Math.min(elem.childElementCount, maxSelSize);
-//  elem.classList.add("openPolyfill");
 }
-
-//function clickElem(elem) {
-//  switch (typeof MouseEvent) {
-//    case "function":
-//      var event = new MouseEvent('mousedown');
-//      break;
-//    case "object":
-//      elem.classList.add("openPolyfill");
-//      elem.size = 3;
-//      //      var event = document.createEvent("MouseEvent");
-//      //      event.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-//      break;
-//    default:
-//      console.warn("Unknown type of MouseEvent: " + (typeof MouseEvent));
-//      break;
-//  }
-//  window.setTimeout(function () {
-//    console.log("Dispatching event:");
-//    console.log(event);
-//    console.log("On elem:");
-//    console.log(elem);
-//
-//    elem.dispatchEvent(event);
-//  }, 50);
-//}
 
 function findLoc(l) {
   for (var i = 0; i < pcLocs.length; i++) {
     if (pcLocs[i].l === l) {
       closePanel("input");
       if ("e" in pcLocs[i]) {
-        //        showElec(pcLocs[i].e);
         drawMap(pcLocs[i].s, "", pcLocs[i].e);
       } else {
-        //        document.getElementById("inputPanel").style.display = "none";
         drawMap(pcLocs[i].s, pcLocs[i].x);
         openHdr("<h2>Where in " + properName(l) + "?</h2><p>Click map</p>");
       }
@@ -612,11 +496,9 @@ function findLoc(l) {
 function findElec(elec) {
   if (elec in elecs) {
     closePanel('input');
-    //    showElec(elec);
     drawMap(elecs[elec].s, "", elec);
   } else {
     if (!dataListSupported) {
-      //      alert("Datalist not supported, adding polyfill");
       selElec(elec);
     }
   }
@@ -642,13 +524,6 @@ function selElec(i) {
 function showElec(elec) {
   var elecDiv = document.getElementById("elecPanel");
   var profile = profileUrlPrefix + elec.replace("'", "").replace(" ", "-");
-  //  var introElem = elecDiv.querySelector(".intro");
-  //  if (loc) {
-  //    introElem.innerHTML = locString(loc);
-  //    introElem.style.display = "initial";
-  //  } else {
-  //    introElem.style.display = "none";
-  //  }
 
   elecDiv.querySelector("h1").innerHTML = elec;
   elecDiv.querySelector("#profile").innerHTML = "<a href='" + profile + "' target='_blank'>Profile</a>";
@@ -663,33 +538,8 @@ function locate() {
 
 }
 
-//function locString(loc) {
-//  var otherLocString = "All other places in";
-//  var string, locVerb = "is";
-////  var mappedLocString = "Your location";
-////  if (loc) {
-//    if (!("l" in loc)) {
-//      string = "Postcode";
-//    } else {
-//      if (loc.l === "*") {
-//        string = otherLocString;
-//        locVerb = "are";
-//      } else {
-//        string = properName(loc.l);
-//      }
-//    }
-//    string += " " + loc.p;
-//    return string + " " + locVerb + " in:";
-////  } else {
-////    return "";
-////    // Can't assume mapped: can be from elecInput
-////    // string = mappedLocString;
-////  }
-//}
-
 function formatCands(elec) {
   var tRow, tBody = "";
-  //  var e = elecs[elec];
   var img, png, alt, imgPath = "images/cands/";
   var cand, party;
   var candNameElem, candLink, candFbLink, candLinkClass, candLinkTitle;
@@ -811,34 +661,6 @@ function formatCands(elec) {
   return tBody;
 }
 
-// Can't use this now we're using background-image instead of img. Just use fall-back png
-//function imgError(image) {
-//  // If file extension is .jpg, try again with .png (e.g. Lib Victoria)
-//  if (image.src.split(".").pop().toLowerCase() === "jpg") {
-//    image.src = image.src.replace(/jpg$/, "png");
-//  } else {
-//    image.onerror = "";
-//    image.src = "images/blank.png";
-//    image.style.width = 0;
-//    image.style.height = 0;
-//  }
-//  return true;
-//}
-
-//
-//function restart() {
-////  document.getElementsByClassName("numpad")[0].style.display = "block";
-////  document.getElementById("elecPanel").style.display = "none";
-//  //            document.getElementById("locSel").style.display = "none";
-//  document.getElementById("pcErr").style.display = "none";
-//
-//  var pcInput = document.getElementById("pcInput");
-//  pcInput.value = "";
-//  pcInput.focus();
-//  disableNumBtns("");
-//  //            pcInput.select();
-//}
-
 function properName(name) {
   return ("" + name.replace(/[^\s\-\']+[\s\-\']*/g, function (word) {
     return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
@@ -858,9 +680,6 @@ function closePanel(panel) {
   }
 
   if (panel === "input") {
-    //    if (!mouse) {
-    //      document.getElementById("numpad").classList.add("closed");
-    //    }
     var inputs = elem.querySelectorAll(".inputBtn:not(button)");
     for (var i = 0; i < inputs.length; i++) {
       //      inputs[i].classList.remove("active");
@@ -893,9 +712,7 @@ function openPanel(panel, btn) {
   map.disableMapNavigation();
   switch (panel) {
     case "input":
-      // elem.style.display = "block";
       elem.classList.remove('closed');
-      //      document.getElementById("elecPanel").style.display = "none";
 
       if (btn) {
         //  Open selected btn
@@ -910,7 +727,6 @@ function openPanel(panel, btn) {
       break;
     case "elec":
       closePanel("input");
-      //      document.getElementById("inputPanel").style.display = "none";
       document.getElementById("candyWrapper").scrollTop = 0;
       elem.style.display = "block";
       break;
@@ -953,7 +769,6 @@ function switchBtn(btn, on) {
         if (!mouse) {
           document.getElementById("numpad").classList.add('closed');
         }
-        //          document.getElementById("locSel").style.display = 'none';
         break;
       case "elecInput":
         break;
