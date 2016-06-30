@@ -458,7 +458,7 @@ function findPc(pc) {
 
 function selLoc(locs) {
   var selElem = document.getElementById("locSel"),
-    options = "",
+    options = "<option hidden></option>\n",
     otherLocText = "*** ALL OTHER PLACES ***",
     maxLocLen = 17,
     locText;
@@ -475,7 +475,29 @@ function selLoc(locs) {
 
 function openSel(elem) {
   var maxSelSize = 10;
-  elem.size = Math.min(elem.childElementCount, maxSelSize);
+  elem.size = Math.min(elem.childElementCount - 1, maxSelSize);
+
+  switch (typeof MouseEvent) {
+    case "function":
+      var event = new MouseEvent('mousedown');
+      break;
+    case "object":
+      var event = document.createEvent("MouseEvent");
+      event.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+      break;
+    default:
+      console.warn("Unknown type of MouseEvent: " + (typeof MouseEvent));
+      break;
+  }
+  window.setTimeout(function () {
+    console.log("Dispatching event:");
+    console.log(event);
+    console.log("On elem:");
+    console.log(elem);
+
+    elem.dispatchEvent(event);
+  }, 50);
+
 }
 
 function findLoc(l) {
@@ -516,7 +538,7 @@ function selElec(i) {
   }
 
   selElem.innerHTML = options;
-  selElem.style.display = "initial";
+  selElem.style.display = "block";
 
   openSel(selElem);
 }
