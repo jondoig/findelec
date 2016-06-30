@@ -154,6 +154,7 @@ function addEvents() {
         break;
       case 3:
         document.getElementById('pcErr').style.display = 'none';
+        document.getElementById('locSel').style.display = 'none';
         break;
       default:
         break;
@@ -235,7 +236,7 @@ function initMap() {
       WA: "Elect_div"
     };
 
-//    var stateLocatorUrl = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+    //    var stateLocatorUrl = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
     var stateLocatorUrl = "//geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 
     map = new Map("viewDiv", {
@@ -266,8 +267,8 @@ function initMap() {
     label.font.setSize("18pt");
     label.font.setFamily("arial");
     label.font.setWeight(Font.WEIGHT_BOLD);
-    label.setHaloColor(new Color("white"));
-    label.setHaloSize(5);
+    label.setHaloColor(new Color([255, 255, 255, .7]));
+    label.setHaloSize(3);
 
     var home = new HomeButton({
       map: map
@@ -537,25 +538,59 @@ function findPc(pc) {
 
 function selLoc(locs) {
   var selElem = document.getElementById("locSel"),
-    optElem = selElem.querySelector("#locOptions");
-  var options = "<option hidden></option>\n",
-    otherLocText = "*** OTHER PLACES ***",
+    //    optElem = selElem.querySelector("#locOptions");
+    //  var options = "<option hidden></option>\n",
+    options = "",
+    otherLocText = "*** ALL OTHER PLACES ***",
+    maxLocLen = 17,
     locText;
-  var event = new MouseEvent('mousedown');
 
   for (i = 0; i < locs.length; i++) {
     locText = (locs[i].l === "*") ? otherLocText : locs[i].l;
+//    if (locText.length > maxLocLen) {
+//      locText = locText.substr(0, maxLocLen - 2) + "&hellip;";
+//    }
     options += "<option value=\"" + locs[i].l + "\">" + locText + "</option>\n";
   }
 
-  optElem.innerHTML = options;
-  selElem.style.display = "initial";
+  selElem.innerHTML = options;
+  selElem.style.display = "block";
   //  selElem.focus();
   //  selElem.select();
-  window.setTimeout(function () {
-    selElem.dispatchEvent(event);
-  }, 50);
+  //  clickElem(selElem);
+  openSel(selElem);
 }
+
+function openSel(elem) {
+  var maxSelSize = 10;
+  elem.size = Math.min(elem.childElementCount, maxSelSize);
+//  elem.classList.add("openPolyfill");
+}
+
+//function clickElem(elem) {
+//  switch (typeof MouseEvent) {
+//    case "function":
+//      var event = new MouseEvent('mousedown');
+//      break;
+//    case "object":
+//      elem.classList.add("openPolyfill");
+//      elem.size = 3;
+//      //      var event = document.createEvent("MouseEvent");
+//      //      event.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+//      break;
+//    default:
+//      console.warn("Unknown type of MouseEvent: " + (typeof MouseEvent));
+//      break;
+//  }
+//  window.setTimeout(function () {
+//    console.log("Dispatching event:");
+//    console.log(event);
+//    console.log("On elem:");
+//    console.log(elem);
+//
+//    elem.dispatchEvent(event);
+//  }, 50);
+//}
 
 function findLoc(l) {
   for (var i = 0; i < pcLocs.length; i++) {
@@ -589,8 +624,7 @@ function findElec(elec) {
 
 function selElec(i) {
   var selElem = document.getElementById("elecInputPolyfill"),
-    options = "<option hidden></option>\n",
-    event = new MouseEvent('mousedown');
+    options = "<option hidden></option>\n";
 
   i = i.toUpperCase();
   for (j = 0; j < elecArray.length; j++) {
@@ -602,9 +636,7 @@ function selElec(i) {
   selElem.innerHTML = options;
   selElem.style.display = "initial";
 
-  window.setTimeout(function () {
-    selElem.dispatchEvent(event);
-  }, 50);
+  openSel(selElem);
 }
 
 function showElec(elec) {

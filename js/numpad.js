@@ -20,7 +20,7 @@ function numWrite(btn) {
       textBox.value += n;
       break;
   }
-  if (textBox.value.length == 4) {
+  if (textBox.value.length === 4) {
     findPc(textBox.value);
   }
   disableNumBtns(textBox.value);

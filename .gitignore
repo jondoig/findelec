@@ -1,6 +1,9 @@
 # Backup folder
 old/
 
+#  Temp upload folder
+images/upload/
+
 # File copies made in Windows explorer
 * - Copy*
 
