@@ -474,8 +474,14 @@ function selLoc(locs) {
 }
 
 function openSel(elem) {
-  var maxSelSize = 10;
+  var maxSelSize = 10,
+      borderHeight = 2;
   elem.size = Math.min(elem.childElementCount - 1, maxSelSize);
+  
+  if (elem.scrollHeight > elem.clientHeight + borderHeight) {
+    // Scroll down to hide the hidden element on IE11 & Edge
+    elem.scrollTop = 16;
+  }
 
   switch (typeof MouseEvent) {
     case "function":

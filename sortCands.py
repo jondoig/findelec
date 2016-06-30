@@ -16,7 +16,8 @@ elecs_out = {}
 
 # Sort majors first, then by party, then by name
 def compareCand(a, b):
-  majors = ['Greens', 'Labor', 'Lib', 'Nat']
+  majors = ['Greens', 'Labor', 'CLP', 'Lib', 'LNP', 'Nat']
+
 #  print "  Sorting " + a['n'] + " and " + b['n']
   if a['p'] in majors and not b['p'] in majors:
     return -1
@@ -24,6 +25,11 @@ def compareCand(a, b):
     return 1
   elif a['p'] == b['p']:
     if a['n'] < b['n']:
+      return -1
+    else:
+      return 1
+  elif a['p'] in majors and b['p'] in majors:
+    if majors.index(a['p']) < majors.index(b['p']):
       return -1
     else:
       return 1

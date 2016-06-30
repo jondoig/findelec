@@ -261,6 +261,8 @@ option {
   top: 125px;
   left: 50%;
   width: 100%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
   transform: translateX(-50%);
   font-style: italic;
   font-size: 14px;
@@ -416,7 +418,10 @@ tr.cand.ind {
   width: 400px;
   max-width: 90%;
   max-height: 90%;
-  top: 100px;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .panelBody {
