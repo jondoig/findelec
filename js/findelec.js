@@ -401,7 +401,7 @@ function initMap() {
         }
 
         var query = new Query();
-        var where = labelFields[state] + " = '" + elec + "'";
+        var where = labelFields[state] + " = '" + elec.replace(/'/g, "''") + "'";
         query.where = where;
         //        query.outFields = [labelFields[state]];
         lyr.selectFeatures(query, lyr.SELECTION_NEW);
