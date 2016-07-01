@@ -371,12 +371,12 @@ function initMap() {
             // TODO: cope with multiple features in electorate
             map.setExtent(evt.features[0].geometry.getExtent());
             elec = elec || evt.features[0].attributes[labelFields[state]];
-            if (elec) {
-              showElec(properName(elec));
-              elec = "";
-            } else {
-              console.warn("Blank elec - cannot show");
-            }
+            //            if (elec) {
+            //              showElec(properName(elec));
+            //              elec = "";
+            //            } else {
+            //              console.warn("Blank elec - cannot show");
+            //            }
           }
         });
 
@@ -396,15 +396,16 @@ function initMap() {
         }
       } else { // Extent not specified: must have elec
         if (!elec) {
-          console.log("ERROR: Call to drawMap without extent or elec");
+          console.error("Call to drawMap without extent or elec");
           return;
         }
-
+        showElec(properName(elec));
         var query = new Query();
         var where = labelFields[state] + " = '" + elec.replace(/'/g, "''") + "'";
         query.where = where;
         //        query.outFields = [labelFields[state]];
         lyr.selectFeatures(query, lyr.SELECTION_NEW);
+        elec = "";
       }
     }
 
@@ -475,9 +476,9 @@ function selLoc(locs) {
 
 function openSel(elem) {
   var maxSelSize = 10,
-      borderHeight = 2;
+    borderHeight = 2;
   elem.size = Math.min(elem.childElementCount - 1, maxSelSize);
-  
+
   if (elem.scrollHeight > elem.clientHeight + borderHeight) {
     // Scroll down to hide the hidden element on IE11 & Edge
     elem.scrollTop = 16;
@@ -559,7 +560,9 @@ function showElec(elec) {
   elecDiv.querySelector("#candies").innerHTML = formatCands(elec);
   elecDiv.querySelector("#candyWrapper").style.maxHeight = candyHeight() + "px";
 
+  history.pushState("", document.title, "?e=" + elec.replace(/[' ]/g, "").toLowerCase());
   openPanel("elec");
+
 }
 
 function locate() {
@@ -616,7 +619,7 @@ function formatCands(elec) {
       candLinkTitle = candTitle;
     } else {
       // No link: use Google I'm Feeling Lucky
-      candLink = googleIFLuckyBaseUrl + encodeURI(cand.n + " " + cand.p + " " + elec);
+      candLink = googleIFLuckyBaseUrl + encodeURIComponent(cand.n + " " + cand.p + " " + elec);
       candLinkClass = " class='guess'";
       candLinkTitle = googleIFLTitle;
     }
@@ -640,7 +643,7 @@ function formatCands(elec) {
         partyLinkTitle = partyTitle;
       } else {
         // No link: use Google I'm Feeling Lucky
-        partyLink = googleIFLuckyBaseUrl + encodeURI(partyName);
+        partyLink = googleIFLuckyBaseUrl + encodeURIComponent(partyName);
         partyLinkClass = " class='guess'";
         partyLinkTitle = googleIFLTitle;
       }
@@ -701,20 +704,32 @@ function properName(name) {
 
 function closePanel(panel) {
   //  elem.innerHTML = "";
+  if (!panel) {
+    panel = "elec";
+  }
   var elem = document.getElementById(panel + "Panel");
 
   if ((' ' + elem.className + ' ').indexOf(' closed ') > -1) {
     return;
   }
 
-  if (panel === "input") {
-    var inputs = elem.querySelectorAll(".inputBtn:not(button)");
-    for (var i = 0; i < inputs.length; i++) {
-      //      inputs[i].classList.remove("active");
-      switchBtn(inputs[i], false);
-    }
-    elem.classList.add("closed");
-    clearInput();
+  switch (panel) {
+    case "input":
+      var inputs = elem.querySelectorAll(".inputBtn:not(button)");
+      for (var i = 0; i < inputs.length; i++) {
+        //      inputs[i].classList.remove("active");
+        switchBtn(inputs[i], false);
+      }
+      elem.classList.add("closed");
+      clearInput();
+      break;
+    case "elec":
+      window.onbeforeunload = "";
+      window.removeEventListener("popstate", closePanel);
+      history.pushState("", document.title, location.pathname);
+      break;
+    default:
+      break;
   }
   // Close the shadow containing this panel
   elem.parentElement.classList.add('closed');
@@ -757,6 +772,10 @@ function openPanel(panel, btn) {
       closePanel("input");
       document.getElementById("candyWrapper").scrollTop = 0;
       elem.style.display = "block";
+      window.onbeforeunload = function () {
+        return "Click x to close the pop-up";
+      };
+      window.addEventListener("popstate", closePanel, false);
       break;
     case "about":
       closePanel("input");
