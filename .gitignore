@@ -1,6 +1,9 @@
 # Backup folder
 old/
 
+# Design folder
+/design/
+
 #  Temp upload folder
 images/upload/
 
