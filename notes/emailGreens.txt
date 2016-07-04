@@ -1,0 +1,72 @@
+Plan for today's campaign:
+
+findelec changes:
+a. on showElec(e) add ?e=<e> to address
+b. body.onLoad if ?e showElec(e)
+
+Test screenshot of findelec(e) from s.wordpress.com/mshots/v1/<u>?w=600
+s.wordpress.com/mshots/v1/https%3A%2F%2Ffindmyelectorate.com%2F%3Fe%3DMelbourne%20Ports?w=600
+
+If OK, use the URL. Or maybe create og:images for all elecs and upload to site
+
+If time:
+- Make PHP for web scrapers like Facebook to provide og:image and description
+
+Create Mailchimp mailing list with:
+c.fn	firstName
+c.ln	lastName
+c.e	electorate
+u	findElecUrl
+
+Email all Greens candidates from Mailchimp
+
+Candidates click thru to site
+Candidates share my email, or use the links to share to email, Facebook or Twitter
+Others read shares, click thru to site
+Others share candidates' email, or use the links to share to email, Facebook or Twitter
+
+u = urlencode(https://findmyelectorate.com?e=<e>)
+
+Email:
+Subject: Helping <e> voters to vote 1 <c.fn> <c.ln>
+
+Hi <c.fn>
+
+I'm Jonathan Doig, a member of Sutherland Greens where Nathan Hunt and Phil Smith are our local candidates. We've had a recent redistribution which is confusing so I made a web app to help all Australians find their electorate. This link will take you straight to the screen for <e>.
+
+https://findmyelectorate.com?e=urlencode(<e>)
+
+<a href="https://findmyelectorate.com?e=urlencode(<e>)"><img src="s.wordpress.com/mshots/v1/<u>?w=600" alt="Find my electorate: <e>" width=400></a>
+
+If you like it, I hope you'll share it to your supporters. Here are some links to help you do that: email, Facebook and Twitter.
+
+As you can see, candidates are sorted with major parties (those with candidates across the country) first, and then by party name. Which means Australian Greens at the top of the list!
+
+Unlike other sites, mine works for all postcodes and localities. If an electoral boundary splits a locality, you click the map to show your electorate.
+
+All the best for tomorrow <c.fn>.
+
+Regards
+Jonathan Doig
+Sutherland Greens
+Ph: 0409 049185
+fb.com/jondoig
+twitter.com/jondoig
+
+<a href="mailto:?subject:Helping <e> voters to vote 1 <c.fn> <c.ln>&body=
+
+Hi
+
+Here's a site that helps voters finds their electorate from a postcode, even if the boundary cuts through the suburb. It also lists the candidates (Greens first!) and links to candidate and party sites.
+
+It was developed by a <a href='http://fb.com/jondoig'>fellow Green</a> so you know it's fresh! If you like it please share it!
+
+Regards
+<c.fn>
+>
+
+email</a>
+
+Facebook</a>
+
+Twitter</a>

@@ -1,0 +1,26 @@
+Issue #105: "*" did not appear for 2232
+- affects 50 postcodes
+=> Fixed
+
+But when #106 fixed...
+Issue #106: Audley no longer geocoded
+- Audley is 2233 in Google geocode now (still 2232 in Google search)
+- AusPost has no result for Audley, Deer Park or Royal National Park
+
+Maybe delete localities like this?
+i.e. delete localities with ERROR - postcode mismatch
+
+How many localities would this affect? only 9 localities (see geocodeWarnings in Postcodes2Electorates.ods)
+
+Does this seem appropriate (for a sample of them)? Yes
+
+To do it:
+/Move these localities to a LocalitiesDeleted sheet
+/Refresh pivots and recalculate Localities sheet
+/Rerun geocode.py
+/Inspect  localities_geocoded.json & rename to localities.json 
+/Reload localities.json to test
+/Test
+/Reload localities.json to prod
+/Test in prod
+/Email user (Jenni): It's fixed! Thanks for reporting

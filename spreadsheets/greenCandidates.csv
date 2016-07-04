@@ -1,0 +1,102 @@
+elec,firstName,lastName,email,elecParam
+Melbourne,Adam,Bandt,adam.bandt.mp@aph.gov.au,Melbourne
+Adelaide,Sophie,Guy,adelaide.candidate@sa.greens.org.au,Adelaide
+Batman,Alex,Bhathal,alex.bhathal@vic.greens.org.au,Batman
+Isaacs,Alex,Breskin,alex.breskin@vic.greens.org.au,Isaacs
+Ballarat,Alice,Barnes,alice.barnes@vic.greens.org.au,Ballarat
+Banks,Philippa,Clark,banks@nsw.greens.org.au,Banks
+Barton,Brent,Heber,barton@nsw.greens.org.au,Barton
+Bennelong,Justin,Alick,bennelong@nsw.greens.org.au,Bennelong
+Berowra,Emma,Heyde,berowra@nsw.greens.org.au,Berowra
+Blaxland,Suzan,Virago,blaxland@nsw.greens.org.au,Blaxland
+Boothby,Jane,Bange,boothby.candidate@sa.greens.org.au,Boothby
+Bradfield,Adrian,Jones,bradfield@nsw.greens.org.au,Bradfield
+Calare,Delanie,Sky,calare@nsw.greens.org.au,Calare
+Fenner,Carly,Saeedi,carly.saeedi@act.greens.org.au,Fenner
+Goldstein,Cheryl,Hercus,Cheryl.Hercus@vic.greens.org.au,Goldstein
+Chifley,Eliza,James,chifley@nsw.greens.org.au,Chifley
+Cook,Nathan,Hunt,cook@nsw.greens.org.au,Cook
+Cowper,Carol,Vernon,cowper@nsw.greens.org.au,Cowper
+Cunningham,Cath,Blakey,cunningham@nsw.greens.org.au,Cunningham
+Lalor,Daniel,Sova,daniel.sova@vic.greens.org.au,Lalor
+Dobell,Abigail,Boyd,dobell@nsw.greens.org.au,Dobell
+McMillan,Donna,Lancaster,donna.lancaster@vic.greens.org.au,McMillan
+Durack,Ian,James,durack@wa.greens.org.au,Durack
+Eden-Monaro,Tamara,Ryan,edenmonaro@nsw.greens.org.au,Eden-Monaro
+Casey,Elissa,Sutherland,elissa.sutherland@vic.greens.org.au,Casey
+Burt,Muhammad,Salman,engrsarshad@gmail.com,Burt
+Farrer,Amanda,Cohn,farrer@nsw.greens.org.au,Farrer
+Fowler,Bill,Cashman,fowler@nsw.greens.org.au,Fowler
+Fremantle,Kate,Davis,fremantle@wa.greens.org.au,Fremantle
+Gilmore,Carmel Mary,McCallum,gilmore@nsw.greens.org.au,Gilmore
+Grayndler,Jim,Casey,grayndler@nsw.greens.org.au,Grayndler
+Greenway,Chris,Winslow,greenway@nsw.greens.org.au,Greenway
+Grey,Jillian Kay,Marsh,grey.candidate@sa.greens.org.au,Grey
+Hasluck,Patrick,Hyslop,hasluckcampaign@wa.greens.org.au,Hasluck
+Mallee,Helen,Healy,helen.healy@vic.greens.org.au,Mallee
+Kooyong,Helen,McLeod,helen.mcleod@vic.greens.org.au,Kooyong
+Hindmarsh,Patrick,O'Sullivan,hindmarsh.candidate@sa.greens.org.au,Hindmarsh
+Jagajaga,Hugh,McKinnon,hugh.mckinnon@vic.greens.org.au,Jagajaga
+Hughes,Phil,Smith,hughes@nsw.greens.org.au,Hughes
+Hume,Michaela,Sherwood,hume@nsw.greens.org.au,Hume
+Hunter,Peter,Morris,hunter@nsw.greens.org.au,Hunter
+Murray,Ian,Christoe,Ian.Christoe@vic.greens.org.au,Murray
+Gippsland,Ian,Onley,ian.onley@vic.greens.org.au,Gippsland
+Holt,Jake,Tilton,jake.tilton@vic.greens.org.au,Holt
+Hotham,James,Bennett,james.bennett@vic.greens.org.au,Hotham
+Higgins,Jason,Ball,jason.ball@vic.greens.org.au,Higgins
+Dunkley,Jeanette,Swain,jeanette.swain@vic.greens.edu.au,Dunkley
+Indi,Jenny,O'Connor,jenny.oconnor@vic.greens.org.au,Indi
+Gellibrand,Jonathon,Marsden,jonathon.marsden@vic.greens.org.au,Gellibrand
+Chisholm,Josh,Fergeus,josh.fergeus@vic.greens.org.au,Chisholm
+Deakin,Joshua,Briers,joshua.briers@vic.greens.org.au,Deakin
+Kingsford Smith,James,Macdonald,kingsfordsmith@nsw.greens.org.au,Kingsford%20Smith
+Kingston,Robyn,Holtham,Kingston.candidate@sa.greens.org.au,Kingston
+Lindsay,Kingsley,Liu,lindsay@nsw.greens.org.au,Lindsay
+Lyne,Julie,Lyford,lyne@nsw.greens.org.au,Lyne
+Macarthur,Ben,Moroney,macarthur@nsw.greens.org.au,Macarthur
+Mackellar,Mike,Hall,mackellar@nsw.greens.org.au,Mackellar
+Macquarie,Terry,Morgan,macquarie@nsw.greens.org.au,Macquarie
+Makin,Keiran,Snape,makin.candidate@sa.greens.org.au,Makin
+Mayo,Nathan,Daniell,mayo.candidate@sa.greens.org.au,Mayo
+McMahon,Astrid,O'Neill,mcmahon@nsw.greens.org.au,McMahon
+Mitchell,Michael,Bellstedt,mitchell@nsw.greens.org.au,Mitchell
+Calwell,Natalie,Abboud,natalie.abboud@vic.greens.org.au,Calwell
+Newcastle,John,Mackenzie,newcastle@nsw.greens.org.au,Newcastle
+New England,Mercurius,Goldstein,newengland@nsw.greens.org.au,New%20England
+North Sydney,Arthur,Chesterfield-Evans,northsydney@nsw.greens.org.au,North%20Sydney
+Maribyrnong,Olivia,Ball,olivia.ball@vic.greens.org.au,Maribyrnong
+Page,Kudra,Falla-Ricketts,page@nsw.greens.org.au,Page
+Parkes,Matt,Parmeter,parkes@nsw.greens.org.au,Parkes
+Parramatta,Phil,Bradley,parramatta@nsw.greens.org.au,Parramatta
+Corangamite,Patchouli,Paterson,patchouli.paterson@vic.greens.org.au,Corangamite
+Paterson,John,Brown,paterson@nsw.greens.org.au,Paterson
+Canberra,Patricia,Cahill,PATRICIA.CAHILL@ACT.GREENS.ORG.AU,Canberra
+Port Adelaide,Matthew,Carey,port.candidate@sa.greens.org.au,Port%20Adelaide
+Reid,Alice,Mantel,reid@nsw.greens.org.au,Reid
+Menzies,Richard,Cranston,richard.cranston@vic.greens.org.au,Menzies
+Riverina,Kevin,Poynter,riverina@nsw.greens.org.au,Riverina
+Robertson,Hillary,Morris,robertson@nsw.greens.org.au,Robertson
+Gorton,Rod,Swift,rod.swift@vic.greens.org.au,Gorton
+Scullin,Rose,Ljubicic,rose.ljubicic@vic.greens.org.au,Scullin
+Bendigo,Rosemary,Glaisher,rosemary.glaisher@vic.greens.org.au,Bendigo
+Wills,Samantha,Ratnam,samantha.ratnam@vic.greens.org.au,Wills
+Corio,Sarah,Mansfield,sarah.mansfield@vic.greens.org.au,Corio
+Swan,Sarah,Nielsen-Harvey,sarah.nh@wa.greens.org.au,Swan
+Cowan,Sheridan,Young,sheridanyoung@hotmail.com,Cowan
+Shortland,Ivan,Macfadyen,shortland@nsw.greens.org.au,Shortland
+Bruce,Stefanie,Bauer,Stefanie.Bauer@vic.greens.org.au,Bruce
+Melbourne Ports,Steph,Hodgins-May,steph.hodgins-may@vic.greens.org.au,Melbourne%20Ports
+Aston,Steve,Raymond,stephen.raymond@vic.greens.org.au,Aston
+Sturt,Rebecca,Galdies,sturt.candidate@sa.greens.org.au,Sturt
+Sydney,Sylvie,Ellsmore,sydney@nsw.greens.org.au,Sydney
+Wannon,Thomas,Campbell,thomas.campbell@vic.greens.org.au,Wannon
+La Trobe,Tom,Cummings,tom.cummings@vic.greens.org.au,La%20Trobe
+Curtin,Viv,Glance,viv.glance@wa.greens.org.au,Curtin
+Wakefield,Craig,Vanstone,wakefield.candidate@sa.greens.org.au,Wakefield
+Warringah,Clara,Williams Roldan,warringah@nsw.greens.org.au,Warringah
+Watson,Barbara,Bloch,watson@nsw.greens.org.au,Watson
+Wentworth,Dejay,Toborek,wentworth@nsw.greens.org.au,Wentworth
+Werriwa,Signe Louise,Westerberg,werriwa@nsw.greens.org.au,Werriwa
+Whitlam,Tom,Hunt,whitlam@nsw.greens.org.au,Whitlam
+Flinders,Willisa,Hogarth,WILLISA.HOGARTH@VIC.GREENS.ORG.AU,Flinders
