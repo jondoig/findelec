@@ -8,6 +8,8 @@ var locFilename = "localities.json",
 
 var map, lyr, label, symbol, drawMap;
 
+var goHome;
+
 var ozExtent = {
   "xmin": 112.296895,
   "ymin": -44.006562,
@@ -239,10 +241,7 @@ function initMap() {
     }, "HomeBtn");
     home.startup();
 
-    home.on("home", function () {
-      openPanel("input");
-      openHdr(titleText, true);
-    });
+    home.on("home", homeScreen);
 
     geoLocate = new LocateButton({
       map: map,
@@ -290,7 +289,17 @@ function initMap() {
 
     document.getElementsByClassName("mapBtns")[0].style.display = "block";
 
-    openHdr(titleText, true);
+    map.on("load", function () {
+      if (window.location.search) {
+        var elec = decodeURI(window.location.search).replace(/^\?e=/, "");
+        drawMap(elecs[elec].s, "", elec);
+        goHome = true;
+      } else {
+        openPanel("input");
+        openHdr(titleText, true);
+        goHome = false;
+      }
+    });
 
     drawMap = function (state, extent, elec) {
 
@@ -408,8 +417,12 @@ function initMap() {
         elec = "";
       }
     }
-
   });
+}
+
+function homeScreen() {
+  openPanel("input");
+  openHdr(titleText, true);
 }
 
 function findPc(pc) {
@@ -497,10 +510,10 @@ function openSel(elem) {
       break;
   }
   window.setTimeout(function () {
-    console.log("Dispatching event:");
-    console.log(event);
-    console.log("On elem:");
-    console.log(elem);
+    //    console.log("Dispatching event:");
+    //    console.log(event);
+    //    console.log("On elem:");
+    //    console.log(elem);
 
     elem.dispatchEvent(event);
   }, 50);
@@ -560,7 +573,8 @@ function showElec(elec) {
   elecDiv.querySelector("#candies").innerHTML = formatCands(elec);
   elecDiv.querySelector("#candyWrapper").style.maxHeight = candyHeight() + "px";
 
-  history.pushState("", document.title, "?e=" + elec.replace(/[' ]/g, "").toLowerCase());
+  //  history.pushState("", document.title, "?e=" + elec.replace(/[' ]/g, "").toLowerCase());
+  history.pushState("", document.title, "?e=" + encodeURIComponent(elec));
   openPanel("elec");
 
 }
@@ -735,6 +749,12 @@ function closePanel(panel) {
   elem.parentElement.classList.add('closed');
 
   closeHdr();
+
+  if (goHome) {
+    homeScreen();
+    goHome = false;
+  }
+
   map.enableMapNavigation();
 }
 
